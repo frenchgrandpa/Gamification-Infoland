@@ -17,7 +17,7 @@ outFile: 'output.js'
 */
 let tsconfig = JSON.parse(fs.readFileSync('tsconfig.json'));
 delete tsconfig.compilerOptions.outDir;
-tsconfig.compilerOptions.srcDir = 'src/front';
+delete tsconfig.compilerOptions.srcDir;
 
 gulp.task('frontjs', (cb) => {
     pump([
