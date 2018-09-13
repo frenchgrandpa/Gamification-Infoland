@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "skipLibCheck": true,
+        "module": "commonjs",
+        "target": "ES5",
+        "noImplicitAny": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitReturns": true,
+        "rootDir": "src/back",
+        "outDir": "build/back"
+    },
+    "include": [
+        "src/**/*.ts"
+    ]
+}
