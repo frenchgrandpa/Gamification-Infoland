@@ -10,15 +10,7 @@ import API from './api/api';
 
 //process.env.NODE_ENV = "production";
 
-let sql = null;/*new SQL({
-    host: "studmysql01.fhict.local",
-    user: "dbi406981",
-    password: "WeANXAkTFd4*W7A=kq5W",
-    database: "dbi406981",
-    multipleStatements: true,
-    supportBigNumbers: true,
-    bigNumberStrings: true
-});*/
+let sql = null;
 
 //Initialize express
 let app = express();
