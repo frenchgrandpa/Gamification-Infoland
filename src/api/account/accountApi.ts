@@ -7,7 +7,6 @@ import * as bcrypt from 'bcryptjs';
 
 import SQL from '../../sql';
 import AccountSettingsAPI from './accountSettingsApi';
-import AccountBalanceAPI from './accountBalanceApi';
 
 export default class AccountAPI {
 
@@ -23,7 +22,6 @@ export default class AccountAPI {
         this.addRoutes();
 
         this.router.use('/settings', new AccountSettingsAPI(sql).router);
-        this.router.use('/balance', new AccountBalanceAPI(sql).router);
     }
 
     private initPassport() {
@@ -51,8 +49,7 @@ export default class AccountAPI {
                         let newUser: User = {
                             id: uuid(),
                             email: email,
-                            passwordHash: hash,
-                            balance: 0
+                            passwordHash: hash
                         };
 
                         this.sql.addUser(newUser, (err) => {
