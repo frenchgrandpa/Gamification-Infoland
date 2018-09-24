@@ -42,12 +42,5 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.get('/panel', (req, res) => res.render('panel'));
-app.get('/server', (req, res) => res.render('server'));
-app.get('/minigames', (req, res) => res.render('minigames'));
-app.get('/maps', (req, res) => res.render('maps'));
-app.get('/extras', (req, res) => res.render('extras/extras'));
-app.get('/extras/serverbehavior', (req, res) => res.render('extras/serverbehavior'));
-
 //This HAS to be on the end of the file
 app.get('*', (req, res) => res.status(404).send('Not found'));
