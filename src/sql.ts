@@ -58,8 +58,7 @@ export default class SQL {
         query = mysql.format(query, [
             user.id,
             user.email,
-            user.passwordHash,
-            user.balance
+            user.passwordHash
         ]);
         this.connection.query(query, (err, result) => {
             if (err)
