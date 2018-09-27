@@ -37,7 +37,6 @@ app.use('/api', new API(sql).router);
 
 app.listen(3000);
 
-
 app.get('/', (req, res) => {
     res.render('index');
 });
