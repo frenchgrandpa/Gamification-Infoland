@@ -41,6 +41,7 @@ class quizObject
         this.questions.push(quest);
     }
 }
+
 export class InfolandAPI
 {
     private url: string;
@@ -123,7 +124,7 @@ export class InfolandAPI
         })
     } 
 }
-let test = new InfolandAPI('https://pubquiz.iqualify.nl');
-test.tokenRetrieval('heer','test',(error,token)=>{test.quizRetrieval('e5e7e82f-44e3-4e6d-86cf-b8fd2f9d07f2')});
-setTimeout(function(){test.checkanswer("e5e7e82f-44e3-4e6d-86cf-b8fd2f9d07f2","2a3c8199-a476-45e3-b7f2-3f997f984a4d","99c2bbff-9f01-4bed-8399-f72bffc4e9b0")},1000);
+// let test = new InfolandAPI('https://pubquiz.iqualify.nl');
+// test.tokenRetrieval('heer','test',(error,token)=>{test.quizRetrieval('e5e7e82f-44e3-4e6d-86cf-b8fd2f9d07f2')});
+// setTimeout(function(){test.checkanswer("e5e7e82f-44e3-4e6d-86cf-b8fd2f9d07f2","2a3c8199-a476-45e3-b7f2-3f997f984a4d","99c2bbff-9f01-4bed-8399-f72bffc4e9b0")},1000);
 
