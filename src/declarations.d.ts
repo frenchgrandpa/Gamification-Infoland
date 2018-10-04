@@ -1,7 +1,7 @@
 declare interface User {
-    id: string
-    email: string
-    passwordHash: string
+    username: string
+    password: string 
+    token: string
 }
 
 declare namespace Express {
