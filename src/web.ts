@@ -5,12 +5,9 @@ import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
 import * as passport from 'passport';
 
-import SQL from './sql';
 import API from './api/api';
 
 //process.env.NODE_ENV = "production";
-
-let sql = null;
 
 //Initialize express
 let app = express();
@@ -33,7 +30,7 @@ app.disable('etag');
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api', new API(sql).router);
+app.use('/api', new API().router);
 
 app.listen(3000);
 
