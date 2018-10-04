@@ -4,6 +4,9 @@ import Vue from 'vue';
 import App from './App';
 import HotPotato from './hot-potato/HotPotato';
 import NotFound from './NotFound';
+import io from 'socket.io-client';
+ 
+const socket = io('http://localhost:3000');
 
 Vue.config.productionTip = false;
 

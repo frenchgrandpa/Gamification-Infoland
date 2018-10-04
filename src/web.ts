@@ -4,6 +4,8 @@ import * as compression from 'compression';
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
 import * as passport from 'passport';
+import * as socketio from 'socket.io';
+import * as http from 'http';
 
 import API from './api/api';
 
@@ -32,11 +34,19 @@ app.use(passport.session());
 
 app.use('/api', new API().router);
 
-app.listen(3000);
+let server = http.createServer(app);
+let io = socketio(server);
+
+server.listen(3000);
+
+io.on('connection', function (socket) {
+    console.log('a user connected');
+});
 
 app.get('/', (req, res) => {
     res.render('index');
 });
+
 
 //This HAS to be on the end of the file
 app.get('*', (req, res) => res.status(404).send('Not found'));
