@@ -43,6 +43,10 @@ io.on('connection', function (socket) {
     console.log('a user connected');
 });
 
+setInterval(() =>io.emit('channel_name', {
+    kaas: 'lmao'
+}), 1000);
+
 app.get('/', (req, res) => {
     res.render('index');
 });

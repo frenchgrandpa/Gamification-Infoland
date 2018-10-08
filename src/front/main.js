@@ -8,6 +8,10 @@ import io from 'socket.io-client';
  
 const socket = io('http://localhost:3000');
 
+socket.on('channel_name', function(msg){
+  console.log('message: ' + msg);
+});
+
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
