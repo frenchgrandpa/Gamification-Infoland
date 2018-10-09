@@ -8,7 +8,7 @@
     <div class="button-container">
     <br>
     <br>
-    <a href="/hotpotato"><div class="button">Hot Potato</div></a>
+    <a href="/lobby/hotpotato"><div class="button">Hot Potato</div></a>
     </div>
   </div>
 </template>
