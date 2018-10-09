@@ -20,42 +20,6 @@ let tsconfig = JSON.parse(fs.readFileSync('tsconfig.json'));
 delete tsconfig.compilerOptions.outDir;
 delete tsconfig.compilerOptions.srcDir;
 
-gulp.task('frontjs', (cb) => {
-    return browserify({
-        basedir: '.',
-        entries: glob.sync('src/static/**/*.ts')
-    })
-        .plugin(tsify, tsconfig.compilerOptions)
-        .bundle()
-        .pipe(source('scripts.js'))
-        .pipe(buffer())
-        //.pipe(jsMinify())
-        .pipe(gulp.dest('build/static'))
-        .pipe(browserSync.reload({ stream: true }));
-});
-
-gulp.task('css', (cb) => {
-    pump([
-        gulp.src('src/static/**/*.scss'),
-        sass(),
-        cssMinify(),
-        concat('styles.css'),
-        gulp.dest('build/static'),
-        browserSync.reload({ stream: true })
-    ],
-        cb);
-});
-
-gulp.task('img', (cb) => {
-    pump([
-        gulp.src('src/static/img/**/*.+(png|jpg|gif|svg)'),
-        img(),
-        gulp.dest('build/static/img'),
-        browserSync.reload({ stream: true })
-    ],
-        cb);
-});
-
 gulp.task('other', (cb) => {
     pump([
         gulp.src('src/**/!(*.ts|*.scss|*.png|*.jpg|*.gif|*.svg)'),
@@ -81,12 +45,9 @@ gulp.task('clean', () => {
     return del.sync('build');
 });
 
-gulp.task('default', ['frontjs', 'css', 'img', 'other', 'backjs']);
+gulp.task('default', ['other', 'backjs']);
 
 gulp.task('watch', () => {
-    gulp.watch('src/static/**/*.ts', ['frontjs']);
-    gulp.watch('src/static/**/*.scss', ['css']);
-    gulp.watch('src/static/img/**/*.+(png|jpg|gif|svg)', ['img']);
     gulp.watch('src/**/!(*.ts|*.scss|*.png|*.jpg|*.gif|*.svg)', ['other']);
     gulp.watch('src/{*.ts,!(static)/**/*.ts}', ['backjs']);
 });

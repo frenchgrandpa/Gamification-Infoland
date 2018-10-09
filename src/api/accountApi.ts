@@ -1,8 +1,9 @@
-import { Router, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import * as passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import APIBase from './apiBase';
 import { InfolandAPI } from './infoland/infolandApi';
+import User, { UserData } from '../user';
 
 export default class AccountAPI extends APIBase {
 
@@ -15,8 +16,8 @@ export default class AccountAPI extends APIBase {
     }
 
     private initPassport() {
-        passport.serializeUser((user, done) => { done(null, user) });
-        passport.deserializeUser((user, done) => { done(null, user) });
+        passport.serializeUser((userData: UserData, done) => { done(null, userData) });
+        passport.deserializeUser((userData: UserData, done) => { done(null, new User(userData, this.infolandAPI)) });
 
         this.addLocalLoginStrategy();
     }
@@ -27,16 +28,16 @@ export default class AccountAPI extends APIBase {
             passwordField: 'password'
         },
             (username, password, done) => {
-                let infolandAPI = new InfolandAPI('https://pubquiz.iqualify.nl');
-                infolandAPI.tokenRetrieval(username, password, (err, token) => {
+                User.login(this.infolandAPI, username, password, (err, token) => {
                     if (err) return done(err);
                     if (!token) return done(null, false);
+
                     return done(null, {
                         username: username,
                         password: password,
                         token: token
                     });
-                });
+                })
             }
         ));
     }

@@ -4,10 +4,10 @@ import * as compression from 'compression';
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
 import * as passport from 'passport';
-import * as socketio from 'socket.io';
 import * as http from 'http';
 
 import API from './api/api';
+import Socket from './socket';
 
 //process.env.NODE_ENV = "production";
 
@@ -21,7 +21,8 @@ app.use(session({
     name: 'sessionid',
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 3 * 24 * 60 * 60 * 1000 }
+    cookie: { maxAge: 3 * 24 * 60 * 60 * 1000 },
+    store: new session.MemoryStore()
 }));
 app.use('/static', express.static(__dirname + '/static', { maxAge: '3d' }));
 app.use(bodyParser.json());
@@ -35,19 +36,12 @@ app.use(passport.session());
 app.use('/api', new API().router);
 
 let server = http.createServer(app);
-let io = socketio(server);
+let socket = new Socket(server);
+
 
 server.listen(3000);
 
-io.on('connection', function (socket) {
-    console.log('a user connected');
-});
-
-setInterval(() =>io.emit('channel_name', {
-    kaas: 'lmao'
-}), 1000);
-
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
     res.render('index');
 });
 
