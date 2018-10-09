@@ -77,6 +77,7 @@ export class InfolandAPI
         })
         .then((response: any)=>
         {
+            console.log(response.data.pages);
             let questiondata = response.data.pages
             let quiz = new quizObject(response.data.id,response.data.title);
             var i:number;
@@ -104,7 +105,7 @@ export class InfolandAPI
     }
     public checkanswer(quizID : string,questionID:string,answerID: Array<string>)
     {
-        console.log(this.url+'/api/learnmaterial/'+quizID+'/update/'+questionID);
+        //console.log(this.url+'/api/learnmaterial/'+quizID+'/update/'+questionID);
         var instance = axios.create({
             method: 'post',
             headers:{
@@ -123,8 +124,26 @@ export class InfolandAPI
             console.log(error);
         })
     } 
+    public resetQuiz(quizID: string)
+    {
+        var instance = axios.create({
+            method: 'post',
+            headers:{
+                Authorization: 'Bearer '+this.token,
+            }
+        })
+        instance.post(this.url+'/api/learnmaterial/'+quizID+'/retake',{
+            
+        })
+        .then((response: any)=>{
+            console.log(response);
+        })
+        .catch((error:string)=>{
+            console.log(error);
+        })
+    }
 }
-// let test = new InfolandAPI('https://pubquiz.iqualify.nl');
-// test.tokenRetrieval('heer','test',(error,token)=>{test.quizRetrieval('e5e7e82f-44e3-4e6d-86cf-b8fd2f9d07f2')});
-// setTimeout(function(){test.checkanswer("e5e7e82f-44e3-4e6d-86cf-b8fd2f9d07f2","2a3c8199-a476-45e3-b7f2-3f997f984a4d","99c2bbff-9f01-4bed-8399-f72bffc4e9b0")},1000);
+//let test = new InfolandAPI('https://pubquiz.iqualify.nl');
+//test.tokenRetrieval('heer','test',(error,token)=>{test.quizRetrieval('c0b63433-712e-4d35-9cd8-828073e6a84c')});
+//test.tokenRetrieval('heer','test',(error,token)=>{test.resetQuiz('c0b63433-712e-4d35-9cd8-828073e6a84c')});
 
