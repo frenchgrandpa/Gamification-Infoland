@@ -4,6 +4,7 @@ import Vue from 'vue';
 import App from './App';
 import HotPotato from './hot-potato/HotPotato';
 import NotFound from './NotFound';
+import HotPotatoLobby from './hot-potato/HotPotatoLobby';
 import io from 'socket.io-client';
  
 const socket = io('http://localhost:3000');
@@ -16,21 +17,41 @@ Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 
-
-const routes = {
-  '/': App,
-  '/hotpotato': HotPotato,
+const pathNames = {
+  general: {
+    home: '/',
+  },
+  lobby: {
+    hotpotato: '/lobby/hotpotato',
+  },
+  game: {
+    hotpotato: '/game/hotpotato',
+  }, 
 }
 
+
+let route = {};
+route[pathNames.general.home] = App;
+
+//hot potato
+route[pathNames.lobby.hotpotato] = HotPotatoLobby;
+route[pathNames.game.hotpotato] = HotPotato;
+
+
+// todo: pass route variable to child components
 new Vue({
   el: "#app",
   data: {
-    currentRoute: window.location.pathname
+    currentRoute: window.location.pathname,
+    
   },
   computed: {
     ViewComponent () {
-      return routes[this.currentRoute] || NotFound
+      return route[this.currentRoute] || NotFound
     }
   },
-  render (h) { return h(this.ViewComponent) }
+  render (h) { return h(this.ViewComponent) },
+  props: {
+
+  }
 });

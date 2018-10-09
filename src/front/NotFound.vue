@@ -2,6 +2,7 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <p>Volgende keer beter!</p>
+    <div><a href="/home"></a></div>
   </div>
 </template>
 
