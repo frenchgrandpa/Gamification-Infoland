@@ -39,7 +39,7 @@ route[pathNames.game.hotpotato] = HotPotato;
 
 
 // todo: pass route variable to child components
-new Vue({
+global.app = new Vue({
   el: "#app",
   data: {
     currentRoute: window.location.pathname,

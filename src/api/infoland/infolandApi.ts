@@ -87,7 +87,7 @@ export class InfolandAPI
                 var quest = new question(questiondata[i].id,questiondata[i].questionBase);
                 
                 if (!questiondata[i].media || !questiondata[i].media.id) continue;//TEMPORARILY CHECK THIS
-                quest.media = questiondata[i].media.id;
+                quest.media = "https://pubquiz.iqualify.nl/api/media/"+questiondata[i].media.id+"/preview";
                 for(let j = 0; j < answerdata.length; j++)
                 {
                     

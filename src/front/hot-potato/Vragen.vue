@@ -1,5 +1,6 @@
 <template>
   <div class="opdracht">
+    <button class="button" @click="next">Next Question</button>
     <div class="image">
       <img :src="image" id="image"/>
     </div>
@@ -9,7 +10,7 @@
     <div class="antwoorden">
       <ol class="antwoorden">
         <li v-for="antwoord in antwoorden">
-        {{antwoord.waarde}}
+        {{antwoord.text}}
         </li>
       </ol>
     </div>
@@ -17,14 +18,25 @@
 </template>
 
 <script>
+
+import Axios from 'axios';
 export default {
   name: "Vraag",
   data() {
     return {
       vraag: "Is dit een vraag?",
-      antwoorden: [ {waarde: "Ja"}, {waarde: "Nee"}, {waarde: "Misschien"}, {waarde: "Dit is een antwoord"}],
+      antwoorden: [ {text: "Ja"}, {text: "Nee"}, {text: "Misschien"}, {text: "Dit is een antwoord"}],
       image: "https://uploads.codesandbox.io/uploads/user/ae416c95-edc9-4929-bfa4-84a2c042e083/zKY6-thumbnail.png"
     };
+  }, methods: {
+    next() {
+      Axios.get('/api/vraag').then((response) =>{
+        this.vraag = response.data.text || "";
+        this.image = response.data.media || "";
+        this.antwoorden = response.data.answers || [];
+      }).catch((err) => {
+      })
+    }
   }
 };
 </script>

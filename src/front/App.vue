@@ -29,7 +29,7 @@ export default {
         username: 'berk',
         password: 'test'
       }).then((response) => {
-        window.location.href = "/api/vraag"
+        window.location.href = "/game/hotpotato"
       }).catch((err) => {
         alert(err);
       })
