@@ -68,7 +68,7 @@ export class InfolandAPI
             console.log(error);
         });
     }
-    public quizRetrieval(learnID: string,token: string = this.token)
+    public quizRetrieval(learnID: string, cb:(quiz: quizObject) => void)
     {
         axios.get(this.url+'/api/learnmaterial/'+learnID,{
             headers: {
@@ -77,7 +77,7 @@ export class InfolandAPI
         })
         .then((response: any)=>
         {
-            console.log(response.data.pages);
+            //console.log(response.data.pages);
             let questiondata = response.data.pages
             let quiz = new quizObject(response.data.id,response.data.title);
             var i:number;
@@ -85,18 +85,22 @@ export class InfolandAPI
             for(i = 0; i<Object.keys(questiondata).length;i++){
                 var answerdata = questiondata[i].answers;
                 var quest = new question(questiondata[i].id,questiondata[i].questionBase);
+                
+                if (!questiondata[i].media || !questiondata[i].media.id) continue;//TEMPORARILY CHECK THIS
                 quest.media = questiondata[i].media.id;
-                //console.log(answerdata);
-                for(j = 0; j<Object.keys(answerdata).length;j++)
+                for(let j = 0; j < answerdata.length; j++)
                 {
+                    
+                    if (!answerdata[j] || !answerdata[j].id) continue;//TEMPORARILY CHECK THIS
                     //console.log(i+" , "+ j);
                     var ans = new answer(answerdata[j].id,answerdata[j].text)
                     quest.add(ans);
+                    console.log(quest);
                 }
                 quiz.add(quest);
             }
             //console.log(quiz.questions);
-
+            cb(quiz);
         })
         .catch((error:string)=>
         {

@@ -9,9 +9,11 @@ export interface UserData {
 export default class User {
 
     public userData: UserData;
+    public infolandAPI: InfolandAPI;
 
     constructor(userData: UserData, infolandAPI: InfolandAPI) {
         this.userData = userData;
+        this.infolandAPI = infolandAPI;
     }
 
     public static login(infolandAPI: InfolandAPI, username: string, password: string, cb: (err: boolean, token: string) => void) {

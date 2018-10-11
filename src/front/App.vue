@@ -8,17 +8,32 @@
     <div class="button-container">
     <br>
     <br>
-    <a href="/lobby/hotpotato"><div class="button">Hot Potato</div></a>
+    <a href="/lobby/hotpotato"><div class="button">Hot Potato</div></a>    
+    <button class="button" @click="login">Login test</button>
     </div>
   </div>
 </template>
 
 <script>
 
+import Axios from 'axios';
+
 export default {
   name: "App",
   components: {
     
+  },
+  methods: {
+    login(){
+      Axios.post('/api/account/login', {
+        username: 'berk',
+        password: 'test'
+      }).then((response) => {
+        window.location.href = "/api/vraag"
+      }).catch((err) => {
+        alert(err);
+      })
+    }
   }
 };
 </script>
