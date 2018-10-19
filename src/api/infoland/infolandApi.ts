@@ -17,6 +17,8 @@ class question
     media: string;
     answers: Array<answer> = [];
     text: string;
+    type: Number;
+
     constructor(id: string,text:string)
     {
         this.id = id;
@@ -85,17 +87,26 @@ export class InfolandAPI
             for(i = 0; i<Object.keys(questiondata).length;i++){
                 var answerdata = questiondata[i].answers;
                 var quest = new question(questiondata[i].id,questiondata[i].questionBase);
-                
+
                 if (!questiondata[i].media || !questiondata[i].media.id) continue;//TEMPORARILY CHECK THIS
-                quest.media = "https://pubquiz.iqualify.nl/api/media/"+questiondata[i].media.id+"/preview";
-                for(let j = 0; j < answerdata.length; j++)
+                quest.media = this.url+"api/media/"+questiondata[i].media.id+"/preview";
+
+                if(questiondata[i].questionType == 1)
                 {
-                    
-                    if (!answerdata[j] || !answerdata[j].id) continue;//TEMPORARILY CHECK THIS
-                    //console.log(i+" , "+ j);
-                    var ans = new answer(answerdata[j].id,answerdata[j].text)
-                    quest.add(ans);
-                    console.log(quest);
+                    quest.type = 1;
+                    for(let j = 0; j < answerdata.length; j++)
+                    {
+                        
+                        if (!answerdata[j] || !answerdata[j].id) continue;//TEMPORARILY CHECK THIS
+                        //console.log(i+" , "+ j);
+                        var ans = new answer(answerdata[j].id,answerdata[j].text)
+                        quest.add(ans);
+                        console.log(quest);
+                    }
+                }
+                else if(questiondata[i].questionType == 6)
+                {
+                    quest.type = 6;
                 }
                 quiz.add(quest);
             }
@@ -107,6 +118,7 @@ export class InfolandAPI
             console.log(error);
         });
     }
+    
     public checkanswer(quizID : string,questionID:string,answerID: Array<string>)
     {
         //console.log(this.url+'/api/learnmaterial/'+quizID+'/update/'+questionID);
@@ -128,6 +140,7 @@ export class InfolandAPI
             console.log(error);
         })
     } 
+
     public resetQuiz(quizID: string)
     {
         var instance = axios.create({
