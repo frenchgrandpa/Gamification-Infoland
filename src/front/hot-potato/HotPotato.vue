@@ -16,9 +16,10 @@ import Vraag from "./Vragen";
 import Bom from "./Bom";
 import PlayerList from "./PlayerList";
 import MenuButton from "./MenuButton";
-
+import Vuetify from "vuetify";
 export default {
   name: "HotPotato",
+
   components: {
     Vraag,
     Bom,
@@ -60,7 +61,7 @@ export default {
   order: 1;
   padding-right: 10px;
   height: 125px;
-  float:left;
+  float: left;
   border: 1px solid;
   border-radius: 20px;
   position: relative;
@@ -79,9 +80,9 @@ export default {
   background: #7f5d43;
 }
 
-#menubutton  {
+#menubutton {
   order: 4;
-  position:relative;
+  position: relative;
   top: 1em;
   right: 2em;
   width: 5em;
