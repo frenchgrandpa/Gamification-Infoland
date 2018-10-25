@@ -5,11 +5,17 @@ class answer
 {
     id: string;
     text: string;
-    constructor(id:string,text:string)
+    constructor(id = "no_id",text:string)
     {
-        this.id = id;
+        this.id = id
         this.text = text;
     }
+
+    public setID(id:string)
+    {
+        this.id = id;
+    }
+
 }
 class question
 {
@@ -19,9 +25,11 @@ class question
     text: string;
     type: Number;
 
-    constructor(id: string,text:string)
+    constructor(id: string,text:string,type:Number)
     {
         this.id = id;
+        this.text = text
+        this.type = type
     }
     public add(ans: answer)
     {
@@ -86,7 +94,7 @@ export class InfolandAPI
             var j:number;
             for(i = 0; i<Object.keys(questiondata).length;i++){
                 var answerdata = questiondata[i].answers;
-                var quest = new question(questiondata[i].id,questiondata[i].questionBase);
+                var quest = new question(questiondata[i].id,questiondata[i].questionBase,questiondata[i].type);
 
                 if (!questiondata[i].media || !questiondata[i].media.id) continue;//TEMPORARILY CHECK THIS
                 quest.media = this.url+"api/media/"+questiondata[i].media.id+"/preview";
@@ -119,19 +127,45 @@ export class InfolandAPI
         });
     }
     
-    public checkanswer(quizID : string,questionID:string,answerID: Array<string>)
+    public checkanswer(quizID : string,question:question,answerArray:Array<answer>)
     {
-        //console.log(this.url+'/api/learnmaterial/'+quizID+'/update/'+questionID);
+        let answerString:String|String[];
+        let type = question.type;
+        let multiplechoice = 1;
+        let numberanswer = 6
+        switch (type)
+        {
+            case multiplechoice:
+            {
+                answerString = Array<String>()
+                for (let answer of answerArray)
+                {
+                    answerString.concat(answer.id)
+                }
+            }
+            case numberanswer:
+            {
+                for (let answer of answerArray)
+                {
+                    answerString = answer.text
+                }
+            }
+            default:
+            {
+                answerString = "";
+            }
+        }
+        
         var instance = axios.create({
             method: 'post',
             headers:{
                 Authorization: 'Bearer '+this.token,
             }
         })
-        instance.post(this.url+'/api/learnmaterial/'+quizID+'/update/'+questionID,{
-            confirmed: true,
-            answer:answerID,
-            time:8,
+        instance.post(this.url+'/api/learnmaterial/'+quizID+'/update/'+question.id,{
+            confirmed: false,
+            answer:answerString,
+            time:69,
         })
         .then((response: any)=>{
             //console.log(response);
