@@ -3,3 +3,8 @@
 /dist/
 /*.js
 /test/unit/coverage/
+/**/*.js
+/**/*.vue
+/*.vue
+/**/*
+*
