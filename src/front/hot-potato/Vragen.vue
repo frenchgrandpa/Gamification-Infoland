@@ -1,23 +1,36 @@
 <template>
-  <div class="opdracht">
-    <button class="button" @click="next">Next Question</button>
-    <div class="image">
-      <v-img :src="image" id="image"/>
-    </div>
-    <div class="vraag">
-      <p>{{ vraag }}</p> 
-    </div>
-    <div class="antwoorden">
-      <ol class="antwoorden">
-        <li v-for="antwoord in antwoorden">
-          <AnswerButton :Answer =antwoord.text>
-          </AnswerButton>
-         
+  <v-container fluid>
+    <v-layout row wrap>
+      <v-flex xs12>
+        <v-img :src="image" :aspect-ratio="16/9">
+               <v-layout pa-2 column fill-height class="lightbox white--text">
+          <v-spacer></v-spacer>
+          <v-flex shrink>
+            <div id="subheadinggame">
+              <p >
+              {{vraag}}
+              </p>
+            </div>
+          </v-flex>
+        </v-layout>
+        </v-img>
+              
+      </v-flex>
 
-        </li>
-      </ol>
-    </div>
-  </div>
+    </v-layout>
+    <v-layout row wrap justify-space-between>
+      <v-flex v-for="antwoord in antwoorden" xs6 py-1 px-2>
+        
+        <v-btn block>
+          {{antwoord.text}}
+        </v-btn>
+        
+      </v-flex>
+   
+    </v-layout>
+     
+  </v-container>
+ 
 </template>
 
 <script>
@@ -72,5 +85,13 @@ ol.antwoorden {
 
 #image {
   height: 6em;
+}
+.lightbox {
+  box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.2);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 72px);
+}
+
+#subheadinggame {
+  font-size: 180%;
 }
 </style>
