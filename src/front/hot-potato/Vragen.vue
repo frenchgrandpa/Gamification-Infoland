@@ -1,8 +1,9 @@
 <template>
   <v-container fluid>
-    <v-layout row wrap>
-      <v-flex xs12>
-        <v-img :src="image" :aspect-ratio="16/9">
+    <v-layout row wrap justify-space-between>
+      <v-flex xs12 justify-center> 
+          <!--TODO: CENTER IMAGE!! -->
+        <v-img :src="image" :aspect-ratio="16/9" max-width="1080px" center>
                <v-layout pa-2 column fill-height class="lightbox white--text">
           <v-spacer></v-spacer>
           <v-flex shrink>
@@ -34,29 +35,35 @@
 </template>
 
 <script>
-
-import Axios from 'axios';
+import Axios from "axios";
 import AnswerButton from "./AnswerButton";
 export default {
   name: "Vraag",
   data() {
     return {
       vraag: "Is dit een vraag?",
-      antwoorden: [ {text: "Ja"}, {text: "Nee"}, {text: "Misschien"}, {text: "Dit is een antwoord"}],
-      image: "https://uploads.codesandbox.io/uploads/user/ae416c95-edc9-4929-bfa4-84a2c042e083/zKY6-thumbnail.png"
+      antwoorden: [
+        { text: "Ja" },
+        { text: "Nee" },
+        { text: "Misschien" },
+        { text: "Dit is een antwoord" }
+      ],
+      image:
+        "https://uploads.codesandbox.io/uploads/user/ae416c95-edc9-4929-bfa4-84a2c042e083/zKY6-thumbnail.png"
     };
   },
-   components: {
-     AnswerButton
-   },
-    methods: {
+  components: {
+    AnswerButton
+  },
+  methods: {
     next() {
-      Axios.get('/api/vraag').then((response) =>{
-        this.vraag = response.data.text || "";
-        this.image = response.data.media || "";
-        this.antwoorden = response.data.answers || [];
-      }).catch((err) => {
-      })
+      Axios.get("/api/vraag")
+        .then(response => {
+          this.vraag = response.data.text || "";
+          this.image = response.data.media || "";
+          this.antwoorden = response.data.answers || [];
+        })
+        .catch(err => {});
     }
   }
 };
@@ -70,7 +77,7 @@ export default {
   height: 100%;
 }
 
-.vraag{
+.vraag {
   height: 45%;
   margin-bottom: -3em;
 }
@@ -80,7 +87,7 @@ ol.antwoorden {
   display: flex;
   justify-content: space-between;
   max-width: 80%;
-  max-height: 40%
+  max-height: 40%;
 }
 
 #image {
@@ -88,7 +95,11 @@ ol.antwoorden {
 }
 .lightbox {
   box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.2);
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 72px);
+  background-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    transparent 72px
+  );
 }
 
 #subheadinggame {
