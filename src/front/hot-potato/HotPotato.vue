@@ -3,6 +3,7 @@
     <div id="gameinfo">
       <PlayerList id="playerlist"/>
       <Bom id="bom"/>
+  
       <MenuButton id="menubutton"/>
       <v-alert>{{lobby}}</v-alert>
     </div>
@@ -38,7 +39,8 @@ export default {
     Vraag,
     Bom,
     PlayerList,
-    MenuButton
+    MenuButton,
+   
   }
 };
 </script>
