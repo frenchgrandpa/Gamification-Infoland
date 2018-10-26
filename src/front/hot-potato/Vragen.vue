@@ -2,7 +2,7 @@
   <div class="opdracht">
     <button class="button" @click="next">Next Question</button>
     <div class="image">
-      <img :src="image" id="image"/>
+      <v-img :src="image" id="image"/>
     </div>
     <div class="vraag">
       <p>{{ vraag }}</p> 
@@ -10,7 +10,10 @@
     <div class="antwoorden">
       <ol class="antwoorden">
         <li v-for="antwoord in antwoorden">
-        {{antwoord.text}}
+          <AnswerButton :Answer =antwoord.text>
+          </AnswerButton>
+         
+
         </li>
       </ol>
     </div>
@@ -20,6 +23,7 @@
 <script>
 
 import Axios from 'axios';
+import AnswerButton from "./AnswerButton";
 export default {
   name: "Vraag",
   data() {
@@ -28,7 +32,11 @@ export default {
       antwoorden: [ {text: "Ja"}, {text: "Nee"}, {text: "Misschien"}, {text: "Dit is een antwoord"}],
       image: "https://uploads.codesandbox.io/uploads/user/ae416c95-edc9-4929-bfa4-84a2c042e083/zKY6-thumbnail.png"
     };
-  }, methods: {
+  },
+   components: {
+     AnswerButton
+   },
+    methods: {
     next() {
       Axios.get('/api/vraag').then((response) =>{
         this.vraag = response.data.text || "";

@@ -3,6 +3,7 @@
     <div id="gameinfo">
       <PlayerList id="playerlist"/>
       <Bom id="bom"/>
+  
       <MenuButton id="menubutton"/>
     </div>
     <div class="vraag">
@@ -24,7 +25,8 @@ export default {
     Vraag,
     Bom,
     PlayerList,
-    MenuButton
+    MenuButton,
+   
   }
 };
 </script>
