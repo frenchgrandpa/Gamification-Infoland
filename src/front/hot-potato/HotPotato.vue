@@ -4,6 +4,7 @@
       <PlayerList id="playerlist"/>
       <Bom id="bom"/>
       <MenuButton id="menubutton"/>
+      <v-alert>{{lobby}}</v-alert>
     </div>
     <div class="vraag">
       <Vraag id="vraag"/>
@@ -17,9 +18,22 @@ import Bom from "./Bom";
 import PlayerList from "./PlayerList";
 import MenuButton from "./MenuButton";
 import Vuetify from "vuetify";
+
+import io from "socket.io-client";
+
+const socket = io("http://localhost:3000/");
+
+socket.on("channel_name", function(msg) {
+  console.log("message: " + msg);
+});
+
 export default {
   name: "HotPotato",
-
+  data() {
+    return {
+      lobby: ""
+    };
+  },
   components: {
     Vraag,
     Bom,
