@@ -34,13 +34,17 @@ export default {
     };
   },
   methods: {
-    greet: function() {
+    greet: function(e) {
       var name = prompt("Please enter your name:", "Your name");
-      this.currentRoute = name;
+      if (name != null) {
+        //window.location = "/game/hotpotato?=" + name;
+        console.log(e);
+      }
     }
   }
 };
 </script>
+
 
 <style lang="css" scoped>
 .container {
