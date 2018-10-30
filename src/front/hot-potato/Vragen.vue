@@ -83,7 +83,6 @@ export default {
   background-color: white;
   color: black;
   border: 2px solid #4caf50;
-  height: 100%;
 }
 
 ol.antwoorden {

@@ -60,7 +60,6 @@ export default {
 
 #gameinfo {
   display: flex;
-  height: 50%;
 }
 
 #bom {
@@ -85,13 +84,11 @@ export default {
 }
 
 .vraag {
-  height: 100%;
   margin: auto;
 }
 
 #vraag {
   margin: auto;
-  height: 100%;
   background: #7f5d43;
 }
 
