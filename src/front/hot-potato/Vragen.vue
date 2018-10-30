@@ -1,26 +1,23 @@
 <template>
-  <v-container fluid>
-    <v-layout row wrap justify-space-between>
-      <v-flex xs12 justify-center> 
+  <v-container>
+    <v-layout row wrap justify-space-between >
+      <v-flex xs12 align-content-center> 
           <!--TODO: CENTER IMAGE!! -->
-        <v-img :src="image" :aspect-ratio="16/9" max-width="1080px" center>
-               <v-layout pa-2 column fill-height class="lightbox white--text">
-          <v-spacer></v-spacer>
-          <v-flex shrink>
-            <div id="subheadinggame">
-              <p >
-              {{vraag}}
-              </p>
-            </div>
-          </v-flex>
+        <v-img :src="image" :aspect-ratio="16/9" max-width="1080px" style="margin-left: auto; margin-right: auto;">
+            <v-layout pa-2 column fill-height class="lightbox white--text">
+            <v-spacer></v-spacer>
+            <v-flex shrink>
+                <div id="subheadinggame">
+                <p >
+                {{vraag}}
+                </p>
+                </div>
+            </v-flex>
         </v-layout>
         </v-img>
               
       </v-flex>
-
-    </v-layout>
-    <v-layout row wrap justify-space-between>
-      <v-flex v-for="antwoord in antwoorden" xs6 py-1 px-2>
+      <v-flex v-for="antwoord in antwoorden" :key="antwoord.id" xs6 py-1 px-2>
         
         <v-btn block>
           {{antwoord.text}}
@@ -43,10 +40,22 @@ export default {
     return {
       vraag: "Is dit een vraag?",
       antwoorden: [
-        { text: "Ja" },
-        { text: "Nee" },
-        { text: "Misschien" },
-        { text: "Dit is een antwoord" }
+        {
+          text: "Ja",
+          id: 0
+        },
+        {
+          text: "Nee",
+          id: 1
+        },
+        {
+          text: "Misschien",
+          id: 2
+        },
+        {
+          text: "Dit is een antwoord",
+          id: 3
+        }
       ],
       image:
         "https://uploads.codesandbox.io/uploads/user/ae416c95-edc9-4929-bfa4-84a2c042e083/zKY6-thumbnail.png"
