@@ -1,13 +1,17 @@
+
+
 <template>
 <div class="playerlist">
   <p>Players:</p>
+  
   <ul>
     <li v-for="player in players">
     {{player.naam}}
     </li>
   </ul>
-</div>
+</div> 
 </template>
+
 
 <script>
 export default {
