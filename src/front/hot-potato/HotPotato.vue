@@ -55,7 +55,7 @@ export default {
   margin-bottom: 0px;
   padding: 0px;
   height: 100%;
-  background: #b75205;
+  background: #425beb ;
 }
 
 #gameinfo {
@@ -89,7 +89,7 @@ export default {
 
 #vraag {
   margin: auto;
-  background: #7f5d43;
+  background: #80ccff;
 }
 
 #menubutton {
