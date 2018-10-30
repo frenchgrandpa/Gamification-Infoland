@@ -1,9 +1,9 @@
 <template>
-  <v-container class="elevation-6">
+  <v-container class="elevation-24">
     <v-layout row wrap justify-space-between >
       <v-flex xs12 align-content-center> 
           <!--TODO: CENTER IMAGE!! -->
-        <v-img :src="image" :aspect-ratio="16/9" max-width="1080px" style="margin-left: auto; margin-right: auto;">
+        <v-img :src="image" :aspect-ratio="16/9" max-width="600px" style="margin-left: auto; margin-right: auto;">
             <v-layout pa-2 column fill-height class="lightbox white--text">
             <v-spacer></v-spacer>
             <v-flex shrink>
