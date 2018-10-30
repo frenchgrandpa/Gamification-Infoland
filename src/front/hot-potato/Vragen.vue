@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="elevation-6">
     <v-layout row wrap justify-space-between >
       <v-flex xs12 align-content-center> 
           <!--TODO: CENTER IMAGE!! -->
@@ -17,7 +17,7 @@
         </v-img>
               
       </v-flex>
-      <v-flex v-for="antwoord in antwoorden" :key="antwoord.id" xs6 py-1 px-2>
+      <v-flex v-for="antwoord in antwoorden" :key="antwoord.id" xs12 sm6 py-1 px-2>
         
         <v-btn block>
           {{antwoord.text}}
