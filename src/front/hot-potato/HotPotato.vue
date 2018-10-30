@@ -39,8 +39,7 @@ export default {
     Vraag,
     Bom,
     PlayerList,
-    MenuButton,
-   
+    MenuButton
   }
 };
 </script>
@@ -86,7 +85,7 @@ export default {
 }
 
 .vraag {
-  height: 49%;
+  height: 100%;
   margin: auto;
 }
 

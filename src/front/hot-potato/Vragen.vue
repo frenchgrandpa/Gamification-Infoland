@@ -86,11 +86,6 @@ export default {
   height: 100%;
 }
 
-.vraag {
-  height: 45%;
-  margin-bottom: -3em;
-}
-
 ol.antwoorden {
   margin-top: 0em;
   display: flex;
