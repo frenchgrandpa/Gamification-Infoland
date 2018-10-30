@@ -72,15 +72,7 @@ export default {
 }
 
 #playerlist {
-  order: 1;
-  padding-right: 10px;
-  height: 125px;
-  float: left;
-  border: 1px solid;
-  border-radius: 20px;
-  position: relative;
-  top: 2%;
-  left: 2%;
+
 }
 
 .vraag {
