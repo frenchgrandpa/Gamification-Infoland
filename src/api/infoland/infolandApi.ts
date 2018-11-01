@@ -1,6 +1,11 @@
 import { callbackify } from "util";
 
 let axios = require('axios');
+export enum mediatype
+{
+    foto = 0,
+    video = 1
+}
 class answer
 {
     id: string;
@@ -21,6 +26,7 @@ class question
 {
     id:string;
     media: string;
+    mediatype: Number
     answers: Array<answer> = [];
     text: string;
     type: Number;
@@ -34,6 +40,11 @@ class question
     public add(ans: answer)
     {
         this.answers.push(ans);
+    }
+    public setMedia(media:string, type:Number)
+    {
+        this.media = media;
+        this.mediatype = type;
     }
 }
 class quizObject
@@ -96,8 +107,22 @@ export class InfolandAPI
                 var answerdata = questiondata[i].answers;
                 var quest = new question(questiondata[i].id,questiondata[i].questionBase,questiondata[i].type);
 
-                if (!questiondata[i].media || !questiondata[i].media.id) continue;//TEMPORARILY CHECK THIS
-                quest.media = this.url+"api/media/"+questiondata[i].media.id+"/preview";
+                if (typeof(questiondata[i].media) !== undefined || typeof(questiondata[i].media.id)!== undefined|| typeof(questiondata[i].media.type) !== undefined)
+                {   
+                    if(questiondata.media.type == mediatype.foto)
+                    {   
+                        let mediaurl = this.url+"api/media/"+questiondata[i].media.id+"/preview";
+                        quest.setMedia(mediaurl,0);
+                       
+                    }
+                    else if(questiondata.media.type == mediatype.video)
+                    {
+                        let mediaurl = this.url+"api/media/"+questiondata[i].media.id;
+                        quest.setMedia(mediaurl,0);
+                    }  
+                    
+                }
+               
 
                 if(questiondata[i].questionType == 1)
                 {

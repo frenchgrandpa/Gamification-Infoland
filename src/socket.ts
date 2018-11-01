@@ -10,14 +10,25 @@ export default class Socket {
         
         this.io.on('connection', (socket) => {
             this.onConnection(socket);
+            socket.on("disconnect",(reason)=>{
+                this.onDisconnect(socket);
+            });
         });
     }
     
     private onConnection(socket: socketio.Socket) {
         console.log('a user connected');  
-        this.emitPlayerCount();      
+        this.emitPlayerCount();
+        this.emitPlayerJoin(socket);      
     }
-    
+
+    private onDisconnect(socket: socketio.Socket)
+    {
+        console.log('a user disconnected');
+        this.emitPlayerCount();
+        this.emitPlayerLeave(socket);
+    }
+
     public emitPlayerCount() {
         this.io.clients((err: any, clients: socketio.Client[]) => {
             this.io.emit('playerCount', clients.length);
@@ -25,7 +36,14 @@ export default class Socket {
     }
 
     public emitPlayers() {
-        
+        this.io.clients((err: any, clients: socketio.Client[]) => {
+            let clientids:any = []
+            for(let client of clients)
+            {
+                clientids.concat(client.id);
+            }
+            this.io.emit('players', clientids);
+        });
     }
 
     public emitBombExplosion() {
@@ -40,12 +58,16 @@ export default class Socket {
 
     }
 
-    public emitPlayerJoin() {
-
+    public emitPlayerJoin(socket:socketio.Socket) {
+        this.io.clients((err: any, clients: socketio.Client[]) => {
+            socket.broadcast.emit('message', "een nieuwe speler is aangekomen");
+        });
     }
 
-    public emitPlayerLeave() {
-
+    public emitPlayerLeave(socket:socketio.Socket) {
+        this.io.clients((err: any, clients: socketio.Client[]) => {
+            socket.broadcast.emit('message', "een speler heeft het spel verlaten");
+        });
     }
 
     public emitGameStart() {
