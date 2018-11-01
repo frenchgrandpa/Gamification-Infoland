@@ -1,21 +1,19 @@
 <template>
   <v-container class="elevation-24">
     <v-layout row wrap justify-space-between >
-      <v-flex xs12 align-content-center> 
-          <!--TODO: CENTER IMAGE!! -->
+      <v-flex xs12 align-content-center>
         <v-img :src="image" :aspect-ratio="16/9" max-width="600px" style="margin-left: auto; margin-right: auto;">
             <v-layout pa-2 column fill-height class="lightbox white--text">
             <v-spacer></v-spacer>
             <v-flex shrink>
                 <div id="subheadinggame">
-                <p >
-                {{vraag}}
-                </p>
+                    <p>
+                        {{vraag}}
+                    </p>
                 </div>
             </v-flex>
         </v-layout>
         </v-img>
-              
       </v-flex>
       <v-flex v-for="antwoord in antwoorden" :key="antwoord.id" xs12 sm6 py-1 px-2>
         

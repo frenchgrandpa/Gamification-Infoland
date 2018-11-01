@@ -1,15 +1,38 @@
 
 
 <template>
-<div class="playerlist">
-  <p>Players:</p>
+<v-container >
+
+ <v-card class="elevation-10">
+    <v-toolbar color="light-blue" dark>
+            <v-toolbar-side-icon></v-toolbar-side-icon>
   
-  <ul>
-    <li v-for="player in players">
-    {{player.naam}}
-    </li>
-  </ul>
-</div> 
+            <v-toolbar-title>Players</v-toolbar-title>
+  
+            <v-spacer></v-spacer>
+  
+            <v-btn icon>
+              <v-icon>mdi-anchor</v-icon>
+            </v-btn>
+          </v-toolbar>
+ <v-list>
+                 <v-subheader>
+                   Name
+                 </v-subheader>
+            <v-list-tile
+              v-for="player in players"
+              :key="player.naam"
+            >
+            
+
+              <v-list-tile-content>
+                <v-list-tile-title v-text="player.naam"></v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+</v-card>
+
+</v-container>
 </template>
 
 
@@ -25,15 +48,5 @@ export default {
 </script>
 
 <style>
-.playerlist {
-  background: #ffc16b;
-}
 
-ul{
-}
-
-li {
-  width: 5%;
-  padding-left: 0%;
-}
 </style>
