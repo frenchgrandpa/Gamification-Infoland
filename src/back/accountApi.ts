@@ -7,7 +7,8 @@ import User, { UserData } from 'Gamification-Infoland/src/user';
 
 export default class AccountAPI extends APIBase {
 
-    constructor() {
+    constructor()
+     {
         super();
 
         this.initPassport();
