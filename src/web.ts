@@ -8,6 +8,7 @@ import * as http from 'http';
 
 import API from './api/api';
 import Socket from './socket';
+import {InfolandAPI} from './api/infoland/infolandApi';
 
 //process.env.NODE_ENV = "production";
 
@@ -36,7 +37,13 @@ app.use(passport.session());
 app.use('/api', new API().router);
 
 let server = http.createServer(app);
-let socket = new Socket(server);
+let infolandAPI = new InfolandAPI('https://pubquiz.iqualify.nl');
+infolandAPI.tokenRetrieval('berk', 'test', (err, token) => {
+    // if (err) return cb(err, null);
+    // if (!token) return cb(false, null);
+    // cb(null, token);
+});
+let socket = new Socket(server, infolandAPI);
 
 
 server.listen(3000);
