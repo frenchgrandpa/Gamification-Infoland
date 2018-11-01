@@ -4,7 +4,7 @@ export default class HotPotato {
 
     private startTime: number;
     private detonationTime: number;
-    private players: any[] = [];
+    private players: string[] = [];
 
     constructor() {
         this.startTime = Date.now();
