@@ -22,11 +22,25 @@ import Vuetify from "vuetify";
 
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3000/");
+const socket = io();
 
-socket.on("channel_name", function(msg) {
-  console.log("message: " + msg);
+socket.on("playerCount", function(msg) {
+  console.log(msg);
 });
+socket.on("players", function(msg){
+  for(let player of msg)
+  {
+    console.log(player);
+  }
+});
+socket.on("explosion",function(msg)
+{
+  if(msg === 'true')
+  {
+    alert("boooooooom");
+  }
+});
+
 
 export default {
   name: "HotPotato",
