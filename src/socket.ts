@@ -23,7 +23,7 @@ export default class Socket {
         console.log('a user connected');
         this.emitPlayerCount();
         this.emitPlayerJoin(socket);
-        //setTimeout(() => this.emitQuestion(), 5000);
+        this.emitQuestion();
     }
 
     private onDisconnect(socket: socketio.Socket) {
