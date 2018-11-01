@@ -22,9 +22,12 @@ import Vuetify from "vuetify";
 
 import io from "socket.io-client";
 
-const socket = io();
+const socket = io("http://localhost:3000");
 
 socket.on("playerCount", function(msg) {
+  console.log(msg);
+});
+socket.on("question", function(msg) {
   console.log(msg);
 });
 socket.on("players", function(msg){

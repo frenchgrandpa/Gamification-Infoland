@@ -9,7 +9,7 @@ import * as http from 'http';
 import API from './api/api';
 import Socket from './socket';
 import {InfolandAPI} from './api/infoland/infolandApi';
-import HotPotato from 'Gamification-Infoland/src/hotPotato';
+import HotPotato from './hotPotato';
 
 //process.env.NODE_ENV = "production";
 
@@ -44,7 +44,7 @@ infolandAPI.tokenRetrieval('berk', 'test', (err, token) => {
     // if (!token) return cb(false, null);
     // cb(null, token);
 });
-//let socket = new Socket(server, infolandAPI);
+let socket = new Socket(server, infolandAPI);
 
 
 server.listen(3000);
