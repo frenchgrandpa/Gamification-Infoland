@@ -21,12 +21,12 @@ export default class API extends APIBase {
     private index = 0;
     protected addRoutes() {
         this.router.get('/vraag', (req, res) => {
-            
+
             req.user.infolandAPI.quizRetrieval('c0b63433-712e-4d35-9cd8-828073e6a84c', (quiz) => {
                 while (quiz.questions[this.index].answers.length <= 1 && this.index < quiz.questions.length) {
                     this.index++;
                 }
-                if (this.index == quiz.questions.length - 1){  res.send("No more questions"); return;}
+                if (this.index == quiz.questions.length - 1) { res.send("No more questions"); return; }
                 res.send(quiz.questions[this.index++]);
             });
         });
