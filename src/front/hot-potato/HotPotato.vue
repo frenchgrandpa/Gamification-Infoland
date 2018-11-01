@@ -1,10 +1,12 @@
 <template>
-  <div id="app">    
+  
+  <div id="app"> 
+    <PlayerList id="playerlist"/>   
     <div id="gameinfo">
-      <PlayerList id="playerlist"/>
+  
       <Bom id="bom"/>
   
-      <MenuButton id="menubutton"/>
+      
       <v-alert>{{lobby}}</v-alert>
     </div>
     <div class="vraag">
@@ -55,7 +57,7 @@ export default {
   margin-bottom: 0px;
   padding: 0px;
   height: 100%;
-  background: #425beb ;
+  background: #429feb ;
 }
 
 #gameinfo {
@@ -72,7 +74,7 @@ export default {
 }
 
 #playerlist {
-
+ margin: auto;
 }
 
 .vraag {

@@ -1,13 +1,28 @@
 
 
 <template>
-<v-container class="elevation-10">
- <v-card>
+<v-container >
+ <v-card class="elevation-10">
+    <v-toolbar color="light-blue" dark>
+            <v-toolbar-side-icon></v-toolbar-side-icon>
+  
+            <v-toolbar-title>Players</v-toolbar-title>
+  
+            <v-spacer></v-spacer>
+  
+            <v-btn icon>
+              <v-icon>mdi-anchor</v-icon>
+            </v-btn>
+          </v-toolbar>
  <v-list>
+                 <v-subheader>
+                   Name
+                 </v-subheader>
             <v-list-tile
               v-for="player in players"
               :key="player.naam"
             >
+            
 
               <v-list-tile-content>
                 <v-list-tile-title v-text="player.naam"></v-list-tile-title>
