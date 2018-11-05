@@ -59,7 +59,7 @@ export default class Socket {
 
     public emitQuestion() {
         this.infolandAPI.quizRetrieval('c0b63433-712e-4d35-9cd8-828073e6a84c', (quiz) => {
-            while (quiz.questions[this.index].answers.length <= 1 && this.index < quiz.questions.length) {
+            while (quiz.questions[this.index] && quiz.questions[this.index].answers.length <= 1 && this.index < quiz.questions.length) {
                 this.index++;
             }console.log(quiz);
             if (this.index == quiz.questions.length - 1) {
