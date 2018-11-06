@@ -5,6 +5,7 @@ import AccountAPI from './accountApi';
 import apiError from './apiError';
 import APIBase from './apiBase';
 import { InfolandAPI } from './infoland/infolandApi';
+import HotPotato from '../games/hotPotato';
 
 export default class API extends APIBase {
 
@@ -30,6 +31,8 @@ export default class API extends APIBase {
                 res.send(quiz.questions[this.index++]);
             });
         });
+
+        this.router.post("/startgame", (req, res) => this.postStartgame(req, res));
     }
 
     private checkIfLoggedIn(req: Request, res: Response, next: () => void) {
@@ -38,6 +41,10 @@ export default class API extends APIBase {
             return;
         }
         next();
+    }
+
+    private postStartgame(req: Request, res: Response) {
+        global.gameManager.runningGames.push(new HotPotato(global.socket));
     }
 
 }

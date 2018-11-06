@@ -24,7 +24,7 @@ export default class Socket {
         console.log('a user connected');
         this.emitPlayerCount();
         this.emitPlayerJoin(socket);
-        this.emitcurrentQuestion();
+        this.emitNextQuestion();
     }
 
     private onDisconnect(socket: socketio.Socket) {
@@ -58,7 +58,7 @@ export default class Socket {
 
 
 
-    public emitcurrentQuestion() {
+    public emitNextQuestion() {
         this.infolandAPI.tokenRetrieval("heer", "test",(err,token )=>{this.infolandAPI.quizRetrieval('c0b63433-712e-4d35-9cd8-828073e6a84c', (quiz) => {
             // while (quiz.questions[this.index] && quiz.questions[this.index].answers.length <= 1 && this.index < quiz.questions.length) {
             //     this.index++;
@@ -94,6 +94,12 @@ export default class Socket {
 
     public emitGameEnd() {
         this.io.emit('gameEnd', true);
+    }
+
+    public addAnswerEventHandler(delegate: (msg: any) => void) {
+        this.io.on('answer', (msg: any) => {
+            delegate(msg);
+        });
     }
 
 }
