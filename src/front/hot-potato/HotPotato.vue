@@ -10,7 +10,7 @@
       <v-alert>{{lobby}}</v-alert>
     </div>
     <div class="vraag">
-      <Vraag id="vraag"/>
+      <Vraag id="vraag" v-bind:question=question />
     </div>
   </div>
 </template>
@@ -31,27 +31,25 @@ socket.on("playerCount", function(msg) {
 });
 socket.on("question", function(msg) {
   console.log(msg);
+  app.$children[0].getQuestion(msg);
 });
-socket.on("players", function(msg){
-  for(let player of msg)
-  {
+socket.on("players", function(msg) {
+  for (let player of msg) {
     console.log(player);
   }
 });
-socket.on("explosion",function(msg)
-{
-  if(msg === 'true')
-  {
+socket.on("explosion", function(msg) {
+  if (msg === "true") {
     alert("boooooooom");
   }
 });
-
 
 export default {
   name: "HotPotato",
   data() {
     return {
-      lobby: ""
+      lobby: "",
+      question: "hey"
     };
   },
   components: {
@@ -59,6 +57,19 @@ export default {
     Bom,
     PlayerList,
     MenuButton
+  },
+  methods: {
+    greet: function(event) {
+      // `this` inside methods points to the Vue instance
+      alert("Hello " + this.question + "!");
+      // `event` is the native DOM event
+      if (event) {
+        alert(event.target.tagName);
+      }
+    },
+    getQuestion: function(msg) {
+      this.question = msg;
+    }
   }
 };
 </script>
@@ -74,7 +85,7 @@ export default {
   margin-bottom: 0px;
   padding: 0px;
   height: 100%;
-  background: #429feb ;
+  background: #429feb;
 }
 
 #gameinfo {
@@ -91,7 +102,7 @@ export default {
 }
 
 #playerlist {
- margin: auto;
+  margin: auto;
 }
 
 .vraag {
