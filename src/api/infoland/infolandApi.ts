@@ -107,15 +107,15 @@ export class InfolandAPI
                 var answerdata = questiondata[i].answers;
                 var quest = new question(questiondata[i].id,questiondata[i].questionBase,questiondata[i].type);
 
-                if (typeof(questiondata[i].media) !== undefined || typeof(questiondata[i].media.id)!== undefined|| typeof(questiondata[i].media.type) !== undefined)
+                if (questiondata[i].media)
                 {   
-                    if(questiondata.media.type == mediatype.foto)
+                    if(questiondata[i].media.type == mediatype.foto)
                     {   
                         let mediaurl = this.url+"api/media/"+questiondata[i].media.id+"/preview";
                         quest.setMedia(mediaurl,0);
                        
                     }
-                    else if(questiondata.media.type == mediatype.video)
+                    else if(questiondata[i].media.type == mediatype.video)
                     {
                         let mediaurl = this.url+"api/media/"+questiondata[i].media.id;
                         quest.setMedia(mediaurl,0);

@@ -9,6 +9,7 @@ import * as http from 'http';
 import API from './api/api';
 import Socket from './socket';
 import {InfolandAPI} from './api/infoland/infolandApi';
+import HotPotato from './hotPotato';
 
 //process.env.NODE_ENV = "production";
 
@@ -47,7 +48,26 @@ let socket = new Socket(server, infolandAPI);
 
 
 server.listen(3000);
-
+app.get("/hotpotato",(req,res)=>{
+    let game:HotPotato = new HotPotato()
+    if(game.getMaxplayers() == game.getPlayers.length)
+    {
+        res.redirect('back');
+    }
+    let name:string = req.query.name;
+    let present:boolean = false;
+    for(let player of game.getPlayers())
+    {
+        if(player == name)
+        {
+            present = true;
+        }
+    }
+    if(present)
+    {
+        res.redirect('back');
+    }
+});
 app.get('*', (req, res) => {
     res.render('index');
 });
