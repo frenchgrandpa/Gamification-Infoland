@@ -34,6 +34,7 @@ import Axios from "axios";
 import AnswerButton from "./AnswerButton";
 export default {
   name: "Vraag",
+  props: ["question"],
   data() {
     return {
       vraag: "Is dit een vraag?",
