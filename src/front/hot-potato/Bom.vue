@@ -35,6 +35,10 @@ export default {
          {
          return "https://i.imgur.com/gobDNXH.png"
          }
+          else if (number==4)
+         {
+         return "https://i.imgur.com/JSvptGR.png"
+         }
        }
     }
 };

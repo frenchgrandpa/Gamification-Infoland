@@ -4,7 +4,7 @@
     <PlayerList id="playerlist"/>   
     <div id="gameinfo">
   
-      <Bom :fase="3" id="bom"></Bom>
+      <Bom :fase="BombState" id="bom"></Bom>
   
       
       <v-alert>{{lobby}}</v-alert>
@@ -31,10 +31,7 @@ socket.on("playerCount", function(msg) {
 });
 socket.on("question", function(msg) {
   console.log(msg);
-<<<<<<< HEAD
-=======
   app.$children[0].getQuestion(msg);
->>>>>>> 72f5e234d0279400b6b17c6138fa0a2473c7fb7a
 });
 socket.on("players", function(msg) {
   for (let player of msg) {
@@ -42,7 +39,9 @@ socket.on("players", function(msg) {
   }
 });
 socket.on("explosion", function(msg) {
+  this.BombState=4
   if (msg === "true") {
+
     alert("boooooooom");
   }
 });
@@ -52,7 +51,8 @@ export default {
   data() {
     return {
       lobby: "",
-      question: "hey"
+      question: "hey",
+      BombState:4
     };
   },
   components: {
@@ -72,6 +72,9 @@ export default {
     },
     getQuestion: function(msg) {
       this.question = msg;
+    },
+     getBombState: function(state) {
+      this.BombState = state;
     }
   }
 };
