@@ -152,9 +152,9 @@ export class InfolandAPI
         });
     }
     
-    public checkanswer(quizID : string,question:question,answerArray:Array<answer>)
+    public checkanswer(quizID : string,question:question,answerArray:answer[], cb: (isCorrect: boolean) => void)
     {
-        let answerString:String|String[];
+        let answerString: String|String[] = [];
         let type = question.type;
         let multiplechoice = 1;
         let numberanswer = 6
@@ -162,11 +162,12 @@ export class InfolandAPI
         {
             case multiplechoice:
             {
-                answerString = Array<String>()
+                
                 for (let answer of answerArray)
                 {
-                    answerString.concat(answer.id)
+                    answerString = answerString.concat(answer.id)
                 }
+                break;
             }
             case numberanswer:
             {
@@ -174,29 +175,36 @@ export class InfolandAPI
                 {
                     answerString = answer.text
                 }
+                break;
             }
             default:
             {
                 answerString = "";
             }
         }
+
         
         var instance = axios.create({
             method: 'post',
             headers:{
                 Authorization: 'Bearer '+this.token,
             }
-        })
+        });
+        console.log(JSON.stringify([this.url+'/api/learnmaterial/'+quizID+'/update/'+question.id,{
+            confirmed: false,
+            answer:answerString,
+            time:69,
+        }]));
         instance.post(this.url+'/api/learnmaterial/'+quizID+'/update/'+question.id,{
             confirmed: false,
             answer:answerString,
             time:69,
         })
         .then((response: any)=>{
-            //console.log(response);
+            console.log(response.status);
         })
         .catch((error:string)=>{
-            console.log(error);
+           // console.log(error);
         })
     } 
 
@@ -212,7 +220,7 @@ export class InfolandAPI
             
         })
         .then((response: any)=>{
-            //console.log(response);
+            console.log(response);
         })
         .catch((error:string)=>{
             console.log(error);

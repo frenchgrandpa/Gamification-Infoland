@@ -24,24 +24,40 @@ import Vuetify from "vuetify";
 
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3000");
+global.socket = io("http://localhost:3000");
 
-socket.on("playerCount", function(msg) {
+global.socket.on("playerCount", function(msg) {
   console.log(msg);
 });
-socket.on("question", function(msg) {
+global.socket.on("question", function(msg) {
   console.log(msg);
   app.$children[0].getQuestion(msg);
 });
-socket.on("players", function(msg) {
+global.socket.on("players", function(msg) {
   for (let player of msg) {
     console.log(player);
   }
 });
+<<<<<<< HEAD
 socket.on("explosion", function(msg) {
   
+=======
+global.socket.on("explosion", function(msg) {
+  if (msg === "true") {
+
+    alert("boooooooom");
+  }
+>>>>>>> a53f83353c7fa565cd9271d5682642e96eb95b8a
   app.$children[0].BombState=4
 });
+global.socket.on("correct", function(msg){
+  if (msg === "true"){
+    alert("Antwoord is goed");
+  }
+  else{
+    alert("Antwoord was fout");
+  }
+})
 
 export default {
   name: "HotPotato",

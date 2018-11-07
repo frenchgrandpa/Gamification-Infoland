@@ -17,7 +17,7 @@
       </v-flex>
       <v-flex v-for="antwoord in question.answers" :key="antwoord.id" xs12 sm6 py-1 px-2>
         
-        <v-btn block>
+        <v-btn block v-on:click = "answer(antwoord.id)" v-bind:id="antwoord.id">
           {{antwoord.text}}
         </v-btn>
         
@@ -72,7 +72,11 @@ export default {
           this.antwoorden = response.data.answers || [];
         })
         .catch(err => {});
-    }
+    },
+    answer: function(id)
+    {
+      global.socket.emit('msg',id);
+    },
   }
 };
 </script>

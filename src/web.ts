@@ -49,7 +49,7 @@ global.infolandAPI.tokenRetrieval('berk', 'test', (err, token) => {
 
 
 global.gameManager = new GameManager();
-global.socket = new Socket(server, global.infolandAPI);//this is only temporarily global,
+global.socket = new Socket(server);//this is only temporarily global,
 //we'd really want to have a socket class assigned to each game seperately ,
 //so that they can each have more specific event/emit handling
 //And we'd have to move the socket class itself to an abstract level so that every game has its own socket class to handle its traffic
