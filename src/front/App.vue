@@ -30,7 +30,7 @@ export default {
         password: "test"
       })
         .then(response => {
-          window.location.href = "/game/hotpotato";
+          window.location.href = "/game/hotpotato?naam=testmeneer";
         })
         .catch(err => {
           alert(err);
