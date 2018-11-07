@@ -32,7 +32,6 @@ socket.on("playerCount", function(msg) {
 socket.on("question", function(msg) {
   console.log(msg);
 <<<<<<< HEAD
-  vraag.image = msg.media;
 =======
   app.$children[0].getQuestion(msg);
 >>>>>>> 72f5e234d0279400b6b17c6138fa0a2473c7fb7a
