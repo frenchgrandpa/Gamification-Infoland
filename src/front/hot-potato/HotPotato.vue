@@ -4,7 +4,7 @@
     <PlayerList id="playerlist"/>   
     <div id="gameinfo">
   
-      <Bom id="bom"/>
+      <Bom :fase="3" id="bom"></Bom>
   
       
       <v-alert>{{lobby}}</v-alert>
@@ -85,7 +85,7 @@ export default {
   margin: auto;
   order: 2;
   position: relative;
-  border: 2px solid;
+ 
   height: 10em;
   width: 10em;
 }
