@@ -21,7 +21,7 @@ export default class API extends APIBase {
 
     private index = 0;
     protected addRoutes() {
-        this.router.get('/vraag', (req, res) => {
+        /*this.router.get('/vraag', (req, res) => {
 
             req.user.infolandAPI.quizRetrieval('c0b63433-712e-4d35-9cd8-828073e6a84c', (quiz) => {
                 while (quiz.questions[this.index].answers.length <= 1 && this.index < quiz.questions.length) {
@@ -30,12 +30,13 @@ export default class API extends APIBase {
                 if (this.index == quiz.questions.length - 1) { res.send("No more questions"); return; }
                 res.send(quiz.questions[this.index++]);
             });
-        });
+        });*/
 
-        this.router.post("/startgame", (req, res) => this.postStartgame(req, res));
+        this.router.get("/startgame", (req, res) => this.getStartgame(req, res));
     }
 
     private checkIfLoggedIn(req: Request, res: Response, next: () => void) {
+        return next();
         if (!req.user && req.url != '/account/login') {
             apiError.handle403Error(res, 'Not logged in');
             return;
@@ -43,8 +44,9 @@ export default class API extends APIBase {
         next();
     }
 
-    private postStartgame(req: Request, res: Response) {
+    private getStartgame(req: Request, res: Response) {
         global.gameManager.runningGames.push(new HotPotato(global.socket));
+        res.send();
     }
 
 }
