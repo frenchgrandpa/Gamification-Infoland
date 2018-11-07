@@ -53,7 +53,7 @@ export default {
     return {
       lobby: "",
       question: "hey",
-      BombState:4
+      BombState:1
     };
   },
   components: {
