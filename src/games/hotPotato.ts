@@ -12,8 +12,8 @@ export default class HotPotato extends Game {
     private socketClient: Socket;
     private detonationTimeout: NodeJS.Timer;
 
-    private players: SocketIO.Client[];
-    private playerWithBomb: SocketIO.Client;
+    private players: string[];
+    private playerWithBomb: string;
 
     private finished = false;
 
@@ -22,18 +22,18 @@ export default class HotPotato extends Game {
         
         this.socketClient = socketClient;
         socketClient.getClients(clients => {
-            this.players = clients;
+            this.players = clients as unknown[] as string[];
             this.playerWithBomb = this.players[0];
-            console.log(this);
         });
 
         this.startTime = Date.now();
-        this.detonationTime = this.startTime + Math.round((Math.random() * 10 + 5) * 1000);
+        this.detonationTime = this.startTime + Math.round((Math.random() * 100 + 5) * 1000);
 
         this.setDetonationTimeout();
         this.addSocketEventHandlers();
+        this.socketClient.emitGameStart();        
+        this.socketClient.emitPlayerWithBomb(this.playerWithBomb);
         this.emitNextQuestion();
-        setTimeout(() => this.onAnswer(0), 5000);
     }
 
     private getDetonationInterval() {
@@ -49,12 +49,14 @@ export default class HotPotato extends Game {
     }
 
     private addSocketEventHandlers() {
-        this.socketClient.addAnswerEventHandler(this.onAnswer);
+        this.socketClient.setAnswerEventHandler((socket, data) => this.onAnswer(socket, data));
     }
 
-    private onAnswer(data: any) {
+    private onAnswer(socket: SocketIO.Socket, data: any) {
+        if (socket.id != this.playerWithBomb)
+            return;
         //global.infolandAPI.checkanswer("c0b63433-712e-4d35-9cd8-828073e6a84c", this.currentQuestion, [this.currentQuestion.answers[0]], null);//geen callback?¿??
-        let correct = (data === 0) ? true : false;
+        let correct = (data === this.currentQuestion.answers[0].id) ? true : false;
         if (correct) {
             // this.addPointToPlayer();
             this.giveBombToNextPlayer();
@@ -63,6 +65,7 @@ export default class HotPotato extends Game {
             this.setDetonationTimeout();
         }
 
+        this.socketClient.emitAnswerResult(correct);
         this.emitNextQuestion();
     }
 
@@ -73,6 +76,8 @@ export default class HotPotato extends Game {
         else
             this.bombIndex = 0;
         this.playerWithBomb = this.players[this.bombIndex];
+        console.log(this.playerWithBomb + " has the bomb");
+        this.socketClient.emitPlayerWithBomb(this.playerWithBomb);
     }
 
     private questionIndex = 0;

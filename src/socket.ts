@@ -15,10 +15,18 @@ export default class Socket {
             socket.on("disconnect", (reason) => {
                 this.onDisconnect(socket);
             });
-            socket.on("msg",function(msg){
+            socket.on("msg", function (msg) {
                 console.log(msg);
             });
+            socket.on('answer', (msg: any) => {
+                this.onExplosionDelegate(socket, msg);
+            });
         });
+    }
+
+    private onExplosionDelegate: (socket: socketio.Socket, data: any) => void;
+    public setAnswerEventHandler(delegate: (socket: socketio.Socket, data: any) => void) {
+        this.onExplosionDelegate = delegate;
     }
 
     private onConnection(socket: socketio.Socket) {
@@ -54,6 +62,14 @@ export default class Socket {
         this.io.emit('explosion', "true");
     }
 
+    public emitPlayerWithBomb(id: string) {
+        this.io.emit('bomb', id);
+    }
+
+    public emitAnswerResult(isCorrect: boolean) {
+        this.io.emit('answerResult', isCorrect);
+    }
+
 
 
 
@@ -78,12 +94,6 @@ export default class Socket {
 
     public emitGameEnd() {
         this.io.emit('gameEnd', true);
-    }
-
-    public addAnswerEventHandler(delegate: (msg: any) => void) {
-        this.io.on('answer', (msg: any) => {
-            delegate(msg);
-        });
     }
 
     public getClients(cb: (clients: socketio.Client[]) => void) {
