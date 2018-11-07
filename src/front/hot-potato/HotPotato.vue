@@ -21,11 +21,24 @@ import Bom from "./Bom";
 import PlayerList from "./PlayerList";
 import MenuButton from "./MenuButton";
 import Vuetify from "vuetify";
-
 import io from "socket.io-client";
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
 
 global.socket = io("http://localhost:3000");
 
+let naam = getParameterByName('naam');
+if(naam != null){
+  global.socket.emit("setusername",naam);
+} 
 global.socket.on("playerCount", function(msg) {
   console.log(msg);
 });
@@ -34,9 +47,13 @@ global.socket.on("question", function(msg) {
   app.$children[0].getQuestion(msg);
 });
 global.socket.on("players", function(msg) {
-  for (let player of msg) {
-    console.log(player);
+  let playernames = [];
+  for (var property in msg) {
+    if (msg.hasOwnProperty(property)) {
+      playernames = playernames.concat({naam:msg[property]});
+    }
   }
+  app.$children[0].getPlayers(playernames);
 });
 global.socket.on("explosion", function(msg) {
   if (msg === "true") {
@@ -81,8 +98,12 @@ export default {
     getQuestion: function(msg) {
       this.question = msg;
     },
-     getBombState: function(state) {
+    getBombState: function(state) {
       this.BombState = state;
+    },
+    getPlayers: function(msg) {
+      console.log(msg);
+      this.players = msg;
     }
   }
 };
