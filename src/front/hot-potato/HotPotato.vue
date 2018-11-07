@@ -40,10 +40,6 @@ socket.on("players", function(msg) {
 });
 socket.on("explosion", function(msg) {
   
-  if (msg === "true") {
-
-    alert("boooooooom");
-  }
   app.$children[0].BombState=4
 });
 
