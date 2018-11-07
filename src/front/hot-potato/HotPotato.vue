@@ -38,12 +38,7 @@ global.socket.on("players", function(msg) {
     console.log(player);
   }
 });
-<<<<<<< HEAD
 global.socket.on("explosion", function(msg) {
-=======
-socket.on("explosion", function(msg) {
-  
->>>>>>> 42618ee72a79f1979c7f533c57bbefb0f9fc8300
   if (msg === "true") {
 
     alert("boooooooom");

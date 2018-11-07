@@ -15,6 +15,8 @@ export default class HotPotato extends Game {
     private players: SocketIO.Client[];
     private playerWithBomb: SocketIO.Client;
 
+    private finished = false;
+
     constructor(socketClient: Socket) {
         super();
         
@@ -42,6 +44,7 @@ export default class HotPotato extends Game {
         clearTimeout(this.detonationTimeout);
         this.detonationTimeout = setTimeout(() => {
             this.socketClient.emitBombExplosion();
+            this.finished = true;
         }, this.getDetonationInterval());
     }
 
