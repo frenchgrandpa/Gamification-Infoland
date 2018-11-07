@@ -19,7 +19,8 @@ export default class Socket {
                 console.log(msg);
             });
             socket.on('answer', (msg: any) => {
-                this.onExplosionDelegate(socket, msg);
+                if (this.onExplosionDelegate)
+                    this.onExplosionDelegate(socket, msg);
             });
         });
     }
