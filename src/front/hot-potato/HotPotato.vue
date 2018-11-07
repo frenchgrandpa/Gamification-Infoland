@@ -31,6 +31,7 @@ socket.on("playerCount", function(msg) {
 });
 socket.on("question", function(msg) {
   console.log(msg);
+  vraag.image = msg.media;
 });
 socket.on("players", function(msg){
   for(let player of msg)
