@@ -15,6 +15,9 @@ export default class Socket {
             socket.on("disconnect", (reason) => {
                 this.onDisconnect(socket);
             });
+            socket.on("msg",function(msg){
+                console.log(msg);
+            });
         });
     }
 
