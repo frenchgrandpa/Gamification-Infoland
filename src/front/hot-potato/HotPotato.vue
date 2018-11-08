@@ -10,7 +10,7 @@
       <v-alert>{{lobby}}</v-alert>
     </div>
     <div class="vraag">
-      <Vraag id="vraag" v-bind:question=question/>
+      <Vraag id="vraag" v-bind:question=question />
     </div>
   </div>
 </template>
@@ -35,12 +35,8 @@ global.socket.on("question", function(msg) {
 });
 global.socket.on("players", function(players) {
   console.log(players);
-  app.$children[0].getPlayers(players);
 });
 global.socket.on("explosion", function(msg) {
-  if (msg === "true") {
-    alert("boooooooom");
-  }
   app.$children[0].BombState = 4;
 });
 global.socket.on("correct", function(msg) {
