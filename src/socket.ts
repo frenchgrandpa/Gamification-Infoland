@@ -1,34 +1,53 @@
 import * as http from 'http';
 import * as socketio from 'socket.io';
 import { InfolandAPI, quizObject, question, answer } from './api/infoland/infolandApi';
+interface Dictionary {
+    [K: string]: string;
+}
 
 export default class Socket {
 
     private io: socketio.Server;
     private index = 0;
     private quiz: quizObject;
+    private playernames: {[id: string]: string;} = {};
 
     constructor(server: http.Server) {
         this.io = socketio(server);
         this.io.on('connection', (socket) => {
+            socket.on("setusername", (msg)=>{
+                console.log(msg);
+                this.playernames[socket.id] = msg;
+            });
             this.onConnection(socket);
             socket.on("disconnect", (reason) => {
                 this.onDisconnect(socket);
             });
-            socket.on("msg",function(msg){
+            socket.on("msg", function (msg) {
                 console.log(msg);
             });
+            socket.on('answer', (msg: any) => {
+                if (this.onExplosionDelegate)
+                    this.onExplosionDelegate(socket, msg);
+            });
         });
+    }
+
+    private onExplosionDelegate: (socket: socketio.Socket, data: any) => void;
+    public setAnswerEventHandler(delegate: (socket: socketio.Socket, data: any) => void) {
+        this.onExplosionDelegate = delegate;
     }
 
     private onConnection(socket: socketio.Socket) {
         console.log('a user connected');
         this.emitPlayerCount();
         this.emitPlayerJoin(socket);
+        this.emitPlayers();
     }
 
     private onDisconnect(socket: socketio.Socket) {
         console.log('a user disconnected');
+        delete this.playernames[socket.id];
         this.emitPlayerCount();
         this.emitPlayerLeave(socket);
     }
@@ -41,17 +60,21 @@ export default class Socket {
 
     public emitPlayers() {
         this.io.clients((err: any, clients: socketio.Client[]) => {
-            // let clientids:any = []
-            // for(let client of clients)
-            // {
-            //     clientids.concat(client.id);
-            // }
-            this.io.emit('players', clients);
+            //let clientids:any[] =  [];
+            this.io.emit('players', this.playernames);
         });
     }
 
     public emitBombExplosion() {
         this.io.emit('explosion', "true");
+    }
+
+    public emitPlayerWithBomb(id: string) {
+        this.io.emit('bomb', id);
+    }
+
+    public emitAnswerResult(isCorrect: boolean) {
+        this.io.emit('answerResult', isCorrect);
     }
 
 
@@ -78,12 +101,6 @@ export default class Socket {
 
     public emitGameEnd() {
         this.io.emit('gameEnd', true);
-    }
-
-    public addAnswerEventHandler(delegate: (msg: any) => void) {
-        this.io.on('answer', (msg: any) => {
-            delegate(msg);
-        });
     }
 
     public getClients(cb: (clients: socketio.Client[]) => void) {

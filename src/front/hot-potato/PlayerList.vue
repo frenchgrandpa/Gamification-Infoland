@@ -22,15 +22,20 @@
                    Name
                  </v-subheader>
             <v-list-tile
+<<<<<<< HEAD
               v-for="player in players"
               
               :key="player.naam"
               
+=======
+               v-for="player in players" :key="player.naam"
+>>>>>>> cac18b90b30ffd70e0d39f01589fb4d133f0ead6
             >
            
               <v-list-tile-content>
-                <v-list-tile-title v-text="player.naam"></v-list-tile-title>
+                <v-list-tile-title v-text="player.naam" v-bind:id="player.naam">{{player.naam}}</v-list-tile-title>
               </v-list-tile-content>
+              
             </v-list-tile>
           </v-list>
 </v-card>
@@ -43,11 +48,7 @@
 <script>
 export default {
   name: "PlayerList",
-  data() {
-    return {
-      players: [{ naam: "piet" }, { naam: "jan" }, {naam: "kees"}]
-    };
-  }
+  props: ["players"],
 };
 </script>
 

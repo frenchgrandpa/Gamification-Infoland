@@ -73,9 +73,10 @@ export default {
         })
         .catch(err => {});
     },
-    answer: function(id)
+    answer(id)
     {
-      global.socket.emit('msg',id);
+      console.log("hello")
+      global.socket.emit('answer',id);
     },
   }
 };
