@@ -69,6 +69,10 @@ export default class Socket {
         this.io.emit('answerResult', isCorrect);
     }
 
+    public emitBombState(state: number) {
+        this.io.emit("bombState", state);
+    }
+
 
 
 

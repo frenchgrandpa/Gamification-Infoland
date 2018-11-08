@@ -24,7 +24,7 @@ gulp.task('other', (cb) => {
     pump([
         gulp.src('src/**/!(*.ts|*.scss|*.png|*.jpg|*.gif|*.svg)'),
         gulp.dest('build'),
-        browserSync.reload({ stream: true })
+        //browserSync.reload({ stream: true })
     ],
         cb());
 });
@@ -34,7 +34,7 @@ gulp.task('backjs', (cb) => {
         gulp.src('src/{*.ts,!(static)/**/*.ts}'),
         ts(tsconfig.compilerOptions),
         gulp.dest('build'),
-        browserSync.reload({ stream: true })
+        //browserSync.reload({ stream: true })
     ],
         cb);
 });
@@ -53,11 +53,11 @@ gulp.task('watch', () => {
 });
 
 gulp.task('run', ['watch', 'nodemon'], () => {
-    browserSync.init(null, {
+    /*browserSync.init(null, {
         //baseDir: 'build',
         proxy: "http://localhost:3000",
         port: 7000
-    });
+    });*/
 });
 
 gulp.task('nodemon', (cb) => {

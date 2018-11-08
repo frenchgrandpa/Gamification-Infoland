@@ -33,6 +33,7 @@ export default class HotPotato extends Game {
         this.addSocketEventHandlers();
         this.socketClient.emitGameStart();        
         this.socketClient.emitPlayerWithBomb(this.playerWithBomb);
+        this.socketClient.emitBombState(2);
         this.emitNextQuestion();
     }
 
@@ -46,7 +47,12 @@ export default class HotPotato extends Game {
             this.socketClient.emitBombExplosion();
             this.finished = true;
         }, this.getDetonationInterval());
+        this.detonationTimeout = setTimeout(() => {
+            this.socketClient.emitBombState(3);
+        }, this.getDetonationInterval() / 2);
+        this.socketClient.emitGameEnd();
     }
+
 
     private addSocketEventHandlers() {
         this.socketClient.setAnswerEventHandler((socket, data) => this.onAnswer(socket, data));
