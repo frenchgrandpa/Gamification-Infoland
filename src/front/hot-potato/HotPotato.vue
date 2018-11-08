@@ -10,7 +10,7 @@
       <v-alert>{{lobby}}</v-alert>
     </div>
     <div class="vraag">
-      <Vraag id="vraag" v-bind:question=question />
+      <Vraag id="vraag" v-bind:question=question/>
     </div>
   </div>
 </template>
@@ -21,24 +21,11 @@ import Bom from "./Bom";
 import PlayerList from "./PlayerList";
 import MenuButton from "./MenuButton";
 import Vuetify from "vuetify";
-import io from "socket.io-client";
 
-function getParameterByName(name, url) {
-  if (!url) url = window.location.href;
-  name = name.replace(/[\[\]]/g, "\\$&");
-  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-    results = regex.exec(url);
-  if (!results) return null;
-  if (!results[2]) return "";
-  return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
+import io from "socket.io-client";
 
 global.socket = io("http://localhost:3000");
 
-let naam = getParameterByName("naam");
-if (naam != null) {
-  global.socket.emit("setusername", naam);
-}
 global.socket.on("playerCount", function(msg) {
   console.log(msg);
 });
@@ -91,12 +78,8 @@ export default {
     getQuestion: function(msg) {
       this.question = msg;
     },
-    getBombState: function(state) {
+     getBombState: function(state) {
       this.BombState = state;
-    },
-    getPlayers: function(msg) {
-      console.log(msg);
-      this.players = msg;
     }
   }
 };
