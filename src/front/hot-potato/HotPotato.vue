@@ -111,10 +111,6 @@ export default {
       // `event` is the native DOM event
       if (event) {
         alert(event.target.tagName);
-      }
-    },
-    getQuestion: function(msg) {
-      this.question = msg;
     },
     getBombState: function(state) {
       this.BombState = state;
