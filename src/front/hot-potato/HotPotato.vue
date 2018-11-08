@@ -10,20 +10,23 @@
       <v-alert>{{lobby}}</v-alert>
     </div>
     <!-- gameIsOver werkt niet goed-->
-    <div v-if="gameIsOver">
-    <v-alert
-        :value="true"
-        type="success"
-        >
+    <div v-if="gameOver">
+    <v-alert v-model="alert" :value="false" type="warning" dismissible>
         Game-over!
         </v-alert>
-    </div>    
+    </div>
     <div class="vraag" v-else-if="question != null">
       <Vraag id="vraag" v-bind:question=question />
     </div>
     <div v-else>
         <v-btn v-on:click="startGame">Play!</v-btn>
     </div>
+    <v-alert v-model="answercorrect" :value="false" type="succes" dismissible>
+        Correct answer!
+        </v-alert>
+    <v-alert v-model="answerwrong" :value="false" type="error" dismissible>
+        Wrong answer!
+        </v-alert>
   </div>
 </template>
 
@@ -47,7 +50,14 @@ global.socket.on("question", function(msg) {
   app.$children[0].getQuestion(msg);
 });
 global.socket.on("gameEnd", function(end) {
-  app.$children[0].gameOver(end);
+  if(end)
+  {
+    app.$children[0].alert = true;
+    app.$children[0].gameOver = true;
+    app.$children[0].BombState = 4;
+    app.$children[0].answercorrect = false;
+    app.$children[0].answerwrong = false;
+  }
 });
 global.socket.on("players", function(players) {
   console.log(players);
@@ -64,12 +74,13 @@ global.socket.on("bomb", function(id) {
 });
 global.socket.on("explosion", function(msg) {
   app.$children[0].BombState = 4;
+  
 });
-global.socket.on("correct", function(msg) {
-  if (msg === "true") {
-    alert("Antwoord is goed");
+global.socket.on("answerResult", function(msg) {
+  if (msg) {
+    app.$children[0].answercorrect = true;
   } else {
-    alert("Antwoord was fout");
+    app.$children[0].answerwrong = true;
   }
 });
 
@@ -81,7 +92,10 @@ export default {
       question: null,
       BombState: 1,
       PlayerList: null,
-      endGame: false
+      gameOver: false,
+      alert: false,
+      answercorrect: false,
+      answerwrong:false,
     };
   },
   components: {
@@ -111,10 +125,6 @@ export default {
     startGame: function() {
       Axios.get("/api/startgame");
     },
-    gameOver: function(end) {
-      this.gameOver = end;
-      console.log(this.gameOver);
-    }
   },
   computed: {
     gameIsOver: function() {
@@ -172,5 +182,17 @@ export default {
   top: 1em;
   right: 2em;
   width: 5em;
+}
+.v-alert{
+  color:black;
+}
+.warning{
+  background-color: yellow;
+}
+.succes{
+  background-color: green;
+}
+.error{
+  background-color: red;
 }
 </style>
