@@ -10,7 +10,7 @@
       <v-alert>{{lobby}}</v-alert>
     </div>
     <div class="vraag">
-      <Vraag id="vraag" v-bind:question=question/>
+      <Vraag id="vraag" v-bind:question=question />
     </div>
   </div>
 </template>
