@@ -1,24 +1,16 @@
 import * as http from 'http';
 import * as socketio from 'socket.io';
 import { InfolandAPI, quizObject, question, answer } from './api/infoland/infolandApi';
-interface Dictionary {
-    [K: string]: string;
-}
 
 export default class Socket {
 
     private io: socketio.Server;
     private index = 0;
     private quiz: quizObject;
-    private playernames: {[id: string]: string;} = {};
 
     constructor(server: http.Server) {
         this.io = socketio(server);
         this.io.on('connection', (socket) => {
-            socket.on("setusername", (msg)=>{
-                console.log(msg);
-                this.playernames[socket.id] = msg;
-            });
             this.onConnection(socket);
             socket.on("disconnect", (reason) => {
                 this.onDisconnect(socket);
@@ -47,7 +39,6 @@ export default class Socket {
 
     private onDisconnect(socket: socketio.Socket) {
         console.log('a user disconnected');
-        delete this.playernames[socket.id];
         this.emitPlayerCount();
         this.emitPlayerLeave(socket);
     }
@@ -61,7 +52,7 @@ export default class Socket {
     public emitPlayers() {
         this.io.clients((err: any, clients: socketio.Client[]) => {
             //let clientids:any[] =  [];
-            this.io.emit('players', this.playernames);
+            this.io.emit('players', clients);
         });
     }
 

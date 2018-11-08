@@ -24,21 +24,21 @@ import Vuetify from "vuetify";
 import io from "socket.io-client";
 
 function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return "";
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
 global.socket = io("http://localhost:3000");
 
-let naam = getParameterByName('naam');
-if(naam != null){
-  global.socket.emit("setusername",naam);
-} 
+let naam = getParameterByName("naam");
+if (naam != null) {
+  global.socket.emit("setusername", naam);
+}
 global.socket.on("playerCount", function(msg) {
   console.log(msg);
 });
@@ -46,30 +46,23 @@ global.socket.on("question", function(msg) {
   console.log(msg);
   app.$children[0].getQuestion(msg);
 });
-global.socket.on("players", function(msg) {
-  let playernames = [];
-  for (var property in msg) {
-    if (msg.hasOwnProperty(property)) {
-      playernames = playernames.concat({naam:msg[property]});
-    }
-  }
-  app.$children[0].getPlayers(playernames);
+global.socket.on("players", function(players) {
+  console.log(players);
+  app.$children[0].getPlayers(players);
 });
 global.socket.on("explosion", function(msg) {
   if (msg === "true") {
-
     alert("boooooooom");
   }
-  app.$children[0].BombState=4
+  app.$children[0].BombState = 4;
 });
-global.socket.on("correct", function(msg){
-  if (msg === "true"){
+global.socket.on("correct", function(msg) {
+  if (msg === "true") {
     alert("Antwoord is goed");
-  }
-  else{
+  } else {
     alert("Antwoord was fout");
   }
-})
+});
 
 export default {
   name: "HotPotato",
@@ -77,7 +70,7 @@ export default {
     return {
       lobby: "",
       question: "hey",
-      BombState:1
+      BombState: 1
     };
   },
   components: {
@@ -131,7 +124,7 @@ export default {
   margin: auto;
   order: 2;
   position: relative;
- 
+
   height: 10em;
   width: 10em;
 }
