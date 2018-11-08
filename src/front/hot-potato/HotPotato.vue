@@ -1,7 +1,7 @@
 <template>
   
   <div id="app"> 
-    <PlayerList :id="PlayerList"/>   
+    <PlayerList :id="PlayerList" :playerWithBomb="PlayerWithBomb"/>   
     <div id="gameinfo">
   
       <Bom :fase="BombState" id="bom"></Bom>
@@ -10,8 +10,16 @@
       <v-alert>{{lobby}}</v-alert>
     </div>
     <!-- gameIsOver werkt niet goed-->
+<<<<<<< HEAD
     <div v-if="gameOver">
     <v-alert v-model="alert" :value="false" type="warning" dismissible>
+=======
+    <div v-if="false">
+    <v-alert
+        :value="true"
+        type="success"
+        >
+>>>>>>> 6cc68cfb289ab08bf3cfb2200ce4d7e39195af59
         Game-over!
         </v-alert>
     </div>
@@ -69,7 +77,8 @@ global.socket.on("bombState", function(state) {
 
 });
 global.socket.on("bomb", function(id) {
- 
+ app.$children[0].getPlayerWithBomb(id);
+ console.log(id+"has the bomb!");
 
 });
 global.socket.on("explosion", function(msg) {
@@ -92,10 +101,16 @@ export default {
       question: null,
       BombState: 1,
       PlayerList: null,
+<<<<<<< HEAD
       gameOver: false,
       alert: false,
       answercorrect: false,
       answerwrong:false,
+=======
+      PlayerWithBomb:null,
+
+      endGame: false
+>>>>>>> 6cc68cfb289ab08bf3cfb2200ce4d7e39195af59
     };
   },
   components: {
@@ -111,6 +126,10 @@ export default {
       // `event` is the native DOM event
       if (event) {
         alert(event.target.tagName);
+      }
+    },
+    getQuestion: function(msg) {
+      this.question = msg;
     },
     getBombState: function(state) {
       this.BombState = state;
@@ -121,6 +140,17 @@ export default {
     startGame: function() {
       Axios.get("/api/startgame");
     },
+<<<<<<< HEAD
+=======
+     getPlayerWithBomb: function(id) 
+     {
+      this.PlayerWithBomb=id;
+    },
+    gameOver: function(end) {
+      this.gameOver = end;
+      console.log(this.gameOver);
+    }
+>>>>>>> 6cc68cfb289ab08bf3cfb2200ce4d7e39195af59
   },
   computed: {
     gameIsOver: function() {
