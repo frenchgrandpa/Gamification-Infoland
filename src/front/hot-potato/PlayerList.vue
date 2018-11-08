@@ -22,14 +22,7 @@
                    Name
                  </v-subheader>
             <v-list-tile
-<<<<<<< HEAD
-              v-for="player in players"
-              
-              :key="player.naam"
-              
-=======
                v-for="player in players" :key="player.naam"
->>>>>>> cac18b90b30ffd70e0d39f01589fb4d133f0ead6
             >
            
               <v-list-tile-content>
