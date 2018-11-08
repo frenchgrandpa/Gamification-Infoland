@@ -1,7 +1,7 @@
 <template>
   
   <div id="app"> 
-    <PlayerList :id="PlayerList"/>   
+    <PlayerList :id="PlayerList" :playerWithBomb="PlayerWithBomb"/>   
     <div id="gameinfo">
   
       <Bom :fase="BombState" id="bom"></Bom>
@@ -47,7 +47,8 @@ global.socket.on("bombState", function(state) {
 
 });
 global.socket.on("bomb", function(id) {
- 
+ app.$children[0].getPlayerWithBomb(id);
+ console.log(id+"has the bomb!");
 
 });
 global.socket.on("explosion", function(msg) {
@@ -68,7 +69,9 @@ export default {
       lobby: "",
       question: null,
       BombState: 1,
-      PlayerList: null
+      PlayerList: null,
+      PlayerWithBomb:null,
+
     };
   },
   components: {
@@ -97,7 +100,11 @@ export default {
     },
     startGame: function() {
       Axios.get("/api/startgame");
-    }
+    },
+     getPlayerWithBomb: function(id) 
+     {
+      this.PlayerWithBomb=id;
+    },
   }
 };
 </script>
