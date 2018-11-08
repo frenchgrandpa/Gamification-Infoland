@@ -22,11 +22,11 @@
                    Name
                  </v-subheader>
             <v-list-tile
-               v-for="player in players" :key="player.naam"
+               v-for="player in id" :key="player"
             >
            
               <v-list-tile-content>
-                <v-list-tile-title v-text="player.naam" v-bind:id="player.naam">{{player.naam}}</v-list-tile-title>
+                <v-list-tile-title v-text="player" v-bind:id="player">{{player}}</v-list-tile-title>
               </v-list-tile-content>
               
             </v-list-tile>
@@ -41,11 +41,10 @@
 <script>
 export default {
   name: "PlayerList",
-  props: ["players"],
+  props: ["id"]
   //players: [],
 };
 </script>
 
 <style>
-
 </style>

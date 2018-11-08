@@ -1,7 +1,7 @@
 <template>
   
   <div id="app"> 
-    <PlayerList id="playerlist"/>   
+    <PlayerList :id="PlayerList"/>   
     <div id="gameinfo">
   
       <Bom :fase="BombState" id="bom"></Bom>
@@ -9,7 +9,7 @@
       
       <v-alert>{{lobby}}</v-alert>
     </div>
-    <div class="vraag">
+    <div class="vraag" v-if="question != null">
       <Vraag id="vraag" v-bind:question=question />
     </div>
   </div>
@@ -35,6 +35,7 @@ global.socket.on("question", function(msg) {
 });
 global.socket.on("players", function(players) {
   console.log(players);
+  app.$children[0].getPlayerList(players);
 });
 global.socket.on("explosion", function(msg) {
   app.$children[0].BombState = 4;
@@ -52,8 +53,9 @@ export default {
   data() {
     return {
       lobby: "",
-      question: "hey",
-      BombState: 1
+      question: null,
+      BombState: 1,
+      PlayerList: null
     };
   },
   components: {
@@ -74,8 +76,11 @@ export default {
     getQuestion: function(msg) {
       this.question = msg;
     },
-     getBombState: function(state) {
+    getBombState: function(state) {
       this.BombState = state;
+    },
+    getPlayerList: function(pl) {
+      this.PlayerList = pl;
     }
   }
 };
