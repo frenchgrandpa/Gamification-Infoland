@@ -2,7 +2,7 @@
     <div class="container">
         <h1>{{msg}}</h1>
         <p>{{currentRoute}}</p>
-        <v-form v-model="form_info">
+        <v-form @submit.prevent="submit">
             <v-text-field
             v-model="name"
             :counter="10"
@@ -11,32 +11,37 @@
             ></v-text-field>
             <v-select
             v-model="selectedLobby"
-            :items="lobbys"
             :rules="[v => !!v || 'Item is required']"
-            item-value="text"
-            label="Lobby"
+            :options="lobbys"
+            label="text"
             required
             ></v-select>
-            <!-- TODO:      put 'available' lobbys in select tag
-                -->
-
-            <v-btn>submit</v-btn>
+            <input type="hidden" 
+            <v-btn type="submit">submit</v-btn>
             <!--  TODO:     Form submition naar /game/hotpotato?lobby=lobbyname
                                                 POST: username
             -->
+
+            
         </v-form>
-        
     </div>
 </template>
 
 
 <script>
+import vue from 'vue' 
+import vSelect from 'vue-select'
+import axios from 'axios'
+vue.component("v-select", vSelect);
+
 export default {
   name: "HotPotatoLobby",
   data() {
-    return {
+   return {
       msg: "Hot Potato Lobby",
       currentRoute: window.location.pathname,
+      name: "",
+      selectedLobby: [] ,
       lobbys: [
         {
           text: "lobby1",
@@ -49,12 +54,34 @@ export default {
       ],
       form_info: {
         name: "",
-        selectedLobby: {}
-      }
+      selectedLobby: [] ,
+            
+        },
     };
   },
   methods: {
-    submit: function(e) {}
+    submit() {
+      var config = {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        }
+      }
+
+      axios({
+        method: 'post',
+        url: "/game/hotpotato/" + this.selectedLobby.text,
+        data: {
+          name: this.name
+        }, config
+      });  
+
+      /*axios.post("/game/hotpotato?lobby=" + this.selectedLobby.text, {name: this.name})
+          .then(res => {
+             window.location = "localhost:7000/game/hotpotato"
+             print(selectedLobby.name);
+          })
+          .catch(err => {});*/
+    }
   }
 };
 </script>
