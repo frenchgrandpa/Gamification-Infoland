@@ -30,11 +30,8 @@
               </v-list-tile-content>
               
                <v-list-tile-avatar v-if="player===playerWithBomb">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6vA0FamPqZ1oPp8B6GViZ0I3xlLaN8JpxROySg5ozAuPoIrpU">
+                <img src="https://i.imgur.com/7WBNNfa.png">
               </v-list-tile-avatar>
-              <h3>
-            {{playerWithBomb}}
-            </h3>
             </v-list-tile>
           </v-list>
 </v-card>
