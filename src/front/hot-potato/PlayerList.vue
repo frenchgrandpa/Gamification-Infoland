@@ -24,8 +24,7 @@
             <v-list-tile
                v-for="player in players" :key="player.naam"
             >
-            
-
+           
               <v-list-tile-content>
                 <v-list-tile-title v-text="player.naam" v-bind:id="player.naam">{{player.naam}}</v-list-tile-title>
               </v-list-tile-content>
