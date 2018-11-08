@@ -41,6 +41,10 @@ global.socket.on("players", function(players) {
   console.log(players);
   app.$children[0].getPlayerList(players);
 });
+global.socket.on("bombState", function(state) {
+ 
+    app.$children[0].BombState =state;
+});
 global.socket.on("explosion", function(msg) {
   app.$children[0].BombState = 4;
 });
