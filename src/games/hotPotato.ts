@@ -44,13 +44,13 @@ export default class HotPotato extends Game {
     private setDetonationTimeout() {
         clearTimeout(this.detonationTimeout);
         this.detonationTimeout = setTimeout(() => {
-            this.socketClient.emitBombExplosion();
+            this.socketClient.emitBombExplosion();            
+            this.socketClient.emitGameEnd();
             this.finished = true;
         }, this.getDetonationInterval());
         this.detonationTimeout = setTimeout(() => {
             this.socketClient.emitBombState(3);
         }, this.getDetonationInterval() / 2);
-        this.socketClient.emitGameEnd();
     }
 
 
