@@ -1,7 +1,7 @@
 <template>
   
   <div id="app"> 
-    <PlayerList :id="PlayerList"/>   
+    <PlayerList :id="PlayerList" :playerWithBomb="PlayerWithBomb"/>   
     <div id="gameinfo">
   
       <Bom :fase="BombState" id="bom"></Bom>
@@ -10,7 +10,7 @@
       <v-alert>{{lobby}}</v-alert>
     </div>
     <!-- gameIsOver werkt niet goed-->
-    <div v-if="gameIsOver">
+    <div v-if="false">
     <v-alert
         :value="true"
         type="success"
@@ -59,7 +59,8 @@ global.socket.on("bombState", function(state) {
 
 });
 global.socket.on("bomb", function(id) {
- 
+ app.$children[0].getPlayerWithBomb(id);
+ console.log(id+"has the bomb!");
 
 });
 global.socket.on("explosion", function(msg) {
@@ -81,6 +82,8 @@ export default {
       question: null,
       BombState: 1,
       PlayerList: null,
+      PlayerWithBomb:null,
+
       endGame: false
     };
   },
@@ -110,6 +113,10 @@ export default {
     },
     startGame: function() {
       Axios.get("/api/startgame");
+    },
+     getPlayerWithBomb: function(id) 
+     {
+      this.PlayerWithBomb=id;
     },
     gameOver: function(end) {
       this.gameOver = end;

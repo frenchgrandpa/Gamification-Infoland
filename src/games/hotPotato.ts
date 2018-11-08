@@ -24,17 +24,17 @@ export default class HotPotato extends Game {
         socketClient.getClients(clients => {
             this.players = clients as unknown[] as string[];
             this.playerWithBomb = this.players[0];
-
-            this.startTime = Date.now();
-            this.detonationTime = this.startTime + Math.round((Math.random() * 100 + 5) * 1000);
-    
-            this.setDetonationTimeout();
-            this.addSocketEventHandlers();
-            this.socketClient.emitGameStart();        
-            this.socketClient.emitPlayerWithBomb(this.playerWithBomb);
-            this.socketClient.emitBombState(2);
-            this.emitNextQuestion();
         });
+
+        this.startTime = Date.now();
+        this.detonationTime = this.startTime + Math.round((Math.random() * 100 + 5) * 1000);
+
+        this.setDetonationTimeout();
+        this.addSocketEventHandlers();
+        this.socketClient.emitGameStart();        
+        this.socketClient.emitPlayerWithBomb(this.playerWithBomb);
+        this.socketClient.emitBombState(2);
+        this.emitNextQuestion();
     }
 
     private getDetonationInterval() {
