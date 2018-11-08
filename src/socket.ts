@@ -41,6 +41,7 @@ export default class Socket {
         console.log('a user disconnected');
         this.emitPlayerCount();
         this.emitPlayerLeave(socket);
+        this.emitPlayers();
     }
 
     public emitPlayerCount() {
