@@ -9,7 +9,16 @@
       
       <v-alert>{{lobby}}</v-alert>
     </div>
-    <div class="vraag" v-if="question != null">
+    <!-- gameIsOver werkt niet goed-->
+    <div v-if="gameIsOver">
+    <v-alert
+        :value="true"
+        type="success"
+        >
+        Game-over!
+        </v-alert>
+    </div>    
+    <div class="vraag" v-else-if="question != null">
       <Vraag id="vraag" v-bind:question=question />
     </div>
     <div v-else>
@@ -37,6 +46,9 @@ global.socket.on("question", function(msg) {
   console.log(msg);
   app.$children[0].getQuestion(msg);
 });
+global.socket.on("gameEnd", function(end) {
+  app.$children[0].gameOver(end);
+});
 global.socket.on("players", function(players) {
   console.log(players);
   app.$children[0].getPlayerList(players);
@@ -59,7 +71,8 @@ export default {
       lobby: "",
       question: null,
       BombState: 1,
-      PlayerList: null
+      PlayerList: null,
+      endGame: false
     };
   },
   components: {
@@ -88,6 +101,17 @@ export default {
     },
     startGame: function() {
       Axios.get("/api/startgame");
+    },
+    gameOver: function(end) {
+      this.gameOver = end;
+      console.log(this.gameOver);
+    }
+  },
+  computed: {
+    gameIsOver: function() {
+      // Weet niet of dit werkt.
+      console.log(this.gameOver + "; comp");
+      return this.gameOver;
     }
   }
 };
