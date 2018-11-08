@@ -42,7 +42,7 @@
 export default {
   name: "PlayerList",
   props: ["players"],
-  players: [],
+  //players: [],
 };
 </script>
 
