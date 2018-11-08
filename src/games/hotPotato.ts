@@ -26,7 +26,7 @@ export default class HotPotato extends Game {
             this.playerWithBomb = this.players[0];
 
             this.startTime = Date.now();
-            this.detonationTime = this.startTime + Math.round((Math.random() * 100 + 5) * 1000);
+            this.detonationTime = this.startTime + Math.round((Math.random() * 100 + 60) * 1000);
     
             this.setDetonationTimeout();
             this.addSocketEventHandlers();
