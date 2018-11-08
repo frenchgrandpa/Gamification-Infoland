@@ -2,22 +2,22 @@
   <v-container class="elevation-24">
     <v-layout row wrap justify-space-between >
       <v-flex xs12 align-content-center>
-        <v-img :src="image" :aspect-ratio="16/9" max-width="600px" style="margin-left: auto; margin-right: auto;">
+        <v-img :src="question.media" :aspect-ratio="16/9" max-width="600px" style="margin-left: auto; margin-right: auto;">
             <v-layout pa-2 column fill-height class="lightbox white--text">
             <v-spacer></v-spacer>
             <v-flex shrink>
                 <div id="subheadinggame">
                     <p>
-                        {{vraag}}
+                        {{question.text}}
                     </p>
                 </div>
             </v-flex>
         </v-layout>
         </v-img>
       </v-flex>
-      <v-flex v-for="antwoord in antwoorden" :key="antwoord.id" xs12 sm6 py-1 px-2>
+      <v-flex v-for="antwoord in question.answers" :key="antwoord.id" xs12 sm6 py-1 px-2>
         
-        <v-btn block>
+        <v-btn block v-on:click = "answer(antwoord.id)" v-bind:id="antwoord.id">
           {{antwoord.text}}
         </v-btn>
         
@@ -34,6 +34,7 @@ import Axios from "axios";
 import AnswerButton from "./AnswerButton";
 export default {
   name: "Vraag",
+  props: ["question"],
   data() {
     return {
       vraag: "Is dit een vraag?",
@@ -71,7 +72,12 @@ export default {
           this.antwoorden = response.data.answers || [];
         })
         .catch(err => {});
-    }
+    },
+    answer(id)
+    {
+      console.log("hello")
+      global.socket.emit('answer',id);
+    },
   }
 };
 </script>

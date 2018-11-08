@@ -6,7 +6,7 @@ export enum mediatype
     foto = 0,
     video = 1
 }
-class answer
+export class answer
 {
     id: string;
     text: string;
@@ -22,7 +22,7 @@ class answer
     }
 
 }
-class question
+export class question
 {
     id:string;
     media: string;
@@ -47,7 +47,7 @@ class question
         this.mediatype = type;
     }
 }
-class quizObject
+export class quizObject
 {
     id: string;
     questions: Array<question> = [];
@@ -105,20 +105,20 @@ export class InfolandAPI
             var j:number;
             for(i = 0; i<Object.keys(questiondata).length;i++){
                 var answerdata = questiondata[i].answers;
-                var quest = new question(questiondata[i].id,questiondata[i].questionBase,questiondata[i].type);
+                var quest = new question(questiondata[i].id,questiondata[i].questionBase,questiondata[i].questionType);
 
-                if (typeof(questiondata[i].media) !== undefined || typeof(questiondata[i].media.id)!== undefined|| typeof(questiondata[i].media.type) !== undefined)
+                if (questiondata[i].media)
                 {   
-                    if(questiondata.media.type == mediatype.foto)
+                    if(questiondata[i].media.type == mediatype.foto)
                     {   
-                        let mediaurl = this.url+"api/media/"+questiondata[i].media.id+"/preview";
+                        let mediaurl = this.url+"/api/media/"+questiondata[i].media.id+"/preview";
                         quest.setMedia(mediaurl,0);
                        
                     }
-                    else if(questiondata.media.type == mediatype.video)
+                    else if(questiondata[i].media.type == mediatype.video)
                     {
-                        let mediaurl = this.url+"api/media/"+questiondata[i].media.id;
-                        quest.setMedia(mediaurl,0);
+                        let mediaurl = this.url+"/api/media/"+questiondata[i].media.id;
+                        quest.setMedia(mediaurl,1);
                     }  
                     
                 }
@@ -134,7 +134,7 @@ export class InfolandAPI
                         //console.log(i+" , "+ j);
                         var ans = new answer(answerdata[j].id,answerdata[j].text)
                         quest.add(ans);
-                        console.log(quest);
+                        //console.log(quest);
                     }
                 }
                 else if(questiondata[i].questionType == 6)
@@ -152,9 +152,9 @@ export class InfolandAPI
         });
     }
     
-    public checkanswer(quizID : string,question:question,answerArray:Array<answer>)
+    public checkanswer(quizID : string,question:question,answerArray:answer[], cb: (isCorrect: boolean) => void)
     {
-        let answerString:String|String[];
+        let answerString: String|String[] = [];
         let type = question.type;
         let multiplechoice = 1;
         let numberanswer = 6
@@ -162,11 +162,12 @@ export class InfolandAPI
         {
             case multiplechoice:
             {
-                answerString = Array<String>()
+                
                 for (let answer of answerArray)
                 {
-                    answerString.concat(answer.id)
+                    answerString = answerString.concat(answer.id)
                 }
+                break;
             }
             case numberanswer:
             {
@@ -174,29 +175,36 @@ export class InfolandAPI
                 {
                     answerString = answer.text
                 }
+                break;
             }
             default:
             {
                 answerString = "";
             }
         }
+
         
         var instance = axios.create({
             method: 'post',
             headers:{
                 Authorization: 'Bearer '+this.token,
             }
-        })
+        });
+        console.log(JSON.stringify([this.url+'/api/learnmaterial/'+quizID+'/update/'+question.id,{
+            confirmed: false,
+            answer:answerString,
+            time:69,
+        }]));
         instance.post(this.url+'/api/learnmaterial/'+quizID+'/update/'+question.id,{
             confirmed: false,
             answer:answerString,
             time:69,
         })
         .then((response: any)=>{
-            //console.log(response);
+            console.log(response.status);
         })
         .catch((error:string)=>{
-            console.log(error);
+           // console.log(error);
         })
     } 
 

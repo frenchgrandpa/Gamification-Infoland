@@ -4,13 +4,13 @@
     <PlayerList id="playerlist"/>   
     <div id="gameinfo">
   
-      <Bom id="bom"/>
+      <Bom :fase="BombState" id="bom"></Bom>
   
       
       <v-alert>{{lobby}}</v-alert>
     </div>
     <div class="vraag">
-      <Vraag id="vraag"/>
+      <Vraag id="vraag" v-bind:question=question />
     </div>
   </div>
 </template>
@@ -21,20 +21,63 @@ import Bom from "./Bom";
 import PlayerList from "./PlayerList";
 import MenuButton from "./MenuButton";
 import Vuetify from "vuetify";
-
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3000/");
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
 
-socket.on("channel_name", function(msg) {
-  console.log("message: " + msg);
+global.socket = io("http://localhost:3000");
+
+let naam = getParameterByName('naam');
+if(naam != null){
+  global.socket.emit("setusername",naam);
+} 
+global.socket.on("playerCount", function(msg) {
+  console.log(msg);
 });
+global.socket.on("question", function(msg) {
+  console.log(msg);
+  app.$children[0].getQuestion(msg);
+});
+global.socket.on("players", function(msg) {
+  let playernames = [];
+  for (var property in msg) {
+    if (msg.hasOwnProperty(property)) {
+      playernames = playernames.concat({naam:msg[property]});
+    }
+  }
+  app.$children[0].getPlayers(playernames);
+});
+global.socket.on("explosion", function(msg) {
+  if (msg === "true") {
+
+    alert("boooooooom");
+  }
+  app.$children[0].BombState=4
+});
+global.socket.on("correct", function(msg){
+  if (msg === "true"){
+    alert("Antwoord is goed");
+  }
+  else{
+    alert("Antwoord was fout");
+  }
+})
 
 export default {
   name: "HotPotato",
   data() {
     return {
-      lobby: ""
+      lobby: "",
+      question: "hey",
+      BombState:1
     };
   },
   components: {
@@ -42,6 +85,26 @@ export default {
     Bom,
     PlayerList,
     MenuButton
+  },
+  methods: {
+    greet: function(event) {
+      // `this` inside methods points to the Vue instance
+      alert("Hello " + this.question + "!");
+      // `event` is the native DOM event
+      if (event) {
+        alert(event.target.tagName);
+      }
+    },
+    getQuestion: function(msg) {
+      this.question = msg;
+    },
+    getBombState: function(state) {
+      this.BombState = state;
+    },
+    getPlayers: function(msg) {
+      console.log(msg);
+      this.players = msg;
+    }
   }
 };
 </script>
@@ -57,7 +120,7 @@ export default {
   margin-bottom: 0px;
   padding: 0px;
   height: 100%;
-  background: #429feb ;
+  background: #429feb;
 }
 
 #gameinfo {
@@ -68,13 +131,13 @@ export default {
   margin: auto;
   order: 2;
   position: relative;
-  border: 2px solid;
+ 
   height: 10em;
   width: 10em;
 }
 
 #playerlist {
- margin: auto;
+  margin: auto;
 }
 
 .vraag {

@@ -6,8 +6,8 @@
         "noImplicitAny": true,
         "forceConsistentCasingInFileNames": true,
         "noImplicitReturns": true,
-        "rootDir": "src/back",
-        "outDir": "build/back"
+        "rootDir": "src",
+        "outDir": "build"
     },
     "include": [
         "src/**/*.ts"
