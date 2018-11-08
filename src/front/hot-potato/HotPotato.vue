@@ -12,6 +12,9 @@
     <div class="vraag" v-if="question != null">
       <Vraag id="vraag" v-bind:question=question />
     </div>
+    <div v-else>
+        <v-btn v-on:click="startGame">Play!</v-btn>
+    </div>
   </div>
 </template>
 
@@ -23,6 +26,7 @@ import MenuButton from "./MenuButton";
 import Vuetify from "vuetify";
 
 import io from "socket.io-client";
+import Axios from "axios";
 
 global.socket = io("http://localhost:3000");
 
@@ -81,6 +85,9 @@ export default {
     },
     getPlayerList: function(pl) {
       this.PlayerList = pl;
+    },
+    startGame: function() {
+      Axios.get("/api/startgame");
     }
   }
 };
