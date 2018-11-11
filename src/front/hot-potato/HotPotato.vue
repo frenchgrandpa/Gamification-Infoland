@@ -10,16 +10,8 @@
       <v-alert>{{lobby}}</v-alert>
     </div>
     <!-- gameIsOver werkt niet goed-->
-<<<<<<< HEAD
     <div v-if="gameOver">
     <v-alert v-model="alert" :value="false" type="warning" dismissible>
-=======
-    <div v-if="false">
-    <v-alert
-        :value="true"
-        type="success"
-        >
->>>>>>> 6cc68cfb289ab08bf3cfb2200ce4d7e39195af59
         Game-over!
         </v-alert>
     </div>
@@ -48,7 +40,7 @@ import Vuetify from "vuetify";
 import io from "socket.io-client";
 import Axios from "axios";
 
-global.socket = io("http://localhost:3000");
+global.socket = io(window.location.protocol + "//" + window.location.host);//io("http://localhost:3000");
 
 global.socket.on("playerCount", function(msg) {
   console.log(msg);
@@ -101,16 +93,13 @@ export default {
       question: null,
       BombState: 1,
       PlayerList: null,
-<<<<<<< HEAD
       gameOver: false,
       alert: false,
       answercorrect: false,
       answerwrong:false,
-=======
       PlayerWithBomb:null,
 
       endGame: false
->>>>>>> 6cc68cfb289ab08bf3cfb2200ce4d7e39195af59
     };
   },
   components: {
@@ -140,8 +129,6 @@ export default {
     startGame: function() {
       Axios.get("/api/startgame");
     },
-<<<<<<< HEAD
-=======
      getPlayerWithBomb: function(id) 
      {
       this.PlayerWithBomb=id;
@@ -150,7 +137,6 @@ export default {
       this.gameOver = end;
       console.log(this.gameOver);
     }
->>>>>>> 6cc68cfb289ab08bf3cfb2200ce4d7e39195af59
   },
   computed: {
     gameIsOver: function() {

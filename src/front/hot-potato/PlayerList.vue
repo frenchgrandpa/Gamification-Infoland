@@ -26,7 +26,10 @@
             >
           
               <v-list-tile-content>
-                <v-list-tile-title v-text="player" v-bind:id="player">{{player}}</v-list-tile-title>
+                <v-list-tile-title v-text="player" v-bind:id="player">
+                  
+                  {{player}}
+                  </v-list-tile-title>
               </v-list-tile-content>
               
                <v-list-tile-avatar v-if="player===playerWithBomb">
