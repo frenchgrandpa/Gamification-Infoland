@@ -39,6 +39,7 @@ route[pathNames.game.hotpotato] = HotPotato;
 
 global.app = new Vue({
     el: "#app",
+    store,
     data: {
         currentRoute: window.location.pathname,
         

@@ -54,25 +54,9 @@ const store = new Vuex.Store({
       state.count++
     }
   }
-})
-
-<<<<<<< HEAD
-const store = new Vuex.Store({
-  state: {
-    count: 0
-  },
-  mutations: {
-    increment (state) {
-      state.count++
-    }
-  }
-})
+});
 
 global.socket = io(window.location.protocol + "//" + window.location.host);//io("http://localhost:3000");
-=======
-console.log(window.location.origin + window.location.pathname + "/1")
-global.socket = io(window.location.origin + window.location.pathname + "/1");//io("http://localhost:3000");
->>>>>>> 7f369466a5933b7efe27284cb7b91eacbe84ff2e
 
 global.socket.on("playerCount", function(msg) {
   console.log(msg);
@@ -85,9 +69,6 @@ global.socket.on("gameEnd", function(end) {
   if(end)
   {
     app.$children[0].resetAlert();
-    app.$children[0].alert = true;
-    app.$children[0].gameOver = true;
-    app.$children[0].BombState = 4;
   }
 });
 global.socket.on("players", function(players) {
