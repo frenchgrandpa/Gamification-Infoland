@@ -6,11 +6,13 @@ import * as session from 'express-session';
 import * as passport from 'passport';
 import * as http from 'http';
 
+import * as socketio from 'socket.io';
 import API from './api/api';
-import Socket from './socket';
+import Socket from './sockets/socket';
 import { InfolandAPI } from './api/infoland/infolandApi';
 import HotPotato from './games/hotPotato';
 import GameManager from './games/gameManager';
+import HotPotatoSocket from './sockets/hotPotatoSocket';
 
 //process.env.NODE_ENV = "production";
 
@@ -42,20 +44,16 @@ app.use('/api', new API().router);
 let server = http.createServer(app);
 global.infolandAPI = new InfolandAPI('https://pubquiz.iqualify.nl');
 global.infolandAPI.tokenRetrieval('berk', 'test', (err, token) => {
-    // if (err) return cb(err, null);
-    // if (!token) return cb(false, null);
-    // cb(null, token);
 });
 
 
 global.gameManager = new GameManager();
-global.socket = new Socket(server);//this is only temporarily global,
-//we'd really want to have a socket class assigned to each game seperately ,
-//so that they can each have more specific event/emit handling
-//And we'd have to move the socket class itself to an abstract level so that every game has its own socket class to handle its traffic
+global.masterSocket = socketio(server);
+global.websockets = {
+    "game/hotpotato/1": new HotPotatoSocket(1)
+};
 
 server.listen(3000);
-
 
 app.get('*', (req, res) => {
     res.render('index');

@@ -40,7 +40,8 @@ import Vuetify from "vuetify";
 import io from "socket.io-client";
 import Axios from "axios";
 
-global.socket = io(window.location.protocol + "//" + window.location.host);//io("http://localhost:3000");
+console.log(window.location.origin + window.location.pathname + "/1")
+global.socket = io(window.location.origin + window.location.pathname + "/1");//io("http://localhost:3000");
 
 global.socket.on("playerCount", function(msg) {
   console.log(msg);

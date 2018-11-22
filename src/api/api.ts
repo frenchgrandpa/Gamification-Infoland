@@ -6,6 +6,7 @@ import apiError from './apiError';
 import APIBase from './apiBase';
 import { InfolandAPI } from './infoland/infolandApi';
 import HotPotato from '../games/hotPotato';
+import HotPotatoSocket from '../sockets/hotPotatoSocket';
 
 export default class API extends APIBase {
 
@@ -45,7 +46,7 @@ export default class API extends APIBase {
     }
 
     private getStartgame(req: Request, res: Response) {
-        global.gameManager.runningGames.push(new HotPotato(global.socket));
+        global.gameManager.runningGames.push(new HotPotato(global.websockets["game/hotpotato/1"] as HotPotatoSocket));
         res.send();
     }
 
