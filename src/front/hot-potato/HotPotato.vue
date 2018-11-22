@@ -40,6 +40,17 @@ import Vuetify from "vuetify";
 import io from "socket.io-client";
 import Axios from "axios";
 
+const store = new Vuex.Store({
+  state: {
+    count: 0
+  },
+  mutations: {
+    increment (state) {
+      state.count++
+    }
+  }
+})
+
 global.socket = io(window.location.protocol + "//" + window.location.host);//io("http://localhost:3000");
 
 global.socket.on("playerCount", function(msg) {
@@ -130,7 +141,7 @@ export default {
     startGame: function() {
       Axios.get("/api/startgame");
     },
-     getPlayerWithBomb: function(id) 
+    getPlayerWithBomb: function(id) 
      {
       this.PlayerWithBomb=id;
     },
