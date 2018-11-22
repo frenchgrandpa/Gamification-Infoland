@@ -42,6 +42,23 @@ import Axios from "axios";
 
 const store = new Vuex.Store({
   state: {
+    BombState: 1,
+    PlayerList: null,
+    gameOver: false,
+    alert: false,
+    answercorrect: false,
+    answerwrong:false,
+  },
+  mutations: {
+    increment (state) {
+      state.count++
+    }
+  }
+})
+
+<<<<<<< HEAD
+const store = new Vuex.Store({
+  state: {
     count: 0
   },
   mutations: {
@@ -52,6 +69,10 @@ const store = new Vuex.Store({
 })
 
 global.socket = io(window.location.protocol + "//" + window.location.host);//io("http://localhost:3000");
+=======
+console.log(window.location.origin + window.location.pathname + "/1")
+global.socket = io(window.location.origin + window.location.pathname + "/1");//io("http://localhost:3000");
+>>>>>>> 7f369466a5933b7efe27284cb7b91eacbe84ff2e
 
 global.socket.on("playerCount", function(msg) {
   console.log(msg);

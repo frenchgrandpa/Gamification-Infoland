@@ -1,7 +1,7 @@
 import User from "./user";
-import _Socket from "./socket"
 import GameManager from "./games/gameManager";
 import { InfolandAPI } from "./api/infoland/infolandApi";
+import _Socket from "./sockets/socket";
 
 declare global {
     namespace Express {
@@ -12,8 +12,9 @@ declare global {
     declare module NodeJS {
         interface Global {
             gameManager: GameManager;
-            socket: _Socket;
             infolandAPI: InfolandAPI;
+            masterSocket: SocketIO.Server;
+            websockets: { [path: string]: _Socket };
         }
     }
 }
