@@ -5,7 +5,7 @@ import 'vuetify/dist/vuetify.min.css'
 import './resources/main.css'
 import Vue from 'vue';
 import Vuetify from 'vuetify';
-import Vuex from 'vuex'
+//import Vuex from 'vuex'
 import App from './App';
 import HotPotato from './hot-potato/HotPotato';
 import NotFound from './NotFound';
@@ -14,7 +14,7 @@ import HotPotatoLobby from './hot-potato/HotPotatoLobby';
 Vue.config.productionTip = false;
 
 Vue.use(Vuetify);
-Vue.use(Vuex)
+//Vue.use(Vuex)
 /* eslint-disable no-new */
 
 const pathNames = {
@@ -39,7 +39,6 @@ route[pathNames.game.hotpotato] = HotPotato;
 
 global.app = new Vue({
     el: "#app",
-    store,
     data: {
         currentRoute: window.location.pathname,
         

@@ -36,25 +36,26 @@ import Bom from "./Bom";
 import PlayerList from "./PlayerList";
 import MenuButton from "./MenuButton";
 import Vuetify from "vuetify";
+import Vuex from "vuex";
 
 import io from "socket.io-client";
 import Axios from "axios";
 
-const store = new Vuex.Store({
-  state: {
-    BombState: 1,
-    PlayerList: null,
-    gameOver: false,
-    alert: false,
-    answercorrect: false,
-    answerwrong:false,
-  },
-  mutations: {
-    increment (state) {
-      state.count++
-    }
-  }
-});
+// const store = new Vuex.Store({
+//   state: {
+//     BombState: 1,
+//     PlayerList: null,
+//     gameOver: false,
+//     alert: false,
+//     answercorrect: false,
+//     answerwrong:false,
+//   },
+//   mutations: {
+//     increment (state) {
+//       return;
+//     }
+//   }
+// });
 
 global.socket = io(window.location.protocol + "//" + window.location.host);//io("http://localhost:3000");
 
