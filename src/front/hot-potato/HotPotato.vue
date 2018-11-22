@@ -40,7 +40,8 @@ import Vuetify from "vuetify";
 import io from "socket.io-client";
 import Axios from "axios";
 
-global.socket = io(window.location.protocol + "//" + window.location.host);//io("http://localhost:3000");
+console.log(window.location.origin + window.location.pathname + "/1")
+global.socket = io(window.location.origin + window.location.pathname + "/1");//io("http://localhost:3000");
 
 global.socket.on("playerCount", function(msg) {
   console.log(msg);
@@ -52,11 +53,10 @@ global.socket.on("question", function(msg) {
 global.socket.on("gameEnd", function(end) {
   if(end)
   {
+    app.$children[0].resetAlert();
     app.$children[0].alert = true;
     app.$children[0].gameOver = true;
     app.$children[0].BombState = 4;
-    app.$children[0].answercorrect = false;
-    app.$children[0].answerwrong = false;
   }
 });
 global.socket.on("players", function(players) {
@@ -79,8 +79,10 @@ global.socket.on("explosion", function(msg) {
 });
 global.socket.on("answerResult", function(msg) {
   if (msg) {
+    app.$children[0].resetAlert();
     app.$children[0].answercorrect = true;
   } else {
+    app.$children[0].resetAlert();
     app.$children[0].answerwrong = true;
   }
 });
@@ -136,7 +138,12 @@ export default {
     gameOver: function(end) {
       this.gameOver = end;
       console.log(this.gameOver);
-    }
+    },
+    resetAlert: function(){
+      this.alert = false;
+      this.answercorrect = false;
+      this.answerwrong = false;
+    },
   },
   computed: {
     gameIsOver: function() {

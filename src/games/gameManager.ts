@@ -1,7 +1,7 @@
-import Game from "./game";
+import Game, { IGame } from "./game";
 
 export default class GameManager {
 
-    public runningGames: Game[] = [];
+    public runningGames: IGame[] = [];
 
 }
