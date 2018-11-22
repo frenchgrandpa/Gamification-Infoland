@@ -5,13 +5,16 @@ import { question } from '../api/infoland/infolandApi';
 export default abstract class Socket {
 
     protected io: socketio.Namespace;
+    
+    public players: string[];
+    public playerNames: { [socketid: string]: string } = {};
 
     constructor(namespace: string) {
         this.io = global.masterSocket.of(namespace);
         this.io.on('connection', (socket) => {
             this.onConnection(socket);
-            socket.join("lol");
             socket.on("disconnect", (reason) => {
+                delete this.playerNames[socket.id];
                 this.onDisconnect(socket);
             });
             socket.on("msg", function (msg) {
@@ -20,6 +23,11 @@ export default abstract class Socket {
             socket.on('answer', (msg: any) => {
                 if (this.onAnswerDelegate)
                     this.onAnswerDelegate(socket, msg);
+            });
+            socket.on('name', (msg: any) => {
+                this.playerNames[socket.id] = msg;
+                console.log(this.playerNames);
+                this.emitPlayers();
             });
         });
     }
@@ -48,8 +56,8 @@ export default abstract class Socket {
     }
 
     public emitPlayers() {
-        this.io.clients((err: any, clients: socketio.Client[]) => {
-            this.io.emit('players', clients);
+        this.io.clients((err: any, clients: string[]) => {
+            this.io.emit('players', this.playerNames);
         });
     }
 

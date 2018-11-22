@@ -18,8 +18,8 @@ export default class HotPotato extends Game<HotPotatoSocket> {
         super(socketClient);
 
         socketClient.getClients(clients => {
-            this.players = clients as unknown[] as string[];
-            this.playerWithBomb = this.players[0];
+            this.socketClient.players = clients as unknown[] as string[];
+            this.playerWithBomb = this.socketClient.players[0];
 
             this.startTime = Date.now();
             this.detonationTime = this.startTime + Math.round((Math.random() * 100 + 60) * 1000);
@@ -86,12 +86,12 @@ export default class HotPotato extends Game<HotPotatoSocket> {
         if (this.finished)
             return;
             
-        if (this.bombIndex < this.players.length - 1)
+        if (this.bombIndex < this.socketClient.players.length - 1)
             this.bombIndex++;
         else
             this.bombIndex = 0;
 
-        this.playerWithBomb = this.players[this.bombIndex];
+        this.playerWithBomb = this.socketClient.players[this.bombIndex];
         console.log(this.playerWithBomb + " has the bomb");
         this.socketClient.emitPlayerWithBomb(this.playerWithBomb);
     }

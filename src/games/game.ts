@@ -13,8 +13,6 @@ export default abstract class Game<SocketType extends Socket> implements IGame {
     protected finished = false;
     
     protected socketClient: SocketType;
-    protected players: string[];
-
     protected constructor(socketClient: SocketType) {
         this.socketClient = socketClient;
     }
