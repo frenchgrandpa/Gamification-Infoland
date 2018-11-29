@@ -22,13 +22,12 @@
                    Name
                  </v-subheader>
             <v-list-tile
-               v-for="playerid in Object.keys(id || {})" :key="playerid"
-            >
+               v-for="playerid in id" :key="playerid">
           
               <v-list-tile-content>
                 <v-list-tile-title v-text="playerid" v-bind:id="playerid">
                   
-                  {{id[playerid]}}
+                  {{playerid}}
                   </v-list-tile-title>
               </v-list-tile-content>
               
