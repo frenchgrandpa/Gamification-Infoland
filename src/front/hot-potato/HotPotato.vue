@@ -58,7 +58,8 @@ import { setTimeout } from 'timers';
 //   }
 // });
 
-global.socket = io(window.location.protocol + "//" + window.location.host);//io("http://localhost:3000");
+global.socket = io(window.location.origin + window.location.pathname + "/1");//io("http://localhost:3000");
+console.log(window.location.origin + window.location.pathname);
 
 
   global.socket.emit('name', window.location.search.split("?name=")[1]);

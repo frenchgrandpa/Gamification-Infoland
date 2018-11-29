@@ -22,7 +22,7 @@
                    Name
                  </v-subheader>
             <v-list-tile
-               v-for="playerid in Object.keys(id)" :key="playerid"
+               v-for="playerid in Object.keys(id || {})" :key="playerid"
             >
           
               <v-list-tile-content>
