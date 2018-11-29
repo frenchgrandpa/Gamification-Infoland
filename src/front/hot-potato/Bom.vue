@@ -2,7 +2,10 @@
 <div class="bom">
   <h1>{{computedTime}}</h1>
   <v-img :src=drawImage(fase) id="bomimg" class="shakingimage" v-bind:class="shaketype"/>
- 
+ <audio autoplay hidden>
+  
+  <source src="../assets/Sound/backgroundmusic.mp3" type="audio/mpeg">
+</audio>
 </div>
 </template>
 
@@ -120,7 +123,7 @@ export default {
  
 }
 
-@keyframes shake {
+@keyframes shake {  
     0% { transform: translate(1px, 1px) rotate(0deg); }
     10% { transform: translate(-1px, -2px) rotate(-1deg); }
     20% { transform: translate(-3px, 0px) rotate(1deg); }
