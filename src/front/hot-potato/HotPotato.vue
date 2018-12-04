@@ -79,9 +79,12 @@ global.socket.on("gameEnd", function(end) {
     app.$children[0].gameOver = true;
   }
 });
+let pList = [];
 global.socket.on("players", function(players) {
   console.log(players);
+  pList = players;
   app.$children[0].getPlayerList(players);
+
 });
 global.socket.on("bombState", function(state) {
  
@@ -89,7 +92,7 @@ global.socket.on("bombState", function(state) {
 
 });
 global.socket.on("bomb", function(id) {
- app.$children[0].getPlayerWithBomb(id);
+ app.$children[0].getPlayerWithBomb(pList[id]);
  console.log(id+"has the bomb!");
 
 });
@@ -155,6 +158,7 @@ export default {
     getPlayerWithBomb: function(id) 
      {
       this.PlayerWithBomb=id;
+      
     },
     gameOver: function(end) {
       this.gameOver = end;
