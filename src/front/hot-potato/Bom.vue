@@ -4,7 +4,7 @@
   <v-img :src=drawImage(fase) id="bomimg" class="shakingimage" v-bind:class="shaketype"/>
  <audio autoplay hidden>
   
-  <source src="../assets/Sound/backgroundmusic.mp3" type="audio/mpeg">
+  <v-source src="../assets/Sound/backgroundmusic.mp3" type="audio/mpeg"/>
 </audio>
 </div>
 </template>
@@ -51,10 +51,12 @@ export default {
        {
          if (number==1)
          {
+          
          return "https://i.imgur.com/1r7Kpdf.png";
          }
           else if (number==2)
          {
+     
          return "https://i.imgur.com/ckot7p0.png";
          }
            else if (number==3)
@@ -63,6 +65,8 @@ export default {
          }
           else if (number==4)
          {
+           var audio = new Audio('https://archive.org/download/explosion_239/DIEXPLOS.mp3')
+           audio.play();
          return "https://i.imgur.com/JSvptGR.png"
          }
        },
@@ -89,7 +93,15 @@ export default {
          
       
          
-       }
+       },
+         PlaySound: function(number)
+         {
+             if (number==4)
+            {
+             var audio = new Audio("../assets/Sound/backgroundmusic.mp3")
+             audio.play();
+            }
+         }
     }
 };
 </script>
