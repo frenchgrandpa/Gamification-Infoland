@@ -49,14 +49,42 @@ import PlayerList from "./PlayerList";
 import HelpModal from "./HelpModal";
 import MenuButton from "./MenuButton";
 import Vuetify from "vuetify";
+import Vuex from "vuex";
 
 import io from "socket.io-client";
 import Axios from "axios";
+import { setTimeout } from 'timers';
 
+// const store = new Vuex.Store({
+//   state: {
+//     BombState: 1,
+//     PlayerList: null,
+//     gameOver: false,
+//     alert: false,
+//     answercorrect: false,
+//     answerwrong:false,
+//   },
+//   mutations: {
+//     increment (state) {
+//       return;
+//     }
+//   }
+// });
+
+global.socket = io(window.location.origin + window.location.pathname + "/1");//io("http://localhost:3000");
+console.log(window.location.origin + window.location.pathname);
+
+
+  global.socket.emit('name', window.location.search.split("?name=")[1]);
+
+<<<<<<< HEAD
 
 global.socket = io(window.location.protocol + "//" + window.location.host);//io("http://localhost:3000");
 
 global.socket.on("playerCount", function(msg) {
+=======
+global.socket.on("question", function(msg) {
+>>>>>>> a2cf6094992b57b42415bad05632585c9f74fa95
   console.log(msg);
 });
 global.socket.on("question", function(msg) {
@@ -66,16 +94,17 @@ global.socket.on("question", function(msg) {
 global.socket.on("gameEnd", function(end) {
   if(end)
   {
+    app.$children[0].resetAlert();
     app.$children[0].alert = true;
     app.$children[0].gameOver = true;
-    app.$children[0].BombState = 4;
-    app.$children[0].answercorrect = false;
-    app.$children[0].answerwrong = false;
   }
 });
+let pList = [];
 global.socket.on("players", function(players) {
   console.log(players);
+  pList = players;
   app.$children[0].getPlayerList(players);
+
 });
 global.socket.on("bombState", function(state) {
  
@@ -83,18 +112,21 @@ global.socket.on("bombState", function(state) {
 
 });
 global.socket.on("bomb", function(id) {
- app.$children[0].getPlayerWithBomb(id);
+ app.$children[0].getPlayerWithBomb(pList[id]);
  console.log(id+"has the bomb!");
 
 });
 global.socket.on("explosion", function(msg) {
   app.$children[0].BombState = 4;
+  app.$children[0].gameOver(true);
   
 });
 global.socket.on("answerResult", function(msg) {
   if (msg) {
+    app.$children[0].resetAlert();
     app.$children[0].answercorrect = true;
   } else {
+    app.$children[0].resetAlert();
     app.$children[0].answerwrong = true;
   }
 });
@@ -148,14 +180,20 @@ export default {
     startGame: function() {
       Axios.get("/api/startgame");
     },
-     getPlayerWithBomb: function(id) 
+    getPlayerWithBomb: function(id) 
      {
       this.PlayerWithBomb=id;
+      
     },
     gameOver: function(end) {
       this.gameOver = end;
       console.log(this.gameOver);
-    }
+    },
+    resetAlert: function(){
+      this.alert = false;
+      this.answercorrect = false;
+      this.answerwrong = false;
+    },
   },
   computed: {
     gameIsOver: function() {

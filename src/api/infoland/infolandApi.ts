@@ -30,6 +30,7 @@ export class question
     answers: Array<answer> = [];
     text: string;
     type: Number;
+    correctanswers: Number;
 
     constructor(id: string,text:string,type:Number)
     {
@@ -45,6 +46,11 @@ export class question
     {
         this.media = media;
         this.mediatype = type;
+    }
+
+    public setNumAns(number: Number)
+    {
+        this.correctanswers = number;
     }
 }
 export class quizObject
@@ -126,6 +132,11 @@ export class InfolandAPI
 
                 if(questiondata[i].questionType == 1)
                 {
+                    let correctanswers = questiondata[i].correctAnswers;
+                    if(correctanswers>1)
+                    {
+                        quest.setNumAns(correctanswers);
+                    }
                     quest.type = 1;
                     for(let j = 0; j < answerdata.length; j++)
                     {

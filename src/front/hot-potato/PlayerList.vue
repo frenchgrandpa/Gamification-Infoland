@@ -22,17 +22,16 @@
                    Name
                  </v-subheader>
             <v-list-tile
-               v-for="player in id" :key="player"
-            >
+               v-for="playerid in id" :key="playerid">
           
               <v-list-tile-content>
-                <v-list-tile-title v-text="player" v-bind:id="player">
+                <v-list-tile-title v-text="playerid" v-bind:id="playerid">
                   
-                  {{player}}
+                  {{playerid}}
                   </v-list-tile-title>
               </v-list-tile-content>
               
-               <v-list-tile-avatar v-if="player===playerWithBomb">
+               <v-list-tile-avatar v-if="playerid==playerWithBomb">
                 <img src="https://i.imgur.com/7WBNNfa.png">
               </v-list-tile-avatar>
             </v-list-tile>

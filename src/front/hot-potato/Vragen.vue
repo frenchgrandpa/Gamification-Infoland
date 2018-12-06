@@ -58,6 +58,8 @@ export default {
       ],
       image:
         "https://uploads.codesandbox.io/uploads/user/ae416c95-edc9-4929-bfa4-84a2c042e083/zKY6-thumbnail.png"
+      ,
+      correctanswers: 1,
     };
   },
   components: {
@@ -70,6 +72,7 @@ export default {
           this.vraag = response.data.text || "";
           this.image = response.data.media || "";
           this.antwoorden = response.data.answers || [];
+          this.correctanswers = response.data.correctanswers || "";
         })
         .catch(err => {});
     },
