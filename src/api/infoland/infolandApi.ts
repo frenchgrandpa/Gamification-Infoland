@@ -10,9 +10,11 @@ export class answer
 {
     id: string;
     text: string;
-    constructor(id = "no_id",text:string)
+    correct: boolean;
+    constructor(id = "no_id",text:string,correct:boolean)
     {
-        this.id = id
+        this.correct = correct;
+        this.id = id;
         this.text = text;
     }
 
@@ -143,7 +145,7 @@ export class InfolandAPI
                         
                         if (!answerdata[j] || !answerdata[j].id) continue;//TEMPORARILY CHECK THIS
                         //console.log(i+" , "+ j);
-                        var ans = new answer(answerdata[j].id,answerdata[j].text)
+                        var ans = new answer(answerdata[j].id,answerdata[j].text,answerdata[j].correct)
                         quest.add(ans);
                         //console.log(quest);
                     }

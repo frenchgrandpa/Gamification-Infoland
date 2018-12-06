@@ -61,8 +61,19 @@ export default class HotPotato extends Game<HotPotatoSocket> {
     private onAnswer(socket: SocketIO.Socket, data: any) {
         if (socket.id != this.playerWithBomb || this.finished || this.hasToWait)
             return;
-
-        let correct = (data === this.currentQuestion.answers[0].id) ? true : false;
+        let correct = false;
+        for(let answer of this.currentQuestion.answers)
+        {
+            if (answer.id === data)
+            {
+                if(answer.correct)
+                {
+                    correct = true;
+                }
+            }
+        }
+        console.log(correct);
+        //let correct = (data === this.currentQuestion.answers[0].id) ? true : false;
 
         this.socketClient.emitAnswerResult(correct);
 
