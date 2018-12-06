@@ -11,7 +11,7 @@
     </div>
 
     <div id="info-modal">
-      <button slot="header" id="show-modal" @click="showModal = true">Show Modal</button>
+      <button slot="header" id="show-modal" @click="showModal = true">Help</button>
     <modal v-if="showModal" @close="showModal = false">
       <!--<img id="helpimg" slot="body" srcset="../assets/info-480w.png 480w,
                                             ../assets/bomtemp.png 625w"
