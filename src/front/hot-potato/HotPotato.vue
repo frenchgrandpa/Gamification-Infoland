@@ -75,6 +75,8 @@ global.socket.on("gameEnd", function(end) {
   if(end)
   {
     app.$children[0].resetAlert();
+    app.$children[0].alert = true;
+    app.$children[0].gameOver = true;
   }
 });
 let pList = [];
@@ -96,6 +98,7 @@ global.socket.on("bomb", function(id) {
 });
 global.socket.on("explosion", function(msg) {
   app.$children[0].BombState = 4;
+  app.$children[0].gameOver(true);
   
 });
 global.socket.on("answerResult", function(msg) {

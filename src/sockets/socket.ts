@@ -82,4 +82,9 @@ export default abstract class Socket {
         });
     }
 
+    public lockDown(time: Number)
+    {
+        this.io.emit('lockDown',time);
+    }
+
 }
