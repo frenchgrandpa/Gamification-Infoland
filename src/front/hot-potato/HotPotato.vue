@@ -9,6 +9,18 @@
       
       <v-alert>{{lobby}}</v-alert>
     </div>
+
+    <div id="info-modal">
+      <button slot="header" id="show-modal" @click="showModal = true">Show Modal</button>
+    <modal v-if="showModal" @close="showModal = false">
+      <!--<img id="helpimg" slot="body" srcset="../assets/info-480w.png 480w,
+                                            ../assets/bomtemp.png 625w"
+                                      sizes="(max-width: 850px) 480px,
+                                            625px"   >-->
+                                            <v-img slot="body" :src=helpimgw aspect-ratio=0.85 height=400 contain=true /> 
+    </modal>
+    </div>
+
     <!-- gameIsOver werkt niet goed-->
     <div v-if="gameOver">
     <v-alert v-model="alert" :value="false" type="warning" dismissible>
@@ -34,11 +46,13 @@
 import Vraag from "./Vragen";
 import Bom from "./Bom";
 import PlayerList from "./PlayerList";
+import HelpModal from "./HelpModal";
 import MenuButton from "./MenuButton";
 import Vuetify from "vuetify";
 
 import io from "socket.io-client";
 import Axios from "axios";
+
 
 global.socket = io(window.location.protocol + "//" + window.location.host);//io("http://localhost:3000");
 
@@ -85,6 +99,8 @@ global.socket.on("answerResult", function(msg) {
   }
 });
 
+
+
 export default {
   name: "HotPotato",
   data() {
@@ -99,14 +115,17 @@ export default {
       answerwrong:false,
       PlayerWithBomb:null,
 
-      endGame: false
+      endGame: false,
+      showModal: false,
+      helpimgw: "https://i.imgur.com/ZU7BBQV.png"
     };
   },
   components: {
     Vraag,
     Bom,
     PlayerList,
-    MenuButton
+    MenuButton,
+    HelpModal
   },
   methods: {
     greet: function(event) {
@@ -207,4 +226,5 @@ export default {
 .error{
   background-color: red;
 }
+
 </style>
