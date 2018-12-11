@@ -78,8 +78,6 @@ console.log(window.location.origin + window.location.pathname);
   global.socket.emit('name', window.location.search.split("?name=")[1]);
 
 
-global.socket = io(window.location.protocol + "//" + window.location.host);//io("http://localhost:3000");
-
 global.socket.on("playerCount", function(msg) {
   console.log(msg);
 });
