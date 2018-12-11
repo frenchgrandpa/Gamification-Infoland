@@ -33,7 +33,7 @@ export default class API extends APIBase {
             });
         });*/
 
-        this.router.get("/startgame", (req, res) => this.getStartgame(req, res));
+        this.router.get("/startgame/:gameid", (req, res) => this.getStartgame(req, res));
     }
 
     private checkIfLoggedIn(req: Request, res: Response, next: () => void) {
@@ -46,7 +46,8 @@ export default class API extends APIBase {
     }
 
     private getStartgame(req: Request, res: Response) {
-        global.gameManager.runningGames.push(new HotPotato(global.websockets["game/hotpotato/1"] as HotPotatoSocket));
+        if (!global.gameManager.runningGames[req.params.gameid] || global.gameManager.runningGames[req.params.gameid].finished)
+            global.gameManager.runningGames[req.params.gameid] = new HotPotato(global.websockets["game/hotpotato/" + req.params.gameid] as HotPotatoSocket);
         res.send();
     }
 
