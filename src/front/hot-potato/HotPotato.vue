@@ -28,7 +28,7 @@
         </v-alert>
     </div>
     <div class="vraag" v-else-if="question != null">
-      <Vraag id="vraag" v-bind:question=question v-bind:btndisabled=answercorrect />
+      <Vraag id="vraag" v-bind:question=question v-bind:btndisabled=answerwrong />
     </div>
     <div v-else>
         <v-btn v-on:click="startGame">Play!</v-btn>
