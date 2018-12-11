@@ -1,16 +1,14 @@
 import { question } from "../api/infoland/infolandApi";
 import Socket from "../sockets/socket";
 
-export interface IGame {}
-
-export default abstract class Game<SocketType extends Socket> implements IGame {
+export default abstract class Game<SocketType extends Socket> {
 
     public abstract maxPlayers: number;
 
     private questionIndex = 0;
 
     protected currentQuestion: question;
-    protected finished = false;
+    public finished = false;
     
     protected socketClient: SocketType;
     protected constructor(socketClient: SocketType) {

@@ -71,11 +71,17 @@ import { setTimeout } from 'timers';
 //   }
 // });
 
-global.socket = io(window.location.origin + window.location.pathname + "/1");//io("http://localhost:3000");
+function getQueryFromURL(url, query) {
+    if (url.indexOf(query + '=') == -1)
+        return "";
+    return url.split(query + '=')[1].split('&')[0];
+}
+
+global.socket = io(window.location.origin + window.location.pathname + "/" + getQueryFromURL(window.location.href, 'lobby'));
 console.log(window.location.origin + window.location.pathname);
 
 
-  global.socket.emit('name', window.location.search.split("?name=")[1]);
+  global.socket.emit('name', getQueryFromURL(window.location.href, 'name'));
 
 
 global.socket.on("playerCount", function(msg) {
@@ -172,7 +178,7 @@ export default {
       this.PlayerList = pl;
     },
     startGame: function() {
-      Axios.get("/api/startgame");
+      Axios.get("/api/startgame/" + getQueryFromURL(window.location.href, 'lobby'));
     },
     getPlayerWithBomb: function(id) 
      {
