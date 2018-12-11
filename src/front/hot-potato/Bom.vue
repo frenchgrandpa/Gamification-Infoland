@@ -17,7 +17,7 @@ export default {
     return {
        imagefase3: "https://i.imgur.com/gobDNXH.png",
        imagefase2: "https://i.imgur.com/ckot7p0.png",
-       imagefase1: "https://i.imgur.com/1r7Kpdf.png",
+       imagefase1: "https://i.imgur.com/1r7Kpdf.png",  
     }
 
    
