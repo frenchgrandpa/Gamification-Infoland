@@ -77,14 +77,10 @@ console.log(window.location.origin + window.location.pathname);
 
   global.socket.emit('name', window.location.search.split("?name=")[1]);
 
-<<<<<<< HEAD
 
 global.socket = io(window.location.protocol + "//" + window.location.host);//io("http://localhost:3000");
 
 global.socket.on("playerCount", function(msg) {
-=======
-global.socket.on("question", function(msg) {
->>>>>>> a2cf6094992b57b42415bad05632585c9f74fa95
   console.log(msg);
 });
 global.socket.on("question", function(msg) {
