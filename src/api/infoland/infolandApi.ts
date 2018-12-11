@@ -74,12 +74,25 @@ export class quizObject
 export class InfolandAPI
 {
     private url: string;
+    private cookie: string;
     private token: string;
 
     constructor(url: string){
         this.url = url;
     }
-
+    public cookieRetrieval(username: string,password: string, cb:(err: boolean, cookie:string) =>void)
+    {
+        axios.post(this.url+'/admin/authentication/logon',{
+            "username": username,
+            "password": password,
+        }).then((response: any)=>{
+            this.cookie = response.headers['set-cookie'];
+        }).catch((error:string)=>
+        {
+            cb(true,null);
+            console.log(error);
+        });
+    }
     public tokenRetrieval(username: string,password: string, cb: (err: boolean, token: string) => void)
     {
         axios.post(this.url+'/api/authenticate',{

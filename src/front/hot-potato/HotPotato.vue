@@ -119,9 +119,11 @@ global.socket.on("answerResult", function(msg) {
   if (msg) {
     app.$children[0].resetAlert();
     app.$children[0].answercorrect = true;
+    setTimeout(function(){app.$children[0].answercorrect = false},2500);
   } else {
     app.$children[0].resetAlert();
     app.$children[0].answerwrong = true;
+    setTimeout(function(){app.$children[0].answerwrong = false},5000);
   }
 });
 
