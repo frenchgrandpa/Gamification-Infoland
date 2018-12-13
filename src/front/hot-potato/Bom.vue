@@ -100,6 +100,8 @@ export default {
             {
              var audio = new Audio("../assets/Sound/backgroundmusic.mp3")
              audio.play();
+                   var audio = new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/10/Correct-answer.mp3")
+             audio.play();
             }
          }
     }

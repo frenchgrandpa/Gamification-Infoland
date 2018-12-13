@@ -125,9 +125,14 @@ global.socket.on("answerResult", function(msg) {
   if (msg) {
     app.$children[0].resetAlert();
     app.$children[0].answercorrect = true;
+    var audio = new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/10/Correct-answer.mp3")
+    audio.play();
     setTimeout(function(){
       app.$children[0].answercorrect = false;},2500);
   } else {
+    
+   var audio = new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/08/Wrong-answer-sound-effect.mp3") 
+   audio.play();  
     app.$children[0].resetAlert();
     app.$children[0].answerwrong = true;
     app.$children[0].answerButtonDisabled = true;
