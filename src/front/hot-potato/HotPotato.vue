@@ -71,6 +71,10 @@ import { setTimeout } from 'timers';
 //   }
 // });
 
+if (window.location.href.indexOf('game/hotpotato') > -1
+&& (getQueryFromURL(window.location.href, 'lobby') === "" || getQueryFromURL(window.location.href, 'name') === ""))	
+  window.location.replace(window.location.origin + '/lobby/hotpotato');
+
 function getQueryFromURL(url, query) {
     if (url.indexOf(query + '=') == -1)
         return "";
