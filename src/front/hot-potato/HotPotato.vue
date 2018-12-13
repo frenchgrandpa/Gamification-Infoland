@@ -28,7 +28,7 @@
         </v-alert>
     </div>
     <div class="vraag" v-else-if="question != null">
-      <Vraag id="vraag" v-bind:question=question />
+      <Vraag id="vraag" v-bind:question=question v-bind:btndisabled="answerButtonDisabled"/>
     </div>
     <div v-else>
         <v-btn v-on:click="startGame">Play!</v-btn>
@@ -71,15 +71,30 @@ import { setTimeout } from 'timers';
 //   }
 // });
 
-global.socket = io(window.location.origin + window.location.pathname + "/1");//io("http://localhost:3000");
+if (window.location.href.indexOf('game/hotpotato') > -1
+&& (getQueryFromURL(window.location.href, 'lobby') === "" || getQueryFromURL(window.location.href, 'name') === ""))	
+  window.location.replace(window.location.origin + '/lobby/hotpotato');
+
+function getQueryFromURL(url, query) {
+    if (url.indexOf(query + '=') == -1)
+        return "";
+    return url.split(query + '=')[1].split('&')[0];
+}
+
+global.socket = io(window.location.origin + window.location.pathname + "/" + getQueryFromURL(window.location.href, 'lobby'));
 console.log(window.location.origin + window.location.pathname);
 
 
-  global.socket.emit('name', window.location.search.split("?name=")[1]);
+  global.socket.emit('name', getQueryFromURL(window.location.href, 'name'));
 
 
 global.socket.on("playerCount", function(msg) {
   console.log(msg);
+});
+
+global.socket.on("gameStart", function(msg) {
+    var audio = new Audio("http://www.mediafire.com/file/53acscyunderimk/backgroundmusic.mp3")
+    audio.play();
 });
 global.socket.on("question", function(msg) {
   console.log(msg);
@@ -119,9 +134,19 @@ global.socket.on("answerResult", function(msg) {
   if (msg) {
     app.$children[0].resetAlert();
     app.$children[0].answercorrect = true;
+    var audio = new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/10/Correct-answer.mp3")
+    audio.play();
+    setTimeout(function(){
+      app.$children[0].answercorrect = false;},2500);
   } else {
+    
+   var audio = new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/08/Wrong-answer-sound-effect.mp3") 
+   audio.play();  
     app.$children[0].resetAlert();
     app.$children[0].answerwrong = true;
+    app.$children[0].answerButtonDisabled = true;
+     setTimeout(function(){
+      app.$children[0].answerButtonDisabled = false;},2500);
   }
 });
 
@@ -140,7 +165,7 @@ export default {
       answercorrect: false,
       answerwrong:false,
       PlayerWithBomb:null,
-
+      answerButtonDisabled:false,
       endGame: false,
       showModal: false,
       helpimgw: "https://i.imgur.com/ZU7BBQV.png"
@@ -172,7 +197,7 @@ export default {
       this.PlayerList = pl;
     },
     startGame: function() {
-      Axios.get("/api/startgame");
+      Axios.get("/api/startgame/" + getQueryFromURL(window.location.href, 'lobby'));
     },
     getPlayerWithBomb: function(id) 
      {

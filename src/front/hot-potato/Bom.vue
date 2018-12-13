@@ -17,7 +17,7 @@ export default {
     return {
        imagefase3: "https://i.imgur.com/gobDNXH.png",
        imagefase2: "https://i.imgur.com/ckot7p0.png",
-       imagefase1: "https://i.imgur.com/1r7Kpdf.png",
+       imagefase1: "https://i.imgur.com/1r7Kpdf.png",  
     }
 
    
@@ -99,6 +99,8 @@ export default {
              if (number==4)
             {
              var audio = new Audio("../assets/Sound/backgroundmusic.mp3")
+             audio.play();
+                   var audio = new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/10/Correct-answer.mp3")
              audio.play();
             }
          }

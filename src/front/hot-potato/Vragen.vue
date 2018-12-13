@@ -17,7 +17,7 @@
       </v-flex>
       <v-flex v-for="antwoord in question.answers" :key="antwoord.id" xs12 sm6 py-1 px-2>
         
-        <v-btn block v-on:click = "answer(antwoord.id)" v-bind:id="antwoord.id">
+        <v-btn block v-on:click = "answer(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
           {{antwoord.text}}
         </v-btn>
         
@@ -34,7 +34,7 @@ import Axios from "axios";
 import AnswerButton from "./AnswerButton";
 export default {
   name: "Vraag",
-  props: ["question"],
+  props: ["question","btndisabled"],
   data() {
     return {
       vraag: "Is dit een vraag?",
