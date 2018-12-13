@@ -1,44 +1,35 @@
 <template>
-  
-  <div id="app"> 
-    <PlayerList :id="PlayerList" :playerWithBomb="PlayerWithBomb"/>   
+  <div id="app">
+    <PlayerList :id="PlayerList" :playerWithBomb="PlayerWithBomb"/>
     <div id="gameinfo">
-  
       <Bom :fase="BombState" id="bom"></Bom>
-  
-      
+
       <v-alert>{{lobby}}</v-alert>
     </div>
 
     <div id="info-modal">
-      <button slot="header" id="show-modal" @click="showModal = true">Help</button>
-    <modal v-if="showModal" @close="showModal = false">
-      <!--<img id="helpimg" slot="body" srcset="../assets/info-480w.png 480w,
+      <v-btn slot="header" id="show-modal" @click="showModal = true">Help</v-btn>
+      <HelpModal v-if="showModal" @close="showModal = false">
+        <!--<img id="helpimg" slot="body" srcset="../assets/info-480w.png 480w,
                                             ../assets/bomtemp.png 625w"
                                       sizes="(max-width: 850px) 480px,
-                                            625px"   >-->
-                                            <v-img slot="body" :src=helpimgw aspect-ratio=0.85 height=400 contain=true /> 
-    </modal>
+        625px"   >-->
+        <v-img slot="body" :src="helpimgw" aspect-ratio="0.85" height="400" contain="true"/>
+      </HelpModal>
     </div>
 
     <!-- gameIsOver werkt niet goed-->
     <div v-if="gameOver">
-    <v-alert v-model="alert" :value="false" type="warning" dismissible>
-        Game-over!
-        </v-alert>
+      <v-alert v-model="alert" :value="false" type="warning" dismissible>Game-over!</v-alert>
     </div>
     <div class="vraag" v-else-if="question != null">
-      <Vraag id="vraag" v-bind:question=question v-bind:btndisabled="answerButtonDisabled"/>
+      <Vraag id="vraag" v-bind:question="question" v-bind:btndisabled="answerButtonDisabled"/>
     </div>
     <div v-else>
-        <v-btn v-on:click="startGame">Play!</v-btn>
+      <v-btn v-on:click="startGame">Play!</v-btn>
     </div>
-    <v-alert v-model="answercorrect" :value="false" type="succes" dismissible>
-        Correct answer!
-        </v-alert>
-    <v-alert v-model="answerwrong" :value="false" type="error" dismissible>
-        Wrong answer!
-        </v-alert>
+    <v-alert v-model="answercorrect" :value="false" type="succes" dismissible>Correct answer!</v-alert>
+    <v-alert v-model="answerwrong" :value="false" type="error" dismissible>Wrong answer!</v-alert>
   </div>
 </template>
 
@@ -53,7 +44,7 @@ import Vuex from "vuex";
 
 import io from "socket.io-client";
 import Axios from "axios";
-import { setTimeout } from 'timers';
+import { setTimeout } from "timers";
 
 // const store = new Vuex.Store({
 //   state: {
@@ -72,9 +63,8 @@ import { setTimeout } from 'timers';
 // });
 
 function getQueryFromURL(url, query) {
-    if (url.indexOf(query + '=') == -1)
-        return "";
-    return url.split(query + '=')[1].split('&')[0];
+  if (url.indexOf(query + "=") == -1) return "";
+  return url.split(query + "=")[1].split("&")[0];
 }
 
 if (window.location.href.indexOf('game/hotpotato') > -1) {
@@ -104,8 +94,7 @@ global.socket.on("question", function(msg) {
   app.$children[0].getQuestion(msg);
 });
 global.socket.on("gameEnd", function(end) {
-  if(end)
-  {
+  if (end) {
     app.$children[0].resetAlert();
     app.$children[0].alert = true;
     app.$children[0].gameOver = true;
@@ -116,38 +105,39 @@ global.socket.on("players", function(players) {
   console.log(players);
   pList = players;
   app.$children[0].getPlayerList(players);
-
 });
 global.socket.on("bombState", function(state) {
- 
-    app.$children[0].BombState =state;
-
+  app.$children[0].BombState = state;
 });
 global.socket.on("bomb", function(id) {
- app.$children[0].getPlayerWithBomb(pList[id]);
- console.log(id+"has the bomb!");
-
+  app.$children[0].getPlayerWithBomb(pList[id]);
+  console.log(id + "has the bomb!");
+  if (global.socket.id == id) {
+    app.$children[0].answerButtonDisabled = false;
+  } else {
+    app.$children[0].answerButtonDisabled = true;
+  }
 });
 global.socket.on("explosion", function(msg) {
   app.$children[0].BombState = 4;
   app.$children[0].gameOver(true);
-  
 });
 global.socket.on("answerResult", function(msg) {
   if (msg) {
     app.$children[0].resetAlert();
     app.$children[0].answercorrect = true;
     app.$children[0].audioCorrect.play();
-    setTimeout(function(){
-      app.$children[0].answercorrect = false;},5000);// todo: maak hier een variable van
+    // todo: maak hier een variable van
   } else {
-    
-    app.$children[0].audioWrong.play();  
+    app.$children[0].audioWrong.play();
     app.$children[0].resetAlert();
     app.$children[0].answerwrong = true;
-    app.$children[0].answerButtonDisabled = true;
-     setTimeout(function(){
-      app.$children[0].answerButtonDisabled = false;},5000);
+    if ((app.$children[0].PlayerWithBomb = global.socket.id)) {
+      app.$children[0].answerButtonDisabled = true;
+      setTimeout(function() {
+        app.$children[0].answerButtonDisabled = false;
+      }, 5000);
+    }
   }
 });
     }
@@ -159,8 +149,12 @@ export default {
   name: "HotPotato",
   data() {
     return {
-      audioCorrect: new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/10/Correct-answer.mp3"),
-      audioWrong:new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/08/Wrong-answer-sound-effect.mp3"),
+      audioCorrect: new Audio(
+        "http://www.orangefreesounds.com/wp-content/uploads/2014/10/Correct-answer.mp3"
+      ),
+      audioWrong: new Audio(
+        "http://www.orangefreesounds.com/wp-content/uploads/2014/08/Wrong-answer-sound-effect.mp3"
+      ),
       lobby: "",
       question: null,
       BombState: 1,
@@ -168,9 +162,9 @@ export default {
       gameOver: false,
       alert: false,
       answercorrect: false,
-      answerwrong:false,
-      PlayerWithBomb:null,
-      answerButtonDisabled:false,
+      answerwrong: false,
+      PlayerWithBomb: null,
+      answerButtonDisabled: false,
       endGame: false,
       showModal: false,
       helpimgw: "https://i.imgur.com/ZU7BBQV.png"
@@ -184,11 +178,11 @@ export default {
     HelpModal
   },
   methods: {
-    initAudio: function(){
+    initAudio: function() {
       // this.audioCorrect = new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/10/Correct-answer.mp3");
       // this.audioWrong   = new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/08/Wrong-answer-sound-effect.mp3");
-      this.audioCorrect.preload="auto";
-      this.audioWrong.preload="auto";
+      this.audioCorrect.preload = "auto";
+      this.audioWrong.preload = "auto";
     },
     greet: function(event) {
       // `this` inside methods points to the Vue instance
@@ -208,22 +202,22 @@ export default {
       this.PlayerList = pl;
     },
     startGame: function() {
-      Axios.get("/api/startgame/" + getQueryFromURL(window.location.href, 'lobby'));
+      Axios.get(
+        "/api/startgame/" + getQueryFromURL(window.location.href, "lobby")
+      );
     },
-    getPlayerWithBomb: function(id) 
-     {
-      this.PlayerWithBomb=id;
-      
+    getPlayerWithBomb: function(id) {
+      this.PlayerWithBomb = id;
     },
     gameOver: function(end) {
       this.gameOver = end;
       console.log(this.gameOver);
     },
-    resetAlert: function(){
+    resetAlert: function() {
       this.alert = false;
       this.answercorrect = false;
       this.answerwrong = false;
-    },
+    }
   },
   computed: {
     gameIsOver: function() {
@@ -282,17 +276,16 @@ export default {
   right: 2em;
   width: 5em;
 }
-.v-alert{
-  color:black;
+.v-alert {
+  color: black;
 }
-.warning{
+.warning {
   background-color: yellow;
 }
-.succes{
+.succes {
   background-color: green;
 }
-.error{
+.error {
   background-color: red;
 }
-
 </style>
