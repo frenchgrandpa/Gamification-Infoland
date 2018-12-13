@@ -80,13 +80,17 @@ export class InfolandAPI
     constructor(url: string){
         this.url = url;
     }
-    public cookieRetrieval(username: string,password: string, cb:(err: boolean, cookie:string) =>void)
+    public cookieRetrieval(username: string,password: string ,cb: (err: boolean, token: string) => void)
     {
+        username = "beheerder";
+        password = "hotpotato";
         axios.post(this.url+'/admin/authentication/logon',{
             "username": username,
             "password": password,
         }).then((response: any)=>{
-            this.cookie = response.headers['set-cookie'];
+            this.cookie = response.headers['set-cookie'][1];
+            cb(false,null);
+
         }).catch((error:string)=>
         {
             cb(true,null);
@@ -96,17 +100,28 @@ export class InfolandAPI
     
     public tokenRetrieval(username: string,password: string,learnID: string, cb: (err: boolean, token: string) => void)
     {
+        username = "beheerder";
+        password = "hotpotato";
         axios.get(this.url+'/api/preview/quiz/'+learnID,{
+            headers:{
+                "Cookie": this.cookie,
+            }
         })
         .then((response: any)=>
         {
-            let tokenlocation = response.location;
-            tokenlocation.replace('/token/', '');
+            let tokenlocation = response.request.res.responseUrl;
+            tokenlocation.replace('https://pubquiz.iqualify.nl/token/', '');
             axios.post(this.url+'/api/authenticate/token',{
-                tokenlocation
-            })
+                headers:{
+                    "Cookie": this.cookie,
+                },
+                data:{
+                    tokenlocation
+                }
+            })  
             .then((response: any)=>{
                 this.token = response.data;
+                console.log(this.token);
                 cb(false,this.token);
             })
             .catch((error:string)=>{
@@ -183,7 +198,7 @@ export class InfolandAPI
         })
         .catch((error:string)=>
         {
-            console.log(error);
+            //console.log(error);
         });
     }
     
