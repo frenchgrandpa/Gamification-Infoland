@@ -8,10 +8,12 @@
         <v-select
           v-model="selectedLobby"
           :items="lobbys"
+          :rules="[(v) => !!v || 'Item is required']"
           item-text="text"
           item-value="value"
           label="Lobby"
           name="lobby"
+          single-line
         ></v-select>
         <v-btn v-on:click="submit">submit</v-btn>
         <!--  TODO:     Form submition naar /game/hotpotato?lobby=lobbyname
