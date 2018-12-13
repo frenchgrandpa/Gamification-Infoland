@@ -71,22 +71,26 @@ import { setTimeout } from 'timers';
 //   }
 // });
 
-if (window.location.href.indexOf('game/hotpotato') > -1
-&& (getQueryFromURL(window.location.href, 'lobby') === "" || getQueryFromURL(window.location.href, 'name') === ""))	
-  window.location.replace(window.location.origin + '/lobby/hotpotato');
-
 function getQueryFromURL(url, query) {
     if (url.indexOf(query + '=') == -1)
         return "";
     return url.split(query + '=')[1].split('&')[0];
 }
 
+if (window.location.href.indexOf('game/hotpotato') > -1) {
+  if (getQueryFromURL(window.location.href, 'lobby') === "" || getQueryFromURL(window.location.href, 'name') === "")	
+    window.location.replace(window.location.origin + '/lobby/hotpotato');
+
+  Axios.get("/api/isrunning/" + getQueryFromURL(window.location.href, 'lobby')).then((response) => {
+    if (response.data)
+      window.location.replace(window.location.origin + '/lobby/hotpotato');
+    else {
+
+
 global.socket = io(window.location.origin + window.location.pathname + "/" + getQueryFromURL(window.location.href, 'lobby'));
 console.log(window.location.origin + window.location.pathname);
 
-
-  global.socket.emit('name', getQueryFromURL(window.location.href, 'name'));
-
+global.socket.emit('name', getQueryFromURL(window.location.href, 'name'));
 
 global.socket.on("playerCount", function(msg) {
   console.log(msg);
@@ -146,7 +150,9 @@ global.socket.on("answerResult", function(msg) {
       app.$children[0].answerButtonDisabled = false;},5000);
   }
 });
-
+    }
+  });
+}
 
 
 export default {

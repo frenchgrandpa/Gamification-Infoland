@@ -34,6 +34,7 @@ export default class API extends APIBase {
         });*/
 
         this.router.get("/startgame/:gameid", (req, res) => this.getStartgame(req, res));
+        this.router.get("/isrunning/:gameid", (req, res) => this.getIsrunning(req, res));
     }
 
     private checkIfLoggedIn(req: Request, res: Response, next: () => void) {
@@ -49,6 +50,10 @@ export default class API extends APIBase {
         if (!global.gameManager.runningGames[req.params.gameid] || global.gameManager.runningGames[req.params.gameid].finished)
             global.gameManager.runningGames[req.params.gameid] = new HotPotato(global.websockets["game/hotpotato/" + req.params.gameid] as HotPotatoSocket);
         res.send();
+    }
+
+    private getIsrunning(req: Request, res: Response) {        
+        res.send(!(!global.gameManager.runningGames[req.params.gameid] || global.gameManager.runningGames[req.params.gameid].finished));
     }
 
 }
