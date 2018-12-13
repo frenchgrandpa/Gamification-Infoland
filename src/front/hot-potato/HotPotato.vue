@@ -91,6 +91,11 @@ console.log(window.location.origin + window.location.pathname);
 global.socket.on("playerCount", function(msg) {
   console.log(msg);
 });
+
+global.socket.on("gameStart", function(msg) {
+    var audio = new Audio("http://www.mediafire.com/file/53acscyunderimk/backgroundmusic.mp3")
+    audio.play();
+});
 global.socket.on("question", function(msg) {
   console.log(msg);
   app.$children[0].getQuestion(msg);
