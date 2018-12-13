@@ -10,9 +10,9 @@
       <v-alert>{{lobby}}</v-alert>
     </div>
 
-    <div id="info-modal">
+    <div id="info-modal"> 
       <button slot="header" id="show-modal" @click="showModal = true">Help</button>
-    <modal v-if="showModal" @close="showModal = false">
+    <modal v-if="showModal"  @close="showModal = false">
       <!--<img id="helpimg" slot="body" srcset="../assets/info-480w.png 480w,
                                             ../assets/bomtemp.png 625w"
                                       sizes="(max-width: 850px) 480px,
@@ -257,11 +257,11 @@ export default {
 
 .vraag {
   margin: auto;
+  background: #80ccff;
 }
 
 #vraag {
   margin: auto;
-  background: #80ccff;
 }
 
 #menubutton {

@@ -18,9 +18,6 @@
             </v-btn>
           </v-toolbar>
  <v-list>
-                 <v-subheader>
-                   Name
-                 </v-subheader>
             <v-list-tile
                v-for="playerid in id" :key="playerid">
           
@@ -57,7 +54,7 @@ export default {
         return true;
       }
     }
-      }
+}
 
   //players: [],
 };
