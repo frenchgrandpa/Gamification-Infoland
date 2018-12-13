@@ -15,7 +15,7 @@
           name="lobby"
           single-line
         ></v-select>
-        <v-btn v-on:click="submit">submit</v-btn>
+        <v-btn v-on:click="submit" :disabled="selectedLobby === null">submit</v-btn>
         <!--  TODO:     Form submition naar /game/hotpotato?lobby=lobbyname
                                                 POST: username
         -->

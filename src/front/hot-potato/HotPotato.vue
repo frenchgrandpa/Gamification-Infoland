@@ -93,8 +93,7 @@ global.socket.on("playerCount", function(msg) {
 });
 
 global.socket.on("gameStart", function(msg) {
-    var audio = new Audio("http://www.mediafire.com/file/53acscyunderimk/backgroundmusic.mp3")
-    audio.play();
+  app.$children[0].initAudio();
 });
 global.socket.on("question", function(msg) {
   console.log(msg);
@@ -134,19 +133,17 @@ global.socket.on("answerResult", function(msg) {
   if (msg) {
     app.$children[0].resetAlert();
     app.$children[0].answercorrect = true;
-    var audio = new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/10/Correct-answer.mp3")
-    audio.play();
+    app.$children[0].audioCorrect.play();
     setTimeout(function(){
-      app.$children[0].answercorrect = false;},2500);
+      app.$children[0].answercorrect = false;},5000);// todo: maak hier een variable van
   } else {
     
-   var audio = new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/08/Wrong-answer-sound-effect.mp3") 
-   audio.play();  
+    app.$children[0].audioWrong.play();  
     app.$children[0].resetAlert();
     app.$children[0].answerwrong = true;
     app.$children[0].answerButtonDisabled = true;
      setTimeout(function(){
-      app.$children[0].answerButtonDisabled = false;},2500);
+      app.$children[0].answerButtonDisabled = false;},5000);
   }
 });
 
@@ -156,6 +153,8 @@ export default {
   name: "HotPotato",
   data() {
     return {
+      audioCorrect: new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/10/Correct-answer.mp3"),
+      audioWrong:new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/08/Wrong-answer-sound-effect.mp3"),
       lobby: "",
       question: null,
       BombState: 1,
@@ -179,6 +178,12 @@ export default {
     HelpModal
   },
   methods: {
+    initAudio: function(){
+      // this.audioCorrect = new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/10/Correct-answer.mp3");
+      // this.audioWrong   = new Audio("http://www.orangefreesounds.com/wp-content/uploads/2014/08/Wrong-answer-sound-effect.mp3");
+      this.audioCorrect.preload="auto";
+      this.audioWrong.preload="auto";
+    },
     greet: function(event) {
       // `this` inside methods points to the Vue instance
       alert("Hello " + this.question + "!");
