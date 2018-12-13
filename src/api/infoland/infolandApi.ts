@@ -93,17 +93,26 @@ export class InfolandAPI
             console.log(error);
         });
     }
-    public tokenRetrieval(username: string,password: string, cb: (err: boolean, token: string) => void)
+    
+    public tokenRetrieval(username: string,password: string,learnID: string, cb: (err: boolean, token: string) => void)
     {
-        axios.post(this.url+'/api/authenticate',{
-            "username": username,
-            "password": password
+        axios.get(this.url+'/api/preview/quiz/'+learnID,{
         })
         .then((response: any)=>
         {
-            this.token = response.data;
-            cb(false,this.token);
-        })
+            let tokenlocation = response.location;
+            tokenlocation.replace('/token/', '');
+            axios.post(this.url+'/api/authenticate/token',{
+                tokenlocation
+            })
+            .then((response: any)=>{
+                this.token = response.data;
+                cb(false,this.token);
+            })
+            .catch((error:string)=>{
+                cb(true,null);
+            })
+        }) 
         .catch((error:string)=>
         {
             cb(true,null);
