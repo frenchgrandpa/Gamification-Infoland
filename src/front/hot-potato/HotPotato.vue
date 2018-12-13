@@ -28,7 +28,7 @@
         </v-alert>
     </div>
     <div class="vraag" v-else-if="question != null">
-      <Vraag id="vraag" v-bind:question=question v-bind:btndisabled=answerwrong />
+      <Vraag id="vraag" v-bind:question=question v-bind:btndisabled="answerButtonDisabled"/>
     </div>
     <div v-else>
         <v-btn v-on:click="startGame">Play!</v-btn>
@@ -71,9 +71,6 @@ import { setTimeout } from 'timers';
 //   }
 // });
 
-if (window.location.href.indexOf('game/hotpotato') > -1 && (getQueryFromURL(window.location.href, 'lobby') === "" || getQueryFromURL(window.location.href, 'name') === ""))
-  window.location.replace(window.location.origin + '/lobby/hotpotato');
-
 function getQueryFromURL(url, query) {
     if (url.indexOf(query + '=') == -1)
         return "";
@@ -81,7 +78,7 @@ function getQueryFromURL(url, query) {
 }
 
 global.socket = io(window.location.origin + window.location.pathname + "/" + getQueryFromURL(window.location.href, 'lobby'));
-
+console.log(window.location.origin + window.location.pathname);
 
 
   global.socket.emit('name', getQueryFromURL(window.location.href, 'name'));
@@ -133,6 +130,9 @@ global.socket.on("answerResult", function(msg) {
   } else {
     app.$children[0].resetAlert();
     app.$children[0].answerwrong = true;
+    app.$children[0].answerButtonDisabled = true;
+     setTimeout(function(){
+      app.$children[0].answerButtonDisabled = false;},2500);
   }
 });
 
@@ -151,7 +151,7 @@ export default {
       answercorrect: false,
       answerwrong:false,
       PlayerWithBomb:null,
-
+      answerButtonDisabled:false,
       endGame: false,
       showModal: false,
       helpimgw: "https://i.imgur.com/ZU7BBQV.png"
