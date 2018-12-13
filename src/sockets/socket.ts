@@ -16,6 +16,8 @@ export default abstract class Socket {
             socket.on("disconnect", (reason) => {
                 delete this.playerNames[socket.id];
                 this.onDisconnect(socket);
+                if (Object.keys(this.playerNames).length == 0 && this.onEmptyGameDelegate)
+                    this.onEmptyGameDelegate(socket, reason);
             });
             socket.on("msg", function (msg) {
                 console.log(msg);
@@ -35,6 +37,11 @@ export default abstract class Socket {
     private onAnswerDelegate: (socket: socketio.Socket, data: any) => void;
     public setAnswerEventHandler(delegate: (socket: socketio.Socket, data: any) => void) {
         this.onAnswerDelegate = delegate;
+    }
+
+    private onEmptyGameDelegate: (socket: socketio.Socket, data: any) => void;
+    public setEmptyGameEventHandler(delegate: (socket: socketio.Socket, data: any) => void) {
+        this.onEmptyGameDelegate = delegate;
     }
 
     private onConnection(socket: socketio.Socket) {
