@@ -8,7 +8,7 @@
         <v-select
           v-model="selectedLobby"
           :items="lobbys"
-          :rules="[(v) => !!v || 'Item is required']"
+          :rules="[(v) => v >= 0 || 'Item is required']"
           item-text="text"
           item-value="value"
           label="Lobby"
