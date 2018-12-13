@@ -262,11 +262,11 @@ export default {
 
 .vraag {
   margin: auto;
+  background: #80ccff;
 }
 
 #vraag {
   margin: auto;
-  background: #80ccff;
 }
 
 #menubutton {
