@@ -114,6 +114,11 @@ global.socket.on("bombState", function(state) {
 global.socket.on("bomb", function(id) {
   app.$children[0].getPlayerWithBomb(pList[id]);
   console.log(id + "has the bomb!");
+  if (global.socket.id == id) {
+    app.$children[0].answerButtonDisabled = false;
+  } else {
+    app.$children[0].answerButtonDisabled = true;
+  }
 });
 global.socket.on("explosion", function(msg) {
   app.$children[0].BombState = 4;
@@ -124,17 +129,17 @@ global.socket.on("answerResult", function(msg) {
     app.$children[0].resetAlert();
     app.$children[0].answercorrect = true;
     app.$children[0].audioCorrect.play();
-    setTimeout(function() {
-      app.$children[0].answercorrect = false;
-    }, 5000); // todo: maak hier een variable van
+    // todo: maak hier een variable van
   } else {
     app.$children[0].audioWrong.play();
     app.$children[0].resetAlert();
     app.$children[0].answerwrong = true;
-    app.$children[0].answerButtonDisabled = true;
-    setTimeout(function() {
-      app.$children[0].answerButtonDisabled = false;
-    }, 5000);
+    if ((app.$children[0].PlayerWithBomb = global.socket.id)) {
+      app.$children[0].answerButtonDisabled = true;
+      setTimeout(function() {
+        app.$children[0].answerButtonDisabled = false;
+      }, 5000);
+    }
   }
 });
 
