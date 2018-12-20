@@ -76,10 +76,6 @@ if (window.location.href.indexOf('game/hotpotato') > -1) {
       window.location.replace(window.location.origin + '/lobby/hotpotato');
     else {
 
-
-
-
-});
 global.socket.on("explosion", function(msg) {
   app.$children[0].BombState = 4;
   app.$children[0].gameOver(true);
