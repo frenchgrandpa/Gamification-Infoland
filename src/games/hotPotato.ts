@@ -61,23 +61,13 @@ export default class HotPotato extends Game<HotPotatoSocket> {
     private onAnswer(socket: SocketIO.Socket, data: any) {
         if (socket.id != this.playerWithBomb || this.finished || this.hasToWait)
             return;
-        let correct = false;
-        for(let answer of this.currentQuestion.answers)
-        {
-            if (answer.id === data)
-            {
-                if(answer.correct)
-                {
-                    correct = true;
-                }
-            }
-        }
-        console.log(correct);
+        global.infolandAPI.checkanswer("c6d040a8-900c-47d5-9291-e724cd01ba47",this.currentQuestion,[data],(_iscorrect)=>{
+            console.log(_iscorrect);
         //let correct = (data === this.currentQuestion.answers[0].id) ? true : false;
 
-        this.socketClient.emitAnswerResult(correct);
+        this.socketClient.emitAnswerResult(_iscorrect);
 
-        if (correct) {
+        if (_iscorrect) {
             this.giveBombToNextPlayer();
             this.emitNextQuestion();
         } else {
@@ -85,6 +75,9 @@ export default class HotPotato extends Game<HotPotatoSocket> {
             this.setDetonationTimeout();
             this.disableAnsweringFor5Sec();
         }
+        })
+        
+        
     }
 
     private disableAnsweringFor5Sec() {

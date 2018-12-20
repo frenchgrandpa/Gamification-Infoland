@@ -21,8 +21,8 @@ export default abstract class Game<SocketType extends Socket> implements IGame {
         if (this.finished)
             return cb(false);
         global.infolandAPI.cookieRetrieval("heer","test", (err, token)=>{
-            global.infolandAPI.tokenRetrieval("heer", "test",'c0b63433-712e-4d35-9cd8-828073e6a84c', (err, token) => {
-                global.infolandAPI.quizRetrieval('c0b63433-712e-4d35-9cd8-828073e6a84c', (quiz) => {
+            global.infolandAPI.tokenRetrieval("heer", "test",'c6d040a8-900c-47d5-9291-e724cd01ba47', (err, token) => {
+                global.infolandAPI.quizRetrieval('c6d040a8-900c-47d5-9291-e724cd01ba47', (quiz) => {
                     while (quiz.questions[this.questionIndex].mediatype == 1 || quiz.questions[this.questionIndex].type != 1 && this.questionIndex < quiz.questions.length - 1) {
                         this.questionIndex++;
                     }
