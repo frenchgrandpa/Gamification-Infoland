@@ -25,7 +25,9 @@
           v-bind:id="antwoord.id"
           v-bind:disabled="btndisabled"
           class="nowrap"
-        >{{antwoord.text}}</v-btn>
+        >
+          <span style="white-space: normal;">{{antwoord.text}}</span>
+        </v-btn>
       </v-flex>
     </v-layout>
   </v-container>
