@@ -1,32 +1,34 @@
 <template>
   <v-container class="elevation-24">
-    <v-layout row wrap justify-space-between >
+    <v-layout row wrap justify-space-between>
       <v-flex xs12 align-content-center>
-        <v-img :src="question.media" :aspect-ratio="16/9" max-width="600px" style="margin-left: auto; margin-right: auto;">
-            <v-layout pa-2 column fill-height class="lightbox white--text">
+        <v-img
+          :src="question.media"
+          :aspect-ratio="16/9"
+          max-width="600px"
+          style="margin-left: auto; margin-right: auto;"
+        >
+          <v-layout pa-2 column fill-height class="lightbox white--text">
             <v-spacer></v-spacer>
             <v-flex shrink>
-                <div id="subheadinggame">
-                    <p>
-                        {{question.text}}
-                    </p>
-                </div>
+              <div id="subheadinggame">
+                <p class="nowrap">{{question.text}}</p>
+              </div>
             </v-flex>
-        </v-layout>
+          </v-layout>
         </v-img>
       </v-flex>
       <v-flex v-for="antwoord in question.answers" :key="antwoord.id" xs12 sm6 py-1 px-2>
-        
-        <v-btn block v-on:click = "answer(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
-          {{antwoord.text}}
-        </v-btn>
-        
+        <v-btn
+          block
+          v-on:click="answer(antwoord.id)"
+          v-bind:id="antwoord.id"
+          v-bind:disabled="btndisabled"
+          class="nowrap"
+        >{{antwoord.text}}</v-btn>
       </v-flex>
-   
     </v-layout>
-     
   </v-container>
- 
 </template>
 
 <script>
@@ -34,7 +36,7 @@ import Axios from "axios";
 import AnswerButton from "./AnswerButton";
 export default {
   name: "Vraag",
-  props: ["question","btndisabled"],
+  props: ["question", "btndisabled"],
   data() {
     return {
       vraag: "Is dit een vraag?",
@@ -57,9 +59,8 @@ export default {
         }
       ],
       image:
-        "https://uploads.codesandbox.io/uploads/user/ae416c95-edc9-4929-bfa4-84a2c042e083/zKY6-thumbnail.png"
-      ,
-      correctanswers: 1,
+        "https://uploads.codesandbox.io/uploads/user/ae416c95-edc9-4929-bfa4-84a2c042e083/zKY6-thumbnail.png",
+      correctanswers: 1
     };
   },
   components: {
@@ -76,11 +77,10 @@ export default {
         })
         .catch(err => {});
     },
-    answer(id)
-    {
-      console.log("hello")
-      global.socket.emit('answer',id);
-    },
+    answer(id) {
+      console.log("hello");
+      global.socket.emit("answer", id);
+    }
   }
 };
 </script>
@@ -114,5 +114,9 @@ ol.antwoorden {
 
 #subheadinggame {
   font-size: 180%;
+}
+
+.nowrap {
+  white-space: normal;
 }
 </style>
