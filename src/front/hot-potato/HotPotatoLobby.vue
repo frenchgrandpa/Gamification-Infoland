@@ -1,86 +1,74 @@
 <template>
+  <v-app>
     <div class="container">
-        <h1>{{msg}}</h1>
-        <p>{{currentRoute}}</p>
-        <v-form @submit.prevent="submit">
-            <v-text-field
-            v-model="name"
-            :counter="10"
-            label="Name"
-            required
-            ></v-text-field>
-            <v-select
-            v-model="selectedLobby"
-            :rules="[v => !!v || 'Item is required']"
-            :options="lobbys"
-            label="text"
-            required
-            ></v-select>
-            <input type="hidden" 
-            <v-btn type="submit">submit</v-btn>
-            <!--  TODO:     Form submition naar /game/hotpotato?lobby=lobbyname
+      <h1>{{msg}}</h1>
+      <p>{{currentRoute}}</p>
+      <v-form ref="form" v-model="valid" lazy-validation>
+        <v-text-field v-model="UserName" :rules="nameRules" :counter="10" label="Name" required></v-text-field>
+        <v-select
+          v-model="selectedLobby"
+          :items="lobbys"
+          :rules="[(v) => v >= 0 || 'Item is required']"
+          item-text="text"
+          item-value="value"
+          label="Lobby"
+          name="lobby"
+          single-line
+        ></v-select>
+        <v-btn v-on:click="submit" :disabled="selectedLobby === null">submit</v-btn>
+        <!--  TODO:     Form submition naar /game/hotpotato?lobby=lobbyname
                                                 POST: username
-            -->
-
-            
-        </v-form>
+        -->
+      </v-form>
     </div>
+  </v-app>
 </template>
 
 
 <script>
-import vue from 'vue' 
-import vSelect from 'vue-select'
-import axios from 'axios'
-vue.component("v-select", vSelect);
+import vue from "vue";
+import axios from "axios";
 
 export default {
   name: "HotPotatoLobby",
   data() {
-   return {
+    return {
       msg: "Hot Potato Lobby",
       currentRoute: window.location.pathname,
-      name: "",
-      selectedLobby: [] ,
+      UserName: "",
+      valid: true,
+      nameRules: [
+        v => !!v || "Name is required",
+        v => (v && v.length <= 10) || "Name must be less than 10 characters"
+      ],
+      selectedLobby: null,
       lobbys: [
         {
-          text: "lobby1",
-          currentplayers: 2
+          text: "Lobby 0",
+          value: 0,
+          currentplayers: 0
         },
         {
-          text: "lobby2",
+          text: "Lobby 1",
+          value: 1,
           currentplayers: 0
         }
       ],
-      form_info: {
-        name: "",
-      selectedLobby: [] ,
-            
-        },
+      optionss: ["Foo", "Bar", "Fizz", "Buzz"]
     };
   },
   methods: {
     submit() {
-      var config = {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        }
+      console.log(this.selectedLobby);
+      if (this.$refs.form.validate()) {
+        window.location =
+          "/game/hotpotato?name=" +
+          this.UserName +
+          "&lobby=" +
+          this.selectedLobby;
+      } else {
+        alert("Not validated");
       }
-
-      axios({
-        method: 'post',
-        url: "/game/hotpotato/" + this.selectedLobby.text,
-        data: {
-          name: this.name
-        }, config
-      });  
-
-      /*axios.post("/game/hotpotato?lobby=" + this.selectedLobby.text, {name: this.name})
-          .then(res => {
-             window.location = "localhost:7000/game/hotpotato"
-             print(selectedLobby.name);
-          })
-          .catch(err => {});*/
     }
   }
 };

@@ -52,6 +52,7 @@ global.infolandAPI.cookieRetrieval("beheerder","hotpotato",(err,token)=>{
 global.gameManager = new GameManager();
 global.masterSocket = socketio(server);
 global.websockets = {
+    "game/hotpotato/0": new HotPotatoSocket(0),
     "game/hotpotato/1": new HotPotatoSocket(1)
 };
 

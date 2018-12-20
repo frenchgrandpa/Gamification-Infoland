@@ -1,7 +1,8 @@
-import Game, { IGame } from "./game";
+import Game from "./game";
+import Socket from "../sockets/socket";
 
 export default class GameManager {
 
-    public runningGames: IGame[] = [];
+    public runningGames: Game<Socket>[] = [];
 
 }

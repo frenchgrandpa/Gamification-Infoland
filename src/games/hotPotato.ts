@@ -56,6 +56,12 @@ export default class HotPotato extends Game<HotPotatoSocket> {
 
     private addSocketEventHandlers() {
         this.socketClient.setAnswerEventHandler((socket, data) => this.onAnswer(socket, data));
+        this.socketClient.setEmptyGameEventHandler((socket, data) => this.onEmptyGame(socket, data));
+    }
+
+    private onEmptyGame(socket: SocketIO.Socket, data: any) {        
+        this.socketClient.emitGameEnd();
+        this.finished = true;
     }
 
     private onAnswer(socket: SocketIO.Socket, data: any) {
