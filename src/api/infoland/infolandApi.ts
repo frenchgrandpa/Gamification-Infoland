@@ -260,11 +260,13 @@ export class InfolandAPI
             }
             for(let answer of answerArray)
             {
+                console.log("an answer");
                 let correct = false;
                 for(let correctanswer of correctanswers)
                 {
                     if (answer === correctanswer)
                     {
+                        console.log("correct answer");
                         correct = true;
                     }
                 }
@@ -278,8 +280,9 @@ export class InfolandAPI
             return;
         })
         .catch((error:string)=>{
-           // console.log(error);
+           console.log(error);
         })
+        //cb(false);
     } 
 
     public resetQuiz(quizID: string)

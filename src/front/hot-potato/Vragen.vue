@@ -83,7 +83,7 @@ export default {
     answer(id)
     {
       console.log("hello");
-      global.socket.emit('answer',id);
+      global.socket.emit('answer',[id]);
     },
     answerMultiple(id)
     {
