@@ -18,21 +18,22 @@ export default abstract class Game<SocketType extends Socket> {
     protected updateCurrentQuestion(cb: (success: boolean) => void) {
         if (this.finished)
             return cb(false);
+        global.infolandAPI.cookieRetrieval("heer","test", (err, token)=>{
+            global.infolandAPI.tokenRetrieval("heer", "test",'c6d040a8-900c-47d5-9291-e724cd01ba47', (err, token) => {
+                global.infolandAPI.quizRetrieval('c6d040a8-900c-47d5-9291-e724cd01ba47', (quiz) => {
+                    while (quiz.questions[this.questionIndex].mediatype == 1 || quiz.questions[this.questionIndex].type != 1 && this.questionIndex < quiz.questions.length - 1) {
+                        this.questionIndex++;
+                    }
 
-        global.infolandAPI.tokenRetrieval("heer", "test", (err, token) => {
-            global.infolandAPI.quizRetrieval('c0b63433-712e-4d35-9cd8-828073e6a84c', (quiz) => {
-                while (quiz.questions[this.questionIndex].mediatype == 1 || quiz.questions[this.questionIndex].type != 1 && this.questionIndex < quiz.questions.length - 1) {
+                    if (this.questionIndex == quiz.questions.length - 1) {
+                        return cb(false);
+                    }
+                    
+                    this.currentQuestion = quiz.questions[this.questionIndex];
                     this.questionIndex++;
-                }
 
-                if (this.questionIndex == quiz.questions.length - 1) {
-                    return cb(false);
-                }
-                
-                this.currentQuestion = quiz.questions[this.questionIndex];
-                this.questionIndex++;
-
-                return cb(true);
+                    return cb(true);
+                });
             });
         });
     }

@@ -77,6 +77,33 @@ if (window.location.href.indexOf('game/hotpotato') > -1) {
     else {
 
 
+
+
+});
+global.socket.on("explosion", function(msg) {
+  app.$children[0].BombState = 4;
+  app.$children[0].gameOver(true);
+  
+});
+global.socket.on("answerResult", function(msg) {
+  if (msg) {
+    app.$children[0].resetAlert();
+    app.$children[0].answercorrect = true;
+    setTimeout(function(){app.$children[0].answercorrect = false},2500);
+  } else {
+    app.$children[0].resetAlert();
+    app.$children[0].answerwrong = true;
+    setTimeout(function(){app.$children[0].answerwrong = false},5000);
+  }
+});
+
+      global.socket.on("playerCount", function(msg) {
+        console.log(msg);
+      });
+
+
+      var hp = app.$children[0];
+
 global.socket = io(window.location.origin + window.location.pathname + "/" + getQueryFromURL(window.location.href, 'lobby'));
 console.log(window.location.origin + window.location.pathname);
 
@@ -85,6 +112,7 @@ global.socket.emit('name', getQueryFromURL(window.location.href, 'name'));
 global.socket.on("playerCount", function(msg) {
   console.log(msg);
 });
+
 
 global.socket.on("gameStart", function(msg) {
   app.$children[0].initAudio();
