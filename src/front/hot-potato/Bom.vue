@@ -61,7 +61,7 @@ export default {
          }
            else if (number==3)
          {
-         return "https://i.imgur.com/gobDNXH.png"
+         return "https://i.imgur.com/gobDNXH.png";
          }
           else if (number==4)
          {
