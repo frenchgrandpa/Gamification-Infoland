@@ -113,6 +113,7 @@ global.socket.on("bomb", function(id) {
   app.$children[0].getPlayerWithBomb(pList[id]);
   console.log(id + "has the bomb!");
   if (global.socket.id == id) {
+      window.navigator.vibrate([200, 200]);
     app.$children[0].answerButtonDisabled = false;
   } else {
     app.$children[0].answerButtonDisabled = true;
