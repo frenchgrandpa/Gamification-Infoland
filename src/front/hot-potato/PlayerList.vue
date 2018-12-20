@@ -7,7 +7,7 @@
 <v-flex xs12 sm4 offset-sm50>
  <v-card class="elevation-10">
     <v-toolbar color="light-blue" dark>
-            <v-toolbar-side-icon></v-toolbar-side-icon>
+            <v-toolbar-side-icon v-on:click="toggleList"></v-toolbar-side-icon>
   
             <v-toolbar-title>Players</v-toolbar-title>
   
@@ -17,11 +17,11 @@
               <v-icon>mdi-anchor</v-icon>
             </v-btn>
           </v-toolbar>
- <v-list>
+ <v-list  >
             <v-list-tile
-               v-for="playerid in id" :key="playerid">
+               v-for="playerid in id" :key="playerid" v-if="enabled==true ||playerid==playerWithBomb">
           
-              <v-list-tile-content>
+              <v-list-tile-content >
                 <v-list-tile-title v-text="playerid" v-bind:id="playerid">
                   
                   {{playerid}}
@@ -43,7 +43,11 @@
 <script>
 export default {
   name: "PlayerList",
-  props: ["id","playerWithBomb"],
+  props: ["id","playerWithBomb","listEnabled"],
+  data(){ 
+  return{
+    enabled: true
+  }},
   computed:
   {
     hasBomb:function(inputid)
@@ -54,7 +58,23 @@ export default {
         return true;
       }
     }
-}
+    
+},
+ methods: 
+ {
+ toggleList:function()
+     {
+      
+      if(this.enabled==true)
+       {
+         this.enabled=false;
+       }
+       else
+       {
+          this.enabled=true;
+       }
+     }
+ }
 
   //players: [],
 };
