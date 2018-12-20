@@ -120,5 +120,6 @@ ol.antwoorden {
 
 .nowrap {
   white-space: normal;
+  margin-bottom: 0;
 }
 </style>
