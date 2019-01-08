@@ -1,12 +1,23 @@
 <template>
   <div id="app">
-    <PlayerList :id="PlayerList" :playerWithBomb="PlayerWithBomb"/>
-    <div id="gameinfo">
-      <Bom :fase="BombState" id="bom"></Bom>
-
+ <v-container fluid grid-list-xl>
+      <v-layout row justify-space-between>
+        <v-flex  d-flex xs4 class="sm14 md14">
+          <PlayerList :id="PlayerList" :playerWithBomb="PlayerWithBomb"/>
+        </v-flex>
+        <v-flex xs4>
+      <div id="gameinfo">
+        <Bom :fase="BombState" id="bom"></Bom>
+          
       <v-alert>{{lobby}}</v-alert>
-    </div>
-
+         </div>
+        </v-flex>
+        <v-flex xs4>
+       <div id="gameinfo">
+      <v-alert>{{lobby}}</v-alert>
+         </div>
+        </v-flex>
+      </v-layout>
     <div id="info-modal">
       <v-btn slot="header" id="show-modal" @click="showModal = true">Help</v-btn>
       <HelpModal v-if="showModal" @close="showModal = false">
@@ -15,7 +26,7 @@
                                       sizes="(max-width: 850px) 480px,
         625px"   >-->
         <v-img slot="body" :src="helpimgw" aspect-ratio="0.85" height="400" contain="true"/>
-      </HelpModal>
+      </HelpModal
     </div>
 
     <!-- gameIsOver werkt niet goed-->

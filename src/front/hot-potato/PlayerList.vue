@@ -14,7 +14,7 @@
             <v-spacer></v-spacer>
   
             <v-btn icon>
-              <v-icon>mdi-anchor</v-icon>
+              <v-icon>info</v-icon>
             </v-btn>
           </v-toolbar>
  <v-list  >
