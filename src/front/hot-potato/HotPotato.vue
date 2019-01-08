@@ -32,6 +32,7 @@
     <!-- gameIsOver werkt niet goed-->
     <div v-if="gameOver">
       <v-alert v-model="alert" :value="false" type="warning" dismissible>Game-over!</v-alert>
+      <v-btn @click="returnToLobby">Back to the lobby</v-btn>
     </div>
     <div class="vraag" v-else-if="question != null">
       <Vraag id="vraag" v-bind:question="question" v-bind:btndisabled="answerButtonDisabled"/>
@@ -256,7 +257,14 @@ export default {
       this.alert = false;
       this.answercorrect = false;
       this.answerwrong = false;
-    }
+    },
+    returnToLobby: function() {
+      
+       window.location =
+          "../lobby/hotpotato"
+  
+    },
+    
   },
   computed: {
     gameIsOver: function() {
