@@ -1,4 +1,5 @@
 import { callbackify } from "util";
+import { stringify } from "querystring";
 
 let axios = require('axios');
 export enum mediatype
@@ -74,34 +75,77 @@ export class quizObject
 export class InfolandAPI
 {
     private url: string;
+    private cookie: string;
     private token: string;
 
     constructor(url: string){
         this.url = url;
     }
-
-    public tokenRetrieval(username: string,password: string, cb: (err: boolean, token: string) => void)
+    public cookieRetrieval(username: string,password: string ,cb: (err: boolean, token: string) => void)
     {
-        axios.post(this.url+'/api/authenticate',{
+        username = "beheerder";
+        password = "hotpotato";
+        axios.post(this.url+'/admin/authentication/logon',{
             "username": username,
-            "password": password
-        })
-        .then((response: any)=>
-        {
-            this.token = response.data;
-            cb(false,this.token);
-        })
-        .catch((error:string)=>
+            "password": password,
+        }).then((response: any)=>{
+            this.cookie = response.headers['set-cookie'][1];
+            cb(false,null);
+
+        }).catch((error:string)=>
         {
             cb(true,null);
             console.log(error);
         });
     }
+    
+    public tokenRetrieval(username: string,password: string,learnID: string, cb: (err: boolean, token: string) => void)
+    {
+        //console.log(this.cookie);
+        username = "beheerder";
+        password = "hotpotato";
+        axios.get(this.url+'/api/preview/quiz/'+learnID,{
+            headers:{
+                "Cookie": this.cookie,
+            }
+        })
+        .then((response: any)=>
+        {
+            //console.log(response);
+            let tokenlocation:string = response.request.res.responseUrl;
+            tokenlocation = JSON.stringify(tokenlocation.substring(34));
+            //console.log(tokenlocation);
+            axios.post(this.url+'/api/authenticate/token',tokenlocation,{
+                responseType: 'json',
+
+                headers:{
+                    "Cookie": this.cookie,
+                    'Content-Type': 'application/json',
+                },
+            })  
+            .then((response: any)=>{
+                this.token = response.data;
+                //console.log(response);
+                cb(false,this.token);
+            })
+            .catch((error:string)=>{
+                console.log(error);
+                cb(true,null);
+            })
+        }) 
+        .catch((error:string)=>
+        {
+            cb(true,null);
+            //console.log(error);
+        });
+    }
     public quizRetrieval(learnID: string, cb:(quiz: quizObject) => void)
     {
+        //console.log(this.token);
         axios.get(this.url+'/api/learnmaterial/'+learnID,{
             headers: {
-                Authorization: 'Bearer '+this.token, 
+                Authorization: 'Bearer '+this.token,
+                 
             }
         })
         .then((response: any)=>
@@ -165,7 +209,7 @@ export class InfolandAPI
         });
     }
     
-    public checkanswer(quizID : string,question:question,answerArray:answer[], cb: (isCorrect: boolean) => void)
+    public checkanswer(quizID : string,question:question,answerArray:String[], cb: (isCorrect: boolean) => void)
     {
         let answerString: String|String[] = [];
         let type = question.type;
@@ -175,19 +219,9 @@ export class InfolandAPI
         {
             case multiplechoice:
             {
-                
-                for (let answer of answerArray)
-                {
-                    answerString = answerString.concat(answer.id)
-                }
-                break;
-            }
-            case numberanswer:
-            {
-                for (let answer of answerArray)
-                {
-                    answerString = answer.text
-                }
+                //console.log(answer);
+                answerString = answerArray
+
                 break;
             }
             default:
@@ -203,22 +237,52 @@ export class InfolandAPI
                 Authorization: 'Bearer '+this.token,
             }
         });
-        console.log(JSON.stringify([this.url+'/api/learnmaterial/'+quizID+'/update/'+question.id,{
-            confirmed: false,
-            answer:answerString,
-            time:69,
-        }]));
+        // console.log(JSON.stringify([this.url+'/api/learnmaterial/'+quizID+'/update/'+question.id,{
+        //     confirmed: false,
+        //     answer:answerString,
+        //     time:69,
+        // }]));
         instance.post(this.url+'/api/learnmaterial/'+quizID+'/update/'+question.id,{
-            confirmed: false,
+            confirmed: true,
             answer:answerString,
             time:69,
         })
         .then((response: any)=>{
-            console.log(response.status);
+            let answers = response.data.question.answers;
+            let correctanswers: String|String [] = [];
+            for(let answer of answers)
+            {
+
+                if(answer.correct === true)
+                {
+                    correctanswers.push(answer.id);
+                }
+            }
+            for(let answer of answerArray)
+            {
+                console.log("an answer");
+                let correct = false;
+                for(let correctanswer of correctanswers)
+                {
+                    if (answer === correctanswer)
+                    {
+                        console.log("correct answer");
+                        correct = true;
+                    }
+                }
+                if(!correct)
+                {
+                    cb (false);
+                    return;
+                }
+            }
+            cb(true);
+            return;
         })
         .catch((error:string)=>{
-           // console.log(error);
+           console.log(error);
         })
+        //cb(false);
     } 
 
     public resetQuiz(quizID: string)

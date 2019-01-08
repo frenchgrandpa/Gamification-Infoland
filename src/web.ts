@@ -43,7 +43,9 @@ app.use('/api', new API().router);
 
 let server = http.createServer(app);
 global.infolandAPI = new InfolandAPI('https://pubquiz.iqualify.nl');
-global.infolandAPI.tokenRetrieval('berk', 'test', (err, token) => {
+global.infolandAPI.cookieRetrieval("beheerder","hotpotato",(err,token)=>{
+    global.infolandAPI.tokenRetrieval('berk', 'test', 'c6d040a8-900c-47d5-9291-e724cd01ba47', (err, token) => {
+    });
 });
 
 

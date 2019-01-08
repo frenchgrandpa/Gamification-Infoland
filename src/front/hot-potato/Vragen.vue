@@ -19,14 +19,16 @@
         </v-img>
       </v-flex>
       <v-flex v-for="antwoord in question.answers" :key="antwoord.id" xs12 sm6 py-1 px-2>
-        <v-btn
-          block
-          v-on:click="answer(antwoord.id)"
-          v-bind:id="antwoord.id"
-          v-bind:disabled="btndisabled"
-          class="nowrap"
-        >{{antwoord.text}}</v-btn>
-      </v-flex>
+        <v-btn v-if="question.correctanswers>1" block v-on:click = "answerMultiple(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
+          {{antwoord.text}}
+          <!--TODO: Button disablen wanneer hierop gedrukt is en een popup met het aantal antwoorden dat gegeven moet worden-->
+        </v-btn>
+        <v-btn v-else block v-on:click = "answer(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
+          {{antwoord.text}}
+        </v-btn>
+        
+      </v-flex> 
+   
     </v-layout>
   </v-container>
 </template>
@@ -40,6 +42,7 @@ export default {
   data() {
     return {
       vraag: "Is dit een vraag?",
+      selectedAnswers: [],
       antwoorden: [
         {
           text: "Ja",
@@ -59,8 +62,8 @@ export default {
         }
       ],
       image:
-        "https://uploads.codesandbox.io/uploads/user/ae416c95-edc9-4929-bfa4-84a2c042e083/zKY6-thumbnail.png",
-      correctanswers: 1
+        "https://uploads.codesandbox.io/uploads/user/ae416c95-edc9-4929-bfa4-84a2c042e083/zKY6-thumbnail.png"
+      ,
     };
   },
   components: {
@@ -73,14 +76,26 @@ export default {
           this.vraag = response.data.text || "";
           this.image = response.data.media || "";
           this.antwoorden = response.data.answers || [];
-          this.correctanswers = response.data.correctanswers || "";
+          //this.correctanswers = response.data.correctanswers || "";
         })
         .catch(err => {});
     },
-    answer(id) {
+    answer(id)
+    {
       console.log("hello");
-      global.socket.emit("answer", id);
-    }
+      global.socket.emit('answer',[id]);
+    },
+    answerMultiple(id)
+    {
+      console.log("added " + id)
+      this.selectedAnswers[this.selectedAnswers.length] = id;
+      console.log("Aantal gegeven antwoorden: " + this.selectedAnswers.length + ". Aantal totale antwoorden: " + this.question.correctanswers)
+      if(this.selectedAnswers.length >= this.question.correctanswers) {
+        console.log("answered " + this.selectedAnswers.length)
+        global.socket.emit('answer', this.selectedAnswers);
+        this.selectedAnswers = [];
+      }
+    },
   }
 };
 </script>
@@ -118,5 +133,6 @@ ol.antwoorden {
 
 .nowrap {
   white-space: normal;
+  margin-bottom: 0;
 }
 </style>

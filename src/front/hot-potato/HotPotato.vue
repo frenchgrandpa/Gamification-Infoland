@@ -78,93 +78,111 @@ function getQueryFromURL(url, query) {
   return url.split(query + "=")[1].split("&")[0];
 }
 
-if (window.location.href.indexOf("game/hotpotato") > -1) {
-  if (
-    getQueryFromURL(window.location.href, "lobby") === "" ||
-    getQueryFromURL(window.location.href, "name") === ""
-  )
-    window.location.replace(window.location.origin + "/lobby/hotpotato");
+if (window.location.href.indexOf('game/hotpotato') > -1) {
+  if (getQueryFromURL(window.location.href, 'lobby') === "" || getQueryFromURL(window.location.href, 'name') === "")	
+    window.location.replace(window.location.origin + '/lobby/hotpotato');
 
-  Axios.get(
-    "/api/isrunning/" + getQueryFromURL(window.location.href, "lobby")
-  ).then(response => {
+  Axios.get("/api/isrunning/" + getQueryFromURL(window.location.href, 'lobby')).then((response) => {
     if (response.data)
-      window.location.replace(window.location.origin + "/lobby/hotpotato");
+      window.location.replace(window.location.origin + '/lobby/hotpotato');
     else {
-      global.socket = io(
-        window.location.origin +
-          window.location.pathname +
-          "/" +
-          getQueryFromURL(window.location.href, "lobby")
-      );
+}});
+
+global.socket = io(window.location.origin + window.location.pathname + "/" + getQueryFromURL(window.location.href, 'lobby'));
       console.log(window.location.origin + window.location.pathname);
 
-      global.socket.emit("name", getQueryFromURL(window.location.href, "name"));
+global.socket.on("explosion", function(msg) {
+  app.$children[0].BombState = 4;
+  app.$children[0].gameOver(true);
+  
+});
+global.socket.on("answerResult", function(msg) {
+  if (msg) {
+    app.$children[0].resetAlert();
+    app.$children[0].answercorrect = true;
+    setTimeout(function(){app.$children[0].answercorrect = false},2500);
+  } else {
+    app.$children[0].resetAlert();
+    app.$children[0].answerwrong = true;
+    setTimeout(function(){app.$children[0].answerwrong = false},5000);
+  }
+});
 
       global.socket.on("playerCount", function(msg) {
         console.log(msg);
       });
 
-      var hp = app.$children[0];
+
+      //var hp = app.$children[0];
+
+      
+
+      global.socket.emit('name', getQueryFromURL(window.location.href, 'name'));
+
+      global.socket.on("playerCount", function(msg) {
+        console.log(msg);
+      });
+
 
       global.socket.on("gameStart", function(msg) {
-        hp.initAudio();
+        app.$children[0].initAudio();
       });
       global.socket.on("question", function(msg) {
         console.log(msg);
-        hp.getQuestion(msg);
+        app.$children[0].getQuestion(msg);
       });
       global.socket.on("gameEnd", function(end) {
         if (end) {
-          hp.resetAlert();
-          hp.alert = true;
-          hp.gameOver = true;
+          app.$children[0].resetAlert();
+          app.$children[0].alert = true;
+          app.$children[0].gameOver = true;
         }
       });
       let pList = [];
       global.socket.on("players", function(players) {
         console.log(players);
         pList = players;
-        hp.getPlayerList(players);
+        app.$children[0].getPlayerList(players);
       });
       global.socket.on("bombState", function(state) {
-        hp.BombState = state;
+        app.$children[0].BombState = state;
       });
       global.socket.on("bomb", function(id) {
-        hp.getPlayerWithBomb(pList[id]);
+        app.$children[0].getPlayerWithBomb(pList[id]);
         console.log(id + "has the bomb!");
         if (global.socket.id == id) {
-          window.navigator.vibrate([200, 200]);
-          hp.answerButtonDisabled = false;
+            window.navigator.vibrate([200, 200]);
+          app.$children[0].answerButtonDisabled = false;
         } else {
-          hp.answerButtonDisabled = true;
+          app.$children[0].answerButtonDisabled = true;
         }
       });
       global.socket.on("explosion", function(msg) {
-        hp.BombState = 4;
-        hp.gameOver(true);
+        app.$children[0].BombState = 4;
+        app.$children[0].gameOver(true);
       });
       global.socket.on("answerResult", function(msg) {
         if (msg) {
-          hp.resetAlert();
-          hp.answercorrect = true;
-          hp.audioCorrect.play();
+          app.$children[0].resetAlert();
+          app.$children[0].answercorrect = true;
+          app.$children[0].audioCorrect.play();
           // todo: maak hier een variable van
         } else {
-          hp.audioWrong.play();
-          hp.resetAlert();
-          hp.answerwrong = true;
-          if ((hp.PlayerWithBomb = global.socket.id)) {
-            hp.answerButtonDisabled = true;
+          app.$children[0].audioWrong.play();
+          app.$children[0].resetAlert();
+          app.$children[0].answerwrong = true;
+          if ((app.$children[0].PlayerWithBomb = global.socket.id)) {
+            app.$children[0].answerButtonDisabled = true;
             setTimeout(function() {
-              hp.answerButtonDisabled = false;
+              app.$children[0].answerButtonDisabled = false;
             }, 5000);
           }
         }
       });
     }
-  });
-}
+
+
+
 
 export default {
   name: "HotPotato",
