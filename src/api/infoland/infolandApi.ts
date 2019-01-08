@@ -208,6 +208,25 @@ export class InfolandAPI
             console.log(error);
         });
     }
+    private checkduplicates(answerArray: String[])
+    {
+        var i : number;
+        var j : number;
+        for(i = 0 ; i< answerArray.length; i++)
+        {
+            for(j = 0; j< answerArray.length; j++)
+            {
+                if(i != j)
+                {
+                    if(answerArray[i] === answerArray[j])
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
     
     public checkanswer(quizID : string,question:question,answerArray:String[], cb: (isCorrect: boolean) => void)
     {
@@ -242,6 +261,11 @@ export class InfolandAPI
         //     answer:answerString,
         //     time:69,
         // }]));
+
+        if(this.checkduplicates(answerArray))
+        {
+            cb(false);
+        }
         instance.post(this.url+'/api/learnmaterial/'+quizID+'/update/'+question.id,{
             confirmed: true,
             answer:answerString,
@@ -280,7 +304,7 @@ export class InfolandAPI
             return;
         })
         .catch((error:string)=>{
-           console.log(error);
+           //console.log(error);
         })
         //cb(false);
     } 
