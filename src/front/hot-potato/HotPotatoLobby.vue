@@ -2,7 +2,7 @@
   <v-app>
     <div class="container">
       <h1>{{msg}}</h1>
-      <p>{{currentRoute}}</p>
+      <!-- <p>{{currentRoute}}</p> -->
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-text-field v-model="UserName" :rules="nameRules" :counter="20" label="Name" required></v-text-field>
         <v-select

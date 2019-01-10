@@ -20,10 +20,10 @@
         <p class="aantalAns" v-else>Geef {{question.correctanswers}} antwoorden</p>
       </v-flex>
       <v-flex v-for="antwoord in question.answers" :key="antwoord.id" xs12 sm6 py-1 px-2>
-        <v-btn v-if="question.correctanswers>1" block v-on:click="answerMultiple(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
+        <v-btn class="answerButton" v-if="question.correctanswers>1" block v-on:click="answerMultiple(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
           {{antwoord.text}}
         </v-btn>
-        <v-btn v-else block v-on:click = "answer(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
+        <v-btn class="answerButton" v-else block v-on:click = "answer(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
           {{antwoord.text}}
         </v-btn>
       </v-flex> 
@@ -93,7 +93,7 @@ ol.antwoorden {
   display: flex;
   justify-content: space-between;
   max-width: 80%;
-  max-height: 40%;
+  /* max-height: 40%; */
 }
 
 #image {
@@ -122,5 +122,9 @@ ol.antwoorden {
   margin: auto;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.5em;
+}
+.answerButton .v-btn__content
+{
+  white-space: normal !important;
 }
 </style>
