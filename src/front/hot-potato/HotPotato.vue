@@ -2,22 +2,26 @@
   <div id="app">
  <v-container fluid grid-list-xl>
       <v-layout row justify-space-between>
-        <v-flex  d-flex xs4 class="sm14 md14">
+
+        <v-flex  d-flex xs4 md12>
           <PlayerList :id="PlayerList" :playerWithBomb="PlayerWithBomb"/>
         </v-flex>
-        <v-flex xs4>
+
+        <v-flex xs4 md12>
       <div id="gameinfo">
         <Bom :fase="BombState" id="bom"></Bom>
           
       <v-alert>{{lobby}}</v-alert>
          </div>
         </v-flex>
-        <v-flex xs4>
+
+        <v-flex xs4 >
             <v-btn v-if="!gameOver" @click="returnToLobby" >Back to the lobby</v-btn>
        <div id="gameinfo">
       <v-alert>{{lobby}}</v-alert>
          </div>
         </v-flex>
+
       </v-layout>
     <div id="info-modal">
       <v-btn slot="header" id="show-modal" @click="showModal = true">Help</v-btn>

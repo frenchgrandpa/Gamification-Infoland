@@ -72,6 +72,11 @@ export default abstract class Socket {
         this.io.emit('answerResult', isCorrect);
     }
 
+    public emitCorrectAmount(amount:number)
+    {
+        this.io.emit('correctAmount',amount);
+    }
+
     public emitQuestion(question: question) {
         this.io.emit('question', question);
     }

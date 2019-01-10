@@ -4,7 +4,7 @@
 <v-container >
 
 
-<v-flex xs12 sm4 offset-sm50>
+<v-flex>
  <v-card class="elevation-10">
     <v-toolbar color="light-blue" dark>
             <v-toolbar-side-icon></v-toolbar-side-icon>
