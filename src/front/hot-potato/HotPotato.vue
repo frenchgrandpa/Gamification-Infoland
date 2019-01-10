@@ -288,6 +288,10 @@ export default {
   overflow-x: hidden;
 }
 
+html {
+  overflow: hidden;
+}
+
 #gameinfo {
   display: flex;
 }
