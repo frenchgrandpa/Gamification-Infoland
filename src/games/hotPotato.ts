@@ -71,9 +71,6 @@ export default class HotPotato extends Game<HotPotatoSocket> {
         }
             
         global.infolandAPI.checkanswer("e09e2143-ef73-4351-b1f8-f3c10295f0e4",this.currentQuestion,data,(_iscorrect,amountcorrect)=>{
-            console.log(_iscorrect);
-            console.log(amountcorrect);
-        //let correct = (data === this.currentQuestion.answers[0].id) ? true : false;
 
         this.socketClient.emitAnswerResult(_iscorrect);
         if (_iscorrect) {
