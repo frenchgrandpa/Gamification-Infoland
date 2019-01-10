@@ -19,16 +19,26 @@
         </v-img>
       </v-flex>
       <v-flex v-for="antwoord in question.answers" :key="antwoord.id" xs12 sm6 py-1 px-2>
-        <v-btn v-if="question.correctanswers>1" block v-on:click = "answerMultiple(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
-          {{antwoord.text}}
+        <v-btn
+          v-if="question.correctanswers > 1"
+          block
+          v-on:click="answerMultiple(antwoord.id)"
+          v-bind:id="antwoord.id"
+          :disabled="isSelected(antwoord.id) || isDisabled(antwoord.id)"
+        >
+          <p class="nowrap">{{antwoord.text}}</p>
           <!--TODO: Button disablen wanneer hierop gedrukt is en een popup met het aantal antwoorden dat gegeven moet worden-->
         </v-btn>
-        <v-btn v-else block v-on:click = "answer(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
-          {{antwoord.text}}
+        <v-btn
+          v-else
+          block
+          v-on:click="answer(antwoord.id)"
+          v-bind:id="antwoord.id"
+          v-bind:disabled="isDisabled(antwoord.id)"
+        >
+          <p class="nowrap">{{antwoord.text}}</p>
         </v-btn>
-        
-      </v-flex> 
-   
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -63,13 +73,33 @@ export default {
       ],
       image:
         "https://uploads.codesandbox.io/uploads/user/ae416c95-edc9-4929-bfa4-84a2c042e083/zKY6-thumbnail.png"
-      ,
     };
   },
   components: {
     AnswerButton
   },
+  computed: {},
   methods: {
+    isSelected: function(id) {
+      return this.selectedAnswers.includes(id);
+    },
+    isDisabled(id) {
+      console.log("check " + id);
+
+      this.selectedAnswers.forEach(function(item, index) {
+        console.log(index);
+      });
+
+      if (this.selectedAnswers.includes(id)) {
+        return true;
+      } else if (this.btndisabled) {
+        console.log(id + " disabled nothing to answer");
+        return true;
+      } else {
+        console.log(id + " displayed");
+        return false;
+      }
+    },
     next() {
       Axios.get("/api/vraag")
         .then(response => {
@@ -80,22 +110,25 @@ export default {
         })
         .catch(err => {});
     },
-    answer(id)
-    {
+    answer(id) {
       console.log("hello");
-      global.socket.emit('answer',[id]);
+      global.socket.emit("answer", [id]);
     },
-    answerMultiple(id)
-    {
-      console.log("added " + id)
-      this.selectedAnswers[this.selectedAnswers.length] = id;
-      console.log("Aantal gegeven antwoorden: " + this.selectedAnswers.length + ". Aantal totale antwoorden: " + this.question.correctanswers)
-      if(this.selectedAnswers.length >= this.question.correctanswers) {
-        console.log("answered " + this.selectedAnswers.length)
-        global.socket.emit('answer', this.selectedAnswers);
+    answerMultiple(id) {
+      console.log("added " + id);
+      this.selectedAnswers.push(id);
+      console.log(
+        "Aantal gegeven antwoorden: " +
+          this.selectedAnswers.length +
+          ". Aantal totale antwoorden: " +
+          this.question.correctanswers
+      );
+      if (this.selectedAnswers.length >= this.question.correctanswers) {
+        console.log("answered " + this.selectedAnswers.length);
+        global.socket.emit("answer", this.selectedAnswers);
         this.selectedAnswers = [];
       }
-    },
+    }
   }
 };
 </script>
