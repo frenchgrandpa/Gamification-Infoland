@@ -183,6 +183,9 @@ export class InfolandAPI
                     {
                         quest.setNumAns(correctanswers);
                     }
+                    else{
+                        quest.setNumAns(1);
+                    }
                     quest.type = 1;
                     for(let j = 0; j < answerdata.length; j++)
                     {

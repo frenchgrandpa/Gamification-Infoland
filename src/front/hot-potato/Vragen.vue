@@ -16,18 +16,17 @@
             </v-flex>
           </v-layout>
         </v-img>
+        <p>Geef {{question.correctanswers}} antwoorden</p>
       </v-flex>
       <v-flex v-for="antwoord in question.answers" :key="antwoord.id" xs12 sm6 py-1 px-2>
-        <v-btn v-if="question.correctanswers>1" block v-on:click = "answerMultiple(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
+        <v-btn v-if="question.correctanswers>1" block v-on:click="answerMultiple(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
           {{antwoord.text}}
           <!--TODO: Button disablen wanneer hierop gedrukt is en een popup met het aantal antwoorden dat gegeven moet worden-->
         </v-btn>
         <v-btn v-else block v-on:click = "answer(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
           {{antwoord.text}}
         </v-btn>
-        
       </v-flex> 
-   
     </v-layout>
   </v-container>
 </template>
@@ -42,26 +41,8 @@ export default {
     return {
       vraag: "Is dit een vraag?",
       selectedAnswers: [],
-      antwoorden: [
-        {
-          text: "Ja",
-          id: 0
-        },
-        {
-          text: "Nee",
-          id: 1
-        },
-        {
-          text: "Misschien",
-          id: 2
-        },
-        {
-          text: "Dit is een antwoord",
-          id: 3
-        }
-      ],
-      image:
-        "https://uploads.codesandbox.io/uploads/user/ae416c95-edc9-4929-bfa4-84a2c042e083/zKY6-thumbnail.png"
+      antwoorden: [],
+      image: ""
       ,
     };
   },
@@ -87,6 +68,7 @@ export default {
     answerMultiple(id)
     {
       console.log("added " + id)
+      
       this.selectedAnswers[this.selectedAnswers.length] = id;
       console.log("Aantal gegeven antwoorden: " + this.selectedAnswers.length + ". Aantal totale antwoorden: " + this.question.correctanswers)
       if(this.selectedAnswers.length >= this.question.correctanswers) {
@@ -94,7 +76,7 @@ export default {
         global.socket.emit('answer', this.selectedAnswers);
         this.selectedAnswers = [];
       }
-    },
+    }
   }
 };
 </script>
