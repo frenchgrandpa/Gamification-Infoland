@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
       <v-content>
-        <img width="25%" src="https://www.nvvkveiligheidscongres.nl/cms/multimedia/0000635rjxxcapms/Infoland.jpg">
+        <img width="25%" src="i.imgur.com/xrioFiR.png">
         <br>
         <hr width="40%"> 
         <br>
@@ -10,7 +10,6 @@
             <br>
             <br>
             <a href="/lobby/hotpotato"><v-btn >Hot Potato</v-btn></a>    
-            <v-btn @click="login">Login test</v-btn>
         </div>
       </v-content>
     
