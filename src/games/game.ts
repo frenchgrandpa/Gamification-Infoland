@@ -19,8 +19,8 @@ export default abstract class Game<SocketType extends Socket> {
         if (this.finished)
             return cb(false);
         global.infolandAPI.cookieRetrieval("beheerder","hotpotato", (err, token)=>{
-            global.infolandAPI.tokenRetrieval("beheerder","hotpotato",'c6d040a8-900c-47d5-9291-e724cd01ba47', (err, token) => {
-                global.infolandAPI.quizRetrieval('c6d040a8-900c-47d5-9291-e724cd01ba47', (quiz) => {
+            global.infolandAPI.tokenRetrieval("beheerder","hotpotato",'e09e2143-ef73-4351-b1f8-f3c10295f0e4', (err, token) => {
+                global.infolandAPI.quizRetrieval('e09e2143-ef73-4351-b1f8-f3c10295f0e4', (quiz) => {
                     while (quiz.questions[this.questionIndex].mediatype == 1 || quiz.questions[this.questionIndex].type != 1 && this.questionIndex < quiz.questions.length - 1) {
                         this.questionIndex++;
                     }
