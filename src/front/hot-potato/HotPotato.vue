@@ -12,7 +12,7 @@
                 <Bom :fase="BombState" id="bom"></Bom>
             </div>
         </v-flex>
-
+ 
 
       </v-layout>
     <div id="info-modal" v-if="gameOver">
