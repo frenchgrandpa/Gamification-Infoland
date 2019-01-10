@@ -44,12 +44,12 @@ export default {
       selectedLobby: null,
       lobbys: [
         {
-          text: "Lobby 0",
+          text: "W33dwick's lobby",
           value: 0,
           currentplayers: 0
         },
         {
-          text: "Lobby 1",
+          text: "Pepe's lobby",
           value: 1,
           currentplayers: 0
         }
