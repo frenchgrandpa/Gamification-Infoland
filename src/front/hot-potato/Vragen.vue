@@ -16,7 +16,8 @@
             </v-flex>
           </v-layout>
         </v-img>
-        <p>Geef {{question.correctanswers}} antwoorden</p>
+        <p v-if="question.correctanswers === 1">Geef {{question.correctanswers}} antwoord</p>
+        <p v-else>Geef {{question.correctanswers}} antwoorden</p>
       </v-flex>
       <v-flex v-for="antwoord in question.answers" :key="antwoord.id" xs12 sm6 py-1 px-2>
         <v-btn v-if="question.correctanswers>1" block v-on:click="answerMultiple(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
