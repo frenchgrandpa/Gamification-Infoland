@@ -4,7 +4,7 @@
       <h1>{{msg}}</h1>
       <p>{{currentRoute}}</p>
       <v-form ref="form" v-model="valid" lazy-validation>
-        <v-text-field v-model="UserName" :rules="nameRules" :counter="10" label="Name" required></v-text-field>
+        <v-text-field v-model="UserName" :rules="nameRules" :counter="20" label="Name" required></v-text-field>
         <v-select
           v-model="selectedLobby"
           :items="lobbys"

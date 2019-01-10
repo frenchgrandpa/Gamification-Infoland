@@ -139,6 +139,16 @@ export class InfolandAPI
             //console.log(error);
         });
     }
+
+    public concatquiz(quiz:quizObject,amount:number)
+    {
+        for(let i = 0; i<amount;i++)
+        {
+            quiz.questions = quiz.questions.concat(quiz.questions);
+        }
+        return quiz;
+    }
+
     public quizRetrieval(learnID: string, cb:(quiz: quizObject) => void)
     {
         //console.log(this.token);
@@ -183,9 +193,6 @@ export class InfolandAPI
                     {
                         quest.setNumAns(correctanswers);
                     }
-                    else{
-                        quest.setNumAns(1);
-                    }
                     quest.type = 1;
                     for(let j = 0; j < answerdata.length; j++)
                     {
@@ -204,6 +211,7 @@ export class InfolandAPI
                 quiz.add(quest);
             }
             //console.log(quiz.questions);
+            quiz = this.concatquiz(quiz,2);
             cb(quiz);
         })
         .catch((error:string)=>
@@ -230,7 +238,7 @@ export class InfolandAPI
         }
         return false;
     }
-    
+
     public checkanswer(quizID : string,question:question,answerArray:String[], cb: (isCorrect: boolean,amount:number) => void)
     {
         let answerString: String|String[] = [];
@@ -309,7 +317,7 @@ export class InfolandAPI
             return;
         })
         .catch((error:string)=>{
-           //console.log(error);
+           console.log(error);
         })
         //cb(false);
     } 
