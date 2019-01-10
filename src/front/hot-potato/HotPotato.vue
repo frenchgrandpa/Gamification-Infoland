@@ -14,11 +14,11 @@
         </v-flex>
 
         <v-flex xs12 md4 v-if="gameOver">
-            <v-btn @click="returnToLobby" hidden>Back to the lobby</v-btn>
+            <v-btn @click="returnToLobby" hidden style="margin-left: -70px">Back to the lobby</v-btn>
         </v-flex>
 
       </v-layout>
-    <div id="info-modal" v-if="gameOver">
+    <div id="info-modal">
       <v-btn slot="header" id="show-modal" @click="showModal = true">Help</v-btn>
       <HelpModal v-if="showModal" @close="showModal = false">
         <v-img slot="body" :src="helpimgw" aspect-ratio="0.85" height="400" contain="true"/>
@@ -38,6 +38,7 @@
     </div>
     <v-alert v-model="answercorrect" :value="false" type="succes" dismissible>Correct answer!</v-alert>
     <v-alert v-model="answerwrong" :value="false" type="error" dismissible>Wrong answer!</v-alert>
+ </v-container>
   </div>
 </template>
 
@@ -284,6 +285,7 @@ export default {
   padding: 0px;
   height: 100%;
   background: #429feb;
+  overflow-x: hidden;
 }
 
 #gameinfo {
