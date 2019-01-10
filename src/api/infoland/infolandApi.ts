@@ -198,10 +198,8 @@ export class InfolandAPI
                     {
                         
                         if (!answerdata[j] || !answerdata[j].id) continue;//TEMPORARILY CHECK THIS
-                        //console.log(i+" , "+ j);
                         var ans = new answer(answerdata[j].id,answerdata[j].text,answerdata[j].correct)
                         quest.add(ans);
-                        //console.log(quest);
                     }
                 }
                 else if(questiondata[i].questionType == 6)
@@ -210,7 +208,6 @@ export class InfolandAPI
                 }
                 quiz.add(quest);
             }
-            //console.log(quiz.questions);
             quiz = this.concatquiz(quiz,2);
             cb(quiz);
         })
@@ -249,7 +246,6 @@ export class InfolandAPI
         {
             case multiplechoice:
             {
-                //console.log(answer);
                 answerString = answerArray
 
                 break;
@@ -267,11 +263,6 @@ export class InfolandAPI
                 Authorization: 'Bearer '+this.token,
             }
         });
-        // console.log(JSON.stringify([this.url+'/api/learnmaterial/'+quizID+'/update/'+question.id,{
-        //     confirmed: false,
-        //     answer:answerString,
-        //     time:69,
-        // }]));
 
         if(this.checkduplicates(answerArray))
         {
@@ -296,7 +287,6 @@ export class InfolandAPI
             let correctamount = 0;
             for(let answer of answerArray)
             {
-                console.log("an answer");
                 let correct = false;
                 for(let correctanswer of correctanswers)
                 {
@@ -310,6 +300,7 @@ export class InfolandAPI
             }
             if(correctamount!=correctanswers.length)
             {
+                console.log("wrong answer");
                 cb(false,correctamount);
                 return;
             }
@@ -317,7 +308,7 @@ export class InfolandAPI
             return;
         })
         .catch((error:string)=>{
-           console.log(error);
+           //console.log(error);
         })
         //cb(false);
     } 
