@@ -13,9 +13,6 @@
             </div>
         </v-flex>
 
-        <v-flex xs12 md4 v-if="gameOver">
-            <v-btn @click="returnToLobby" hidden>Back to the lobby</v-btn>
-        </v-flex>
 
       </v-layout>
     <div id="info-modal" v-if="gameOver">
