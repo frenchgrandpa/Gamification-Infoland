@@ -183,6 +183,9 @@ export class InfolandAPI
                     {
                         quest.setNumAns(correctanswers);
                     }
+                    else{
+                        quest.setNumAns(1);
+                    }
                     quest.type = 1;
                     for(let j = 0; j < answerdata.length; j++)
                     {
@@ -228,7 +231,7 @@ export class InfolandAPI
         return false;
     }
     
-    public checkanswer(quizID : string,question:question,answerArray:String[], cb: (isCorrect: boolean) => void)
+    public checkanswer(quizID : string,question:question,answerArray:String[], cb: (isCorrect: boolean,amount:number) => void)
     {
         let answerString: String|String[] = [];
         let type = question.type;
@@ -264,7 +267,7 @@ export class InfolandAPI
 
         if(this.checkduplicates(answerArray))
         {
-            cb(false);
+            cb(false,0);
         }
         instance.post(this.url+'/api/learnmaterial/'+quizID+'/update/'+question.id,{
             confirmed: true,
@@ -282,6 +285,7 @@ export class InfolandAPI
                     correctanswers.push(answer.id);
                 }
             }
+            let correctamount = 0;
             for(let answer of answerArray)
             {
                 console.log("an answer");
@@ -292,15 +296,16 @@ export class InfolandAPI
                     {
                         console.log("correct answer");
                         correct = true;
+                        correctamount++;
                     }
                 }
-                if(!correct)
-                {
-                    cb (false);
-                    return;
-                }
             }
-            cb(true);
+            if(correctamount!=correctanswers.length)
+            {
+                cb(false,correctamount);
+                return;
+            }
+            cb(true,correctanswers.length);
             return;
         })
         .catch((error:string)=>{

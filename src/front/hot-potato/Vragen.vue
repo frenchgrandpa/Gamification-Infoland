@@ -4,7 +4,6 @@
       <v-flex xs12 align-content-center>
         <v-img
           :src="question.media"
-          :aspect-ratio="16/9"
           max-width="600px"
           style="margin-left: auto; margin-right: auto;"
         >

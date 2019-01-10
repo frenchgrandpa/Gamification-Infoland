@@ -1,42 +1,33 @@
 <template>
   <div id="app">
  <v-container fluid grid-list-xl>
-      <v-layout row justify-space-between>
+      <v-layout row wrap>
 
-        <v-flex  d-flex xs4 md12>
-          <PlayerList :id="PlayerList" :playerWithBomb="PlayerWithBomb"/>
+        <v-flex xs12 md4>
+            <PlayerList :id="PlayerList" :playerWithBomb="PlayerWithBomb"/>
         </v-flex>
 
-        <v-flex xs4 md12>
-      <div id="gameinfo">
-        <Bom :fase="BombState" id="bom"></Bom>
-          
-      <v-alert>{{lobby}}</v-alert>
-         </div>
+        <v-flex xs12 md4>
+            <div id="gameinfo">
+                <Bom :fase="BombState" id="bom"></Bom>
+            </div>
         </v-flex>
 
-        <v-flex xs4 >
-            <v-btn v-if="!gameOver" @click="returnToLobby" >Back to the lobby</v-btn>
-       <div id="gameinfo">
-      <v-alert>{{lobby}}</v-alert>
-         </div>
+        <v-flex xs12 md4 v-if="gameOver">
+            <v-btn @click="returnToLobby" hidden>Back to the lobby</v-btn>
         </v-flex>
 
       </v-layout>
-    <div id="info-modal">
+    <div id="info-modal" v-if="gameOver">
       <v-btn slot="header" id="show-modal" @click="showModal = true">Help</v-btn>
       <HelpModal v-if="showModal" @close="showModal = false">
-        <!--<img id="helpimg" slot="body" srcset="../assets/info-480w.png 480w,
-                                            ../assets/bomtemp.png 625w"
-                                      sizes="(max-width: 850px) 480px,
-        625px"   >-->
         <v-img slot="body" :src="helpimgw" aspect-ratio="0.85" height="400" contain="true"/>
-      </HelpModal
+      </HelpModal>
     </div>
 
     <!-- gameIsOver werkt niet goed-->
     <div v-if="gameOver">
-      <v-alert v-model="alert" :value="false" type="warning" dismissible>Game-over!</v-alert>
+      <v-alert v-model="alert" :value="false" type="warning" dismissible>Game-over!<br>{{PlayerWithBomb}} has lost!</v-alert>
       <v-btn @click="returnToLobby">Back to the lobby</v-btn>
     </div>
     <div class="vraag" v-else-if="question != null">
@@ -123,7 +114,7 @@ global.socket.on("answerResult", function(msg) {
 
       
 
-      global.socket.emit('name', getQueryFromURL(window.location.href, 'name'));
+      global.socket.emit('name', getQueryFromURL(decodeURIComponent(window.location.href), 'name'));
 
       global.socket.on("playerCount", function(msg) {
         console.log(msg);
@@ -131,7 +122,7 @@ global.socket.on("answerResult", function(msg) {
 
 
       global.socket.on("gameStart", function(msg) {
-        app.$children[0].initAudio();
+        app.$children[0].startGame();
       });
       global.socket.on("question", function(msg) {
         console.log(msg);
@@ -165,13 +156,13 @@ global.socket.on("answerResult", function(msg) {
       });
       global.socket.on("explosion", function(msg) {
         app.$children[0].BombState = 4;
-        app.$children[0].gameOver(true);
+        app.$children[0].gameOver = true;
       });
       global.socket.on("answerResult", function(msg) {
         if (msg) {
+          app.$children[0].audioCorrect.play();
           app.$children[0].resetAlert();
           app.$children[0].answercorrect = true;
-          app.$children[0].audioCorrect.play();
           // todo: maak hier een variable van
         } else {
           app.$children[0].audioWrong.play();
@@ -233,9 +224,7 @@ export default {
       // `this` inside methods points to the Vue instance
       alert("Hello " + this.question + "!");
       // `event` is the native DOM event
-      if (event) {
-        alert(event.target.tagName);
-      }
+      
     },
     getQuestion: function(msg) {
       this.question = msg;
@@ -250,6 +239,8 @@ export default {
       Axios.get(
         "/api/startgame/" + getQueryFromURL(window.location.href, "lobby")
       );
+      this.audioCorrect.play();
+      this.gameOver = false;
     },
     getPlayerWithBomb: function(id) {
       this.PlayerWithBomb = id;
