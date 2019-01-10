@@ -281,6 +281,12 @@ export default {
   padding: 0px;
   height: 100%;
   background: #429feb;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+html {
+  overflow: hidden;
 }
 
 #gameinfo {
