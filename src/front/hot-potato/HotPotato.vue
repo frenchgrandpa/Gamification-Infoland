@@ -12,7 +12,7 @@
                 <Bom :fase="BombState" id="bom"></Bom>
             </div>
         </v-flex>
-
+ 
 
       </v-layout>
       <HelpModal v-if="showModal" @close="showModal = false">
@@ -169,6 +169,7 @@ global.socket.on("answerResult", function(msg) {
             }, 5000);
           }
         }
+        document.getElementById("app").scrollTop = document.getElementById("app").scrollHeight;
       });
     }
 
