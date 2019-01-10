@@ -32,7 +32,7 @@
 
     <!-- gameIsOver werkt niet goed-->
     <div v-if="gameOver">
-      <v-alert v-model="alert" :value="false" type="warning" dismissible>Game-over!</v-alert>
+      <v-alert v-model="alert" :value="false" type="warning" dismissible>Game-over!<br>{{PlayerWithBomb}} has lost!</v-alert>
       <v-btn @click="returnToLobby">Back to the lobby</v-btn>
     </div>
     <div class="vraag" v-else-if="question != null">
@@ -119,7 +119,7 @@ global.socket.on("answerResult", function(msg) {
 
       
 
-      global.socket.emit('name', getQueryFromURL(window.location.href, 'name'));
+      global.socket.emit('name', getQueryFromURL(decodeURIComponent(window.location.href), 'name'));
 
       global.socket.on("playerCount", function(msg) {
         console.log(msg);
