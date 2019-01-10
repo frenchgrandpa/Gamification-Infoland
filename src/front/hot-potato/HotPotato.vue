@@ -172,6 +172,7 @@ global.socket.on("answerResult", function(msg) {
             }, 5000);
           }
         }
+        document.getElementById("app").scrollTop = document.getElementById("app").scrollHeight;
       });
     }
 
