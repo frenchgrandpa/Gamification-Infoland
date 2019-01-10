@@ -7,7 +7,7 @@
           max-width="600px"
           style="margin-left: auto; margin-right: auto;"
         >
-          <v-layout pa-2 column fill-height class="lightbox white--text">
+          <v-layout column fill-height class="lightbox white--text">
             <v-spacer></v-spacer>
             <v-flex shrink>
               <div id="subheadinggame">
@@ -141,6 +141,7 @@ ol.antwoorden {
     rgba(0, 0, 0, 0.9) 0%,
     transparent 72px
   );
+  margin:0 !important;
 }
 
 #subheadinggame {
