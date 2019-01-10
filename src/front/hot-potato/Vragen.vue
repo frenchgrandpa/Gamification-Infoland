@@ -19,7 +19,6 @@
         <p>Geef {{question.correctanswers}} antwoorden</p>
       </v-flex>
       <v-flex v-for="antwoord in question.answers" :key="antwoord.id" xs12 sm6 py-1 px-2>
-<<<<<<< HEAD
         <v-btn
           v-if="question.correctanswers > 1"
           block
@@ -28,10 +27,6 @@
           :disabled="isSelected(antwoord.id) || isDisabled(antwoord.id)"
         >
           <p class="nowrap">{{antwoord.text}}</p>
-=======
-        <v-btn v-if="question.correctanswers>1" block v-on:click="answerMultiple(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
-          {{antwoord.text}}
->>>>>>> 97b725ef5c4418d96f2e64be2dd096a7bff9e8ba
           <!--TODO: Button disablen wanneer hierop gedrukt is en een popup met het aantal antwoorden dat gegeven moet worden-->
         </v-btn>
         <v-btn
@@ -43,11 +38,7 @@
         >
           <p class="nowrap">{{antwoord.text}}</p>
         </v-btn>
-<<<<<<< HEAD
       </v-flex>
-=======
-      </v-flex> 
->>>>>>> 97b725ef5c4418d96f2e64be2dd096a7bff9e8ba
     </v-layout>
   </v-container>
 </template>
@@ -62,32 +53,8 @@ export default {
     return {
       vraag: "Is dit een vraag?",
       selectedAnswers: [],
-<<<<<<< HEAD
-      antwoorden: [
-        {
-          text: "Ja",
-          id: 0
-        },
-        {
-          text: "Nee",
-          id: 1
-        },
-        {
-          text: "Misschien",
-          id: 2
-        },
-        {
-          text: "Dit is een antwoord",
-          id: 3
-        }
-      ],
-      image:
-        "https://uploads.codesandbox.io/uploads/user/ae416c95-edc9-4929-bfa4-84a2c042e083/zKY6-thumbnail.png"
-=======
       antwoorden: [],
       image: ""
-      ,
->>>>>>> 97b725ef5c4418d96f2e64be2dd096a7bff9e8ba
     };
   },
   components: {
@@ -129,7 +96,6 @@ export default {
       console.log("hello");
       global.socket.emit("answer", [id]);
     },
-<<<<<<< HEAD
     answerMultiple(id) {
       console.log("added " + id);
       this.selectedAnswers.push(id);
@@ -142,17 +108,6 @@ export default {
       if (this.selectedAnswers.length >= this.question.correctanswers) {
         console.log("answered " + this.selectedAnswers.length);
         global.socket.emit("answer", this.selectedAnswers);
-=======
-    answerMultiple(id)
-    {
-      console.log("added " + id)
-      
-      this.selectedAnswers[this.selectedAnswers.length] = id;
-      console.log("Aantal gegeven antwoorden: " + this.selectedAnswers.length + ". Aantal totale antwoorden: " + this.question.correctanswers)
-      if(this.selectedAnswers.length >= this.question.correctanswers) {
-        console.log("answered " + this.selectedAnswers.length)
-        global.socket.emit('answer', this.selectedAnswers);
->>>>>>> 97b725ef5c4418d96f2e64be2dd096a7bff9e8ba
         this.selectedAnswers = [];
       }
     }
