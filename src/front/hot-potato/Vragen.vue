@@ -27,9 +27,7 @@
         <v-btn v-else block v-on:click = "answer(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
           {{antwoord.text}}
         </v-btn>
-        
       </v-flex> 
-   
     </v-layout>
   </v-container>
 </template>
