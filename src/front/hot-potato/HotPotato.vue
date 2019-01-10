@@ -13,6 +13,7 @@
          </div>
         </v-flex>
         <v-flex xs4>
+            <v-btn v-if="!gameOver" @click="returnToLobby" >Back to the lobby</v-btn>
        <div id="gameinfo">
       <v-alert>{{lobby}}</v-alert>
          </div>
