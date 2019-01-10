@@ -11,7 +11,7 @@
 
           <v-spacer></v-spacer>
 
-          <v-btn icon>
+          <v-btn icon @click="openHelp()">
             <v-icon>info</v-icon>
           </v-btn>
         </v-toolbar>
@@ -65,7 +65,12 @@ export default {
       } else {
         this.enabled = true;
       }
-    }
+    },
+    openHelp: function()
+    {
+      console.log("event send");
+      this.$emit('clickedHelp');
+    },
   }
 
   //players: [],

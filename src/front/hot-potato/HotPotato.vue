@@ -4,7 +4,7 @@
       <v-layout row wrap>
 
         <v-flex xs12 md4>
-            <PlayerList :id="PlayerList" :playerWithBomb="PlayerWithBomb"/>
+            <PlayerList :id="PlayerList" :playerWithBomb="PlayerWithBomb" v-on:clickedHelp="showHelp"/>
         </v-flex>
 
         <v-flex xs12 md4>
@@ -15,12 +15,9 @@
 
 
       </v-layout>
-    <div id="info-modal" v-if="gameOver">
-      <v-btn slot="header" id="show-modal" @click="showModal = true">Help</v-btn>
       <HelpModal v-if="showModal" @close="showModal = false">
         <v-img slot="body" :src="helpimgw" aspect-ratio="0.85" height="400" contain="true"/>
       </HelpModal>
-    </div>
 
     <!-- gameIsOver werkt niet goed-->
     <div v-if="gameOver">
@@ -257,6 +254,12 @@ export default {
           "../lobby/hotpotato"
   
     },
+    showHelp: function()
+    {
+      console.log("show it godamnit");
+      console.log(this.gameOver);
+      this.showModal = true;
+    }
     
   },
   computed: {
