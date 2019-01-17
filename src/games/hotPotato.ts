@@ -81,6 +81,7 @@ export default class HotPotato extends Game<HotPotatoSocket> {
             this.detonationTime -= 5000;
             this.setDetonationTimeout();
             this.disableAnsweringFor5Sec();
+            this.socketClient.emitPlayerWithBomb(this.playerWithBomb);
         }
         })
     }
