@@ -47,8 +47,12 @@ export default class API extends APIBase {
     }
 
     private getStartgame(req: Request, res: Response) {
-        if (!global.gameManager.runningGames[req.params.gameid] || global.gameManager.runningGames[req.params.gameid].finished)
-            global.gameManager.runningGames[req.params.gameid] = new HotPotato(global.websockets["game/hotpotato/" + req.params.gameid] as HotPotatoSocket);
+        if (!global.gameManager.runningGames[req.params.gameid] || global.gameManager.runningGames[req.params.gameid].finished) {
+            if (req.params.gameid == 2) {
+                global.gameManager.runningGames[req.params.gameid] = new HotPotato(global.websockets["game/hotpotato/" + req.params.gameid] as HotPotatoSocket, '5628607c-895a-4bd2-af32-eceb22910cf1');                
+            } else
+            global.gameManager.runningGames[req.params.gameid] = new HotPotato(global.websockets["game/hotpotato/" + req.params.gameid] as HotPotatoSocket, 'e09e2143-ef73-4351-b1f8-f3c10295f0e4');
+        }
         res.send();
     }
 

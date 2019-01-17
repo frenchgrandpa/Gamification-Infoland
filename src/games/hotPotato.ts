@@ -14,8 +14,8 @@ export default class HotPotato extends Game<HotPotatoSocket> {
 
     private hasToWait = false;
 
-    constructor(socketClient: HotPotatoSocket) {
-        super(socketClient);
+    constructor(socketClient: HotPotatoSocket, quizId: string) {
+        super(socketClient, quizId);
 
         socketClient.getClients(clients => {
             this.socketClient.players = clients as unknown[] as string[];
@@ -70,7 +70,7 @@ export default class HotPotato extends Game<HotPotatoSocket> {
             
         }
             
-        global.infolandAPI.checkanswer("e09e2143-ef73-4351-b1f8-f3c10295f0e4",this.currentQuestion,data,(_iscorrect,amountcorrect)=>{
+        global.infolandAPI.checkanswer(this.quizId,this.currentQuestion,data,(_iscorrect,amountcorrect)=>{
 
         this.socketClient.emitAnswerResult(_iscorrect);
         if (_iscorrect) {
