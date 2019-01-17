@@ -16,17 +16,32 @@
             </v-flex>
           </v-layout>
         </v-img>
-        <p class="aantalAns" v-if="question.correctanswers === 1">Geef {{question.correctanswers}} antwoord</p>
+        <p
+          class="aantalAns"
+          v-if="question.correctanswers === 1"
+        >Geef {{question.correctanswers}} antwoord</p>
         <p class="aantalAns" v-else>Geef {{question.correctanswers}} antwoorden</p>
       </v-flex>
       <v-flex v-for="antwoord in question.answers" :key="antwoord.id" xs12 sm6 py-1 px-2>
-        <v-btn class="answerButton" v-if="question.correctanswers>1" block v-on:click="answerMultiple(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
-          {{antwoord.text}}
+        <v-btn
+          v-if="question.correctanswers > 1"
+          block
+          v-on:click="answerMultiple(antwoord.id)"
+          v-bind:id="antwoord.id"
+          :disabled="isSelected(antwoord.id) || isDisabled(antwoord.id)"
+        >
+          <p class="nowrap">{{antwoord.text}}</p>
         </v-btn>
-        <v-btn class="answerButton" v-else block v-on:click = "answer(antwoord.id)" v-bind:id="antwoord.id" v-bind:disabled=btndisabled>
-          {{antwoord.text}}
+        <v-btn
+          v-else
+          block
+          v-on:click="answer(antwoord.id)"
+          v-bind:id="antwoord.id"
+          v-bind:disabled="isDisabled(antwoord.id)"
+        >
+          <p class="nowrap">{{antwoord.text}}</p>
         </v-btn>
-      </v-flex> 
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -43,13 +58,30 @@ export default {
       selectedAnswers: [],
       antwoorden: [],
       image: ""
-      ,
     };
   },
   components: {
     AnswerButton
   },
   methods: {
+    isSelected(id) {
+      return this.selectedAnswers.includes(id);
+    },
+    isDisabled(id) {
+      console.log("check " + id);
+      this.selectedAnswers.forEach(function(item, index) {
+        console.log(index);
+      });
+      if (this.selectedAnswers.includes(id)) {
+        return true;
+      } else if (this.btndisabled) {
+        console.log(id + " disabled nothing to answer");
+        return true;
+      } else {
+        console.log(id + " displayed");
+        return false;
+      }
+    },
     next() {
       Axios.get("/api/vraag")
         .then(response => {
@@ -60,20 +92,22 @@ export default {
         })
         .catch(err => {});
     },
-    answer(id)
-    {
+    answer(id) {
       console.log("hello");
-      global.socket.emit('answer',[id]);
+      global.socket.emit("answer", [id]);
     },
-    answerMultiple(id)
-    {
-      console.log("added " + id)
-      
-      this.selectedAnswers[this.selectedAnswers.length] = id;
-      console.log("Aantal gegeven antwoorden: " + this.selectedAnswers.length + ". Aantal totale antwoorden: " + this.question.correctanswers)
-      if(this.selectedAnswers.length >= this.question.correctanswers) {
-        console.log("answered " + this.selectedAnswers.length)
-        global.socket.emit('answer', this.selectedAnswers);
+    answerMultiple(id) {
+      console.log("added " + id);
+      this.selectedAnswers.push(id);
+      console.log(
+        "Aantal gegeven antwoorden: " +
+          this.selectedAnswers.length +
+          ". Aantal totale antwoorden: " +
+          this.question.correctanswers
+      );
+      if (this.selectedAnswers.length >= this.question.correctanswers) {
+        console.log("answered " + this.selectedAnswers.length);
+        global.socket.emit("answer", this.selectedAnswers);
         this.selectedAnswers = [];
       }
     }
@@ -106,7 +140,7 @@ ol.antwoorden {
     rgba(0, 0, 0, 0.9) 0%,
     transparent 72px
   );
-  margin:0 !important;
+  margin: 0 !important;
 }
 
 #subheadinggame {
@@ -123,8 +157,7 @@ ol.antwoorden {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.5em;
 }
-.answerButton .v-btn__content
-{
+.answerButton .v-btn__content {
   white-space: normal !important;
 }
 </style>
