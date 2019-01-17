@@ -13,9 +13,7 @@
       </v-content>
     <v-container fluid grid-list-xl>
       <v-layout row justify-space-between>
-        <v-flex xs2>
-        </v-flex>
-        <v-flex xs6>
+        <v-flex xs12 md6 offset-md3>
                <v-card color="cyan darken-2" class="white--text">
                 <v-layout>
                   <v-flex xs5>
@@ -44,8 +42,6 @@
                      </a>    
                 </v-card-actions>
               </v-card>
-        </v-flex>
-        <v-flex xs2>
         </v-flex>
       </v-layout>
   </v-app>
