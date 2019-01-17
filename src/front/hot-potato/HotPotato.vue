@@ -162,7 +162,7 @@ global.socket.on("answerResult", function(msg) {
           app.$children[0].audioWrong.play();
           app.$children[0].resetAlert();
           app.$children[0].answerwrong = true;
-          if ((app.$children[0].PlayerWithBomb = global.socket.id)) {
+          if ((app.$children[0].PlayerWithBomb == pList[global.socket.id])) {
             app.$children[0].answerButtonDisabled = true;
             setTimeout(function() {
               app.$children[0].answerButtonDisabled = false;
