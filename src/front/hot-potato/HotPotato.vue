@@ -24,14 +24,12 @@
       <v-alert v-model="alert" :value="false" type="warning" dismissible>Game-over!<br>{{PlayerWithBomb}} has lost!</v-alert>
       <v-btn @click="returnToLobby">Back to the lobby</v-btn>
     </div>
-    <div class="vraag" v-else-if="question != null">
-      <Vraag id="vraag" v-bind:question="question" v-bind:btndisabled="answerButtonDisabled"/>
+    <div class="vraag" v-bind:class="[blauwe, {succes: answercorrect}, {error: answerwrong}]" v-else-if="question != null">
+      <Vraag id="vraag" v-bind:question="question" v-bind:btndisabled="answerButtonDisabled" />
     </div>
     <div v-else>
       <v-btn v-on:click="startGame">Play!</v-btn>
     </div>
-    <v-alert v-model="answercorrect" :value="false" type="succes" dismissible>Correct answer!</v-alert>
-    <v-alert v-model="answerwrong" :value="false" type="error" dismissible>Wrong answer!</v-alert>
   </div>
 </template>
 
@@ -312,7 +310,6 @@ html {
 
 .vraag {
   margin: auto;
-  background: #80ccff;
 }
 
 #vraag {
@@ -331,6 +328,10 @@ html {
 }
 .warning {
   background-color: yellow;
+}
+.blauwe {
+    
+  background: #80ccff;
 }
 .succes {
   background-color: green;
