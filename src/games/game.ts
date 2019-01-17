@@ -1,4 +1,4 @@
-import { question } from "../api/infoland/infolandApi";
+import { question, quizObject } from "../api/infoland/infolandApi";
 import Socket from "../sockets/socket";
 
 export default abstract class Game<SocketType extends Socket> {
@@ -11,16 +11,18 @@ export default abstract class Game<SocketType extends Socket> {
     public finished = false;
     
     protected socketClient: SocketType;
-    protected constructor(socketClient: SocketType) {
+    protected quizId: string;
+    protected constructor(socketClient: SocketType, quizId: string) {
         this.socketClient = socketClient;
+        this.quizId = quizId
     }
 
     protected updateCurrentQuestion(cb: (success: boolean) => void) {
         if (this.finished)
             return cb(false);
         global.infolandAPI.cookieRetrieval("beheerder","hotpotato", (err, token)=>{
-            global.infolandAPI.tokenRetrieval("beheerder","hotpotato",'e09e2143-ef73-4351-b1f8-f3c10295f0e4', (err, token) => {
-                global.infolandAPI.quizRetrieval('e09e2143-ef73-4351-b1f8-f3c10295f0e4', (quiz) => {
+            global.infolandAPI.tokenRetrieval("beheerder","hotpotato",this.quizId, (err, token) => {
+                global.infolandAPI.quizRetrieval(this.quizId, (quiz) => {
                     while (quiz.questions[this.questionIndex].mediatype == 1 || quiz.questions[this.questionIndex].type != 1 && this.questionIndex < quiz.questions.length - 1) {
                         this.questionIndex++;
                     }
